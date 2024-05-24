@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const {Pool} = require('pg');
+const { Pool } = require('pg');
 
 const app = express();
 const port = process.env.PORT;
@@ -19,11 +19,11 @@ const pool = new Pool({
     }
 });
 
-app.get('/users', async (req,res) => {
-    try{
+app.get('/users', async (req, res) => {
+    try {
         const result = await pool.query("SELECT * FROM \"User\"")
         res.json(result.rows);
-    } catch(error){
+    } catch (error) {
         res.status(400).send(error);
     }
 })
