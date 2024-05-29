@@ -1,0 +1,28 @@
+{
+  "name": "padpals",
+  "version": "1.0.0",
+  "description": "Start dev environment : npm run devStart",
+  "main": "server.js",
+  "scripts": {
+    "compile": "tsc",
+    "start": "npm run compile && node ./dist/index.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.10.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "graphql": "^16.8.1",
+    "nodemon": "^3.1.0",
+    "pg": "^8.11.5"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "typescript": "^5.4.5"
+  }
+}
