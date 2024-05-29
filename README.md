@@ -1,2 +1,2 @@
 # PadPals
-Start dev environment : npm run devStart
+Start apollo environment : npm start
