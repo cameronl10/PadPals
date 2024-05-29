@@ -1,2 +1,2 @@
 # PadPals
-Jay park is my PM!!!
+Start apollo environment : npm start
