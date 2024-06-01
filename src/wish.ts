@@ -14,30 +14,20 @@ export const typeDefs = `#graphql
     }
 
     type Mutation {
-        createWish(wishid: String, userid: String, houseid: String, name: String, price: Int, purchased: Boolean): Wish
-        deleteWish(wishid: String): DeleteWishResult
-        editWish(wishid: String, userid: String, houseid: String, name: String, price: Int, purchased: Boolean): Wish
-    }
-
-    input DeleteWishInput { 
-        wishID : String!
-    }
-
-    type DeleteWishResult {
-        success : Boolean
-        message : String
-        wishID : String
-    
+        createWish(userid: String, houseid: String, name: String, price: Int, purchased: Boolean): Wish
+        editWish(inputWishId: String, column: String, value: String): Wish
     }
 
 `;
 
+
+
+
 export const resolvers = {
     Mutation: {
-        createWish: async (_: any, {wishid, userid, houseid, name, price, purchased}: any) => {
+        createWish: async (_: any, {userid, houseid, name, price, purchased}: any) => {
             const client = await Pool.connect();
             const newWish = {
-                wishid,
                 userid,
                 houseid,
                 name,
@@ -45,35 +35,22 @@ export const resolvers = {
                 purchased
             };
             await client.query(
-                'INSERT INTO wishes (wishid, userid, houseid, name, price, purchased) VALUES ($1, $2, $3, $4, $5, $6)',
-                [newWish.wishid, newWish.userid, newWish.houseid, newWish.name, newWish.price, newWish.purchased]
+                'INSERT INTO wish (userid, houseid, name, price, purchased) VALUES ($1, $2, $3, $4, $5)',
+                [newWish.userid, newWish.houseid, newWish.name, newWish.price, newWish.purchased]
               );
             
             return newWish;
         },
-        editWish: async (_: any) => {
-            const client = await Pool.connect();
-        },
-        deleteWish : async (_: any, args: any) => {
-            const { wishid } = args;
-            return await DeleteWish(wishid);
+        // inputWishId = takes in the wish you're editing
+        // column = takes in "name", "price", or "purchased" to see which value you're editing
+        // value = takes in the new value
+        editWish: async (inputWishId: any, column: column, value: any) => {
+            try {
+                const client = await Pool.connect();
+                await client.query(`UPDATE wish SET ${column} = ${value} WHERE wishid = ${inputWishId}`);
+            } catch(err) {
+                console.log(err);
+            }
         }
     },
-}
-
-
-async function DeleteWish(wishid: String){
-const client = await Pool.connect();
-try {
-    const result = await client.query('DELETE FROM "wish" WHERE wishid = $1', [wishid]);
-    return {
-        success: true,
-        message: "Wish deleted",
-        wishID: wishid
-    }
-}catch(err){
-    console.log(err);
-} finally {
-    client.release();
-}
 }
