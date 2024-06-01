@@ -46,6 +46,9 @@ const pool = new Pool({
 const resolvers = {
     Query: {
         users: testConnect
+    },
+    Mutation: {
+
     }
 }
 
