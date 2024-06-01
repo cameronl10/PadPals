@@ -3,10 +3,17 @@
       "rootDirs": ["src"],
       "outDir": "dist",
       "lib": ["es2020"],
-      "target": "es2020",
-      "module": "esnext",
+      "target": "ESNext",
+      "module": "ESNext",
       "moduleResolution": "node",
       "esModuleInterop": true,
-      "types": ["node"]
-    }
+      "types": ["node"],
+    },
+    "ts-node": {
+      "experimentalSpecifierResolution": "node",
+      "transpileOnly": true,
+      "esm": true,
+    },
+
   }
+

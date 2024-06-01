@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "compile": "tsc",
-    "start": "npm run compile && nodemon ./dist/index.js",
+    "start": "nodemon --exec node --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts",
     "dev": "nodemon server.js"
   },
   "keywords": [],
@@ -19,11 +19,13 @@
     "graphql": "^16.8.1",
     "lodash": "^4.17.21",
     "nodemon": "^3.1.2",
-    "pg": "^8.11.5"
+    "pg": "^8.11.5",
+    "ts-node": "^10.9.2"
   },
   "type": "module",
   "devDependencies": {
     "@types/node": "^20.12.12",
+    "tsx": "^4.11.0",
     "typescript": "^5.4.5"
   }
 }

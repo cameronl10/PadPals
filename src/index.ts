@@ -1,15 +1,15 @@
 import {ApolloServer} from '@apollo/server';
 import {startStandaloneServer} from '@apollo/server/standalone';
-import { merge } from 'lodash';
-import pkg from 'pg';
 import 'dotenv/config';
-
-import {
-    typeDefs as Wish,
-    resolvers as WishResolvers
+import _ from 'lodash';
+import Pool from '../config/dbConnect';
+import { 
+    typeDefs as wishType,
+    resolvers as wishResolvers
 } from './wish';
 
-const {Pool} = pkg;
+
+
 
 const typeDefs = `#graphql
     type User{
@@ -22,16 +22,7 @@ const typeDefs = `#graphql
     }
 `;
 
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASS,
-    port: process.env.DB_PORT,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
+
 
 const resolvers = {
     Query: {
@@ -42,8 +33,8 @@ const resolvers = {
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
 const server = new ApolloServer({
-    typeDefs,
-    resolvers: merge(resolvers, WishResolvers)
+    typeDefs : [typeDefs, wishType],
+    resolvers : _.merge(wishResolvers, resolvers),
   });
   
   // Passing an ApolloServer instance to the `startStandaloneServer` function:
@@ -55,7 +46,7 @@ const server = new ApolloServer({
   });
   
   async function testConnect(){
-    const client = await pool.connect();
+    const client = await Pool.connect();
     console.log('i love clee')
     try {
         const result = await client.query('SELECT * FROM \"User\"');
