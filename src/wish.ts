@@ -1,16 +1,7 @@
 import pkg from 'pg';
-const {Pool} = pkg;
+import Pool from '../config/dbConnect'
 
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASS,
-    port: process.env.DB_PORT,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
+
 
 export const typeDefs = `#graphql
     type Wish{
@@ -43,26 +34,26 @@ export const typeDefs = `#graphql
 
 export const resolvers = {
     Mutation: {
-        // createWish: async (_: any, {wishid, userid, houseid, name, price, purchased}: any) => {
-        //     const client = await pool.connect();
-        //     const newWish = {
-        //         wishid,
-        //         userid,
-        //         houseid,
-        //         name,
-        //         price,
-        //         purchased
-        //     };
-        //     await client.query(
-        //         'INSERT INTO wishes (wishid, userid, houseid, name, price, purchased) VALUES ($1, $2, $3, $4, $5, $6)',
-        //         [newWish.wishid, newWish.userid, newWish.houseid, newWish.name, newWish.price, newWish.purchased]
-        //       );
+        createWish: async (_: any, {wishid, userid, houseid, name, price, purchased}: any) => {
+            const client = await Pool.connect();
+            const newWish = {
+                wishid,
+                userid,
+                houseid,
+                name,
+                price,
+                purchased
+            };
+            await client.query(
+                'INSERT INTO wishes (wishid, userid, houseid, name, price, purchased) VALUES ($1, $2, $3, $4, $5, $6)',
+                [newWish.wishid, newWish.userid, newWish.houseid, newWish.name, newWish.price, newWish.purchased]
+              );
             
-        //     return newWish;
-        // },
-        // editWish: async (_: any) => {
-        //     const client = await pool.connect();
-        // },
+            return newWish;
+        },
+        editWish: async (_: any) => {
+            const client = await Pool.connect();
+        },
         deleteWish : async (_: any, args: any) => {
             const { wishid } = args;
             return await DeleteWish(wishid);
@@ -72,7 +63,7 @@ export const resolvers = {
 
 
 async function DeleteWish(wishid: String){
-const client = await pool.connect();
+const client = await Pool.connect();
 try {
     const result = await client.query('DELETE FROM "wish" WHERE wishid = $1', [wishid]);
     return {
