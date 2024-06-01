@@ -76,6 +76,6 @@ const server = new ApolloServer({
     } finally {
         client.release();
     }
-  }
+  } 
   console.log(`🚀  Server ready at: ${url}`);
   testConnect();
