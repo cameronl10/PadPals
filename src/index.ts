@@ -1,14 +1,15 @@
 import {ApolloServer} from '@apollo/server';
 import {startStandaloneServer} from '@apollo/server/standalone';
+import { merge } from 'lodash';
 import pkg from 'pg';
 import 'dotenv/config';
 
-const {Pool} = pkg;
+import {
+    typeDefs as Wish,
+    resolvers as WishResolvers
+} from './wish';
 
-interface User{
-    name: String,
-    id: String
-}
+const {Pool} = pkg;
 
 const typeDefs = `#graphql
     type User{
@@ -20,17 +21,6 @@ const typeDefs = `#graphql
         users: [User]
     }
 `;
-
-const mockUserdata = [
-    {
-        name: "Jay",
-        id: 0
-    },
-    {
-        name:"Erik",
-        id: 1
-    }
-]
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -53,7 +43,7 @@ const resolvers = {
 // definition and your set of resolvers.
 const server = new ApolloServer({
     typeDefs,
-    resolvers,
+    resolvers: merge(resolvers, WishResolvers)
   });
   
   // Passing an ApolloServer instance to the `startStandaloneServer` function:
