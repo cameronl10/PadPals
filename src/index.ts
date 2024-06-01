@@ -1,7 +1,7 @@
 import {ApolloServer} from '@apollo/server';
 import {startStandaloneServer} from '@apollo/server/standalone';
 import 'dotenv/config';
-import merge from 'lodash/merge';
+import _ from 'lodash';
 import Pool from '../config/dbConnect';
 import { 
     typeDefs as wishType,
@@ -34,7 +34,7 @@ const resolvers = {
 // definition and your set of resolvers.
 const server = new ApolloServer({
     typeDefs : [typeDefs, wishType],
-    resolvers : merge(wishResolvers, resolvers),
+    resolvers : _.merge(wishResolvers, resolvers),
   });
   
   // Passing an ApolloServer instance to the `startStandaloneServer` function:
