@@ -1,5 +1,7 @@
 import {ApolloServer} from '@apollo/server';
 import {startStandaloneServer} from '@apollo/server/standalone';
+import {merge} from 'lodash';
+import { typeDefs as wishTypeDefs, resolvers as wishResolvers } from './wish';
 import pkg from 'pg';
 import 'dotenv/config';
 
@@ -46,17 +48,17 @@ const pool = new Pool({
 const resolvers = {
     Query: {
         users: testConnect
-    },
-    Mutation: {
-
     }
 }
+
+const mergedTypeDefs = [typeDefs, wishTypeDefs];
+const mergedResolvers = merge(resolvers, wishResolvers);
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    typeDefs: mergedTypeDefs,
+    resolvers: mergedResolvers,
   });
   
   // Passing an ApolloServer instance to the `startStandaloneServer` function:
