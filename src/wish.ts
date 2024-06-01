@@ -1,28 +1,5 @@
 import pkg from 'pg';
-import 'dotenv/config';
-import {ApolloServer} from '@apollo/server';
-import {startStandaloneServer} from '@apollo/server/standalone';
-
 const {Pool} = pkg;
-
-
-export const typeDefs = `#graphql
-    type Wish{
-        wishid: String
-        userid: String
-        houseid: String
-        name: String
-        price: number
-        purchased: Boolean
-    }
-
-    type Mutation {
-        createWish(wishid: String, userid: String, houseid: String, name: String, price: number, purchased: Boolean): Wish
-        editWish()
-    }
-
-`;
-
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -35,55 +12,77 @@ const pool = new Pool({
     }
 });
 
+export const typeDefs = `#graphql
+    type Wish{
+        wishid: String
+        userid: String
+        houseid: String
+        name: String
+        price: Int
+        purchased: Boolean
+    }
+
+    type Mutation {
+        createWish(wishid: String, userid: String, houseid: String, name: String, price: Int, purchased: Boolean): Wish
+        deleteWish(wishid: String): DeleteWishResult
+        editWish(wishid: String, userid: String, houseid: String, name: String, price: Int, purchased: Boolean): Wish
+    }
+
+    input DeleteWishInput { 
+        wishID : String!
+    }
+
+    type DeleteWishResult {
+        success : Boolean
+        message : String
+        wishID : String
+    
+    }
+
+`;
 
 export const resolvers = {
     Mutation: {
-        createWish: async (_: any, {wishid, userid, houseid, name, price, purchased}: any) => {
-            const client = await pool.connect();
-            const newWish = {
-                wishid,
-                userid,
-                houseid,
-                name,
-                price,
-                purchased
-            };
-            await client.query(
-                'INSERT INTO wishes (wishid, userid, houseid, name, price, purchased) VALUES ($1, $2, $3, $4, $5, $6)',
-                [newWish.wishid, newWish.userid, newWish.houseid, newWish.name, newWish.price, newWish.purchased]
-              );
+        // createWish: async (_: any, {wishid, userid, houseid, name, price, purchased}: any) => {
+        //     const client = await pool.connect();
+        //     const newWish = {
+        //         wishid,
+        //         userid,
+        //         houseid,
+        //         name,
+        //         price,
+        //         purchased
+        //     };
+        //     await client.query(
+        //         'INSERT INTO wishes (wishid, userid, houseid, name, price, purchased) VALUES ($1, $2, $3, $4, $5, $6)',
+        //         [newWish.wishid, newWish.userid, newWish.houseid, newWish.name, newWish.price, newWish.purchased]
+        //       );
             
-            return newWish;
-        },
-        editWish: async (_: any) => {
-            const client = await pool.connect();
+        //     return newWish;
+        // },
+        // editWish: async (_: any) => {
+        //     const client = await pool.connect();
+        // },
+        deleteWish : async (_: any, args: any) => {
+            const { wishid } = args;
+            return await DeleteWish(wishid);
         }
     },
 }
 
-const server = new ApolloServer({
-    typeDefs,
-    resolvers
-  });
-  
-  // Passing an ApolloServer instance to the `startStandaloneServer` function:
-  //  1. creates an Express app
-  //  2. installs your ApolloServer instance as middleware
-  //  3. prepares your app to handle incoming requests
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: 4000 },
-  });
-  
-  async function testConnect(){
-    const client = await pool.connect();
-    console.log('i love clee')
-    try {
-        const result = await client.query('SELECT * FROM \"User\"');
-        console.log(result.rows);
-        return result.rows;
-    }catch(err){
-        console.log(err);
-    } finally {
-        client.release();
+
+async function DeleteWish(wishid: String){
+const client = await pool.connect();
+try {
+    const result = await client.query('DELETE FROM "wish" WHERE wishid = $1', [wishid]);
+    return {
+        success: true,
+        message: "Wish deleted",
+        wishID: wishid
     }
-  }
+}catch(err){
+    console.log(err);
+} finally {
+    client.release();
+}
+}
