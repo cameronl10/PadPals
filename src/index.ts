@@ -4,21 +4,23 @@ import pkg from 'pg';
 import 'dotenv/config';
 
 const {Pool} = pkg;
+
 interface User{
     name: String,
-    id: number
+    id: String
 }
 
 const typeDefs = `#graphql
     type User{
         name: String
-        id: Int
+        userid: String
     }
 
     type Query{
         users: [User]
     }
 `;
+
 const mockUserdata = [
     {
         name: "Jay",
@@ -29,6 +31,7 @@ const mockUserdata = [
         id: 1
     }
 ]
+
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -44,10 +47,6 @@ const resolvers = {
     Query: {
         users: testConnect
     }
-}
-
-function getUsers(): User[]{
-    return mockUserdata;
 }
 
 // The ApolloServer constructor requires two parameters: your schema
@@ -67,7 +66,8 @@ const server = new ApolloServer({
   
   async function testConnect(){
     const client = await pool.connect();
-    try{
+    console.log('i love clee')
+    try {
         const result = await client.query('SELECT * FROM \"User\"');
         console.log(result.rows);
         return result.rows;
@@ -76,6 +76,7 @@ const server = new ApolloServer({
     } finally {
         client.release();
     }
-  } 
+  }
+
   console.log(`🚀  Server ready at: ${url}`);
   testConnect();
