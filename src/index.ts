@@ -42,7 +42,7 @@ const pool = new Pool({
 
 const resolvers = {
     Query: {
-        users: getUsers
+        users: testConnect
     }
 }
 
@@ -65,4 +65,17 @@ const server = new ApolloServer({
     listen: { port: 4000 },
   });
   
+  async function testConnect(){
+    const client = await pool.connect();
+    try{
+        const result = await client.query('SELECT * FROM \"User\"');
+        console.log(result.rows);
+        return result.rows;
+    }catch(err){
+        console.log(err);
+    } finally {
+        client.release();
+    }
+  }
   console.log(`🚀  Server ready at: ${url}`);
+  testConnect();
