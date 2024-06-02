@@ -47,11 +47,9 @@ const server = new ApolloServer({
   
   async function testConnect(){
     const client = await Pool.connect();
-    console.log('i love clee')
     try {
-        const result = await client.query('SELECT * FROM \"User\"');
-        console.log(result.rows);
-        return result.rows;
+        const client = await Pool.connect();
+        console.log("connectecd to DB")
     }catch(err){
         console.log(err);
     } finally {
