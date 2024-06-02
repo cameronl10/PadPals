@@ -1,3 +1,4 @@
+import { get } from 'http';
 import Pool from '../config/dbConnect';
 
 interface Wish {
@@ -31,13 +32,23 @@ export const typeDefs = `#graphql
         editWish(inputWishId: String, column: String, value: String): Wish
         deleteWish(wishid: String): Wish
     }
-
+    type Query{
+        getWishes: [Wish]
+        getWish(wishID: String!): Wish
+    }
 `;
 
 
 
 
 export const resolvers = {
+    Query: {
+        getWishes: getAllWishes,
+        getWish: async (_: any, args: any) => {
+            const { wishID } = args;
+            return await getAWish(wishID);
+        }
+    },
     Mutation: {
         createWish: async (_: any, { wish }: any) => {
             return await CreateWish(wish);
@@ -63,8 +74,8 @@ export const resolvers = {
 async function CreateWish(wish: Wish) {
     const client = await Pool.connect();
     try {
-        const result = await client.query('INSERT INTO wish(userid, houseid, name, price, purchased) VALUES($1, $2, $3, $4, $5) RETURNING *', 
-        [wish.userid, wish.houseid, wish.name, wish.price, wish.purchased]);
+        const result = await client.query('INSERT INTO wish(userid, houseid, name, price, purchased) VALUES($1, $2, $3, $4, $5) RETURNING *',
+            [wish.userid, wish.houseid, wish.name, wish.price, wish.purchased]);
         return result.rows[0];
     } catch (err) {
         console.log(err);
@@ -82,6 +93,30 @@ async function DeleteWish(wishid: String) {
             message: "Wish deleted",
             wishID: wishid
         }
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+};
+
+async function getAllWishes(): Promise<Wish[]> {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query('SELECT * FROM wish');
+        return result.rows;
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+};
+
+async function getAWish(wishID: String): Promise<Wish> {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query('SELECT * FROM wish WHERE wishid = $1', [wishID]);
+        return result.rows[0];
     } catch (err) {
         console.log(err);
     } finally {
