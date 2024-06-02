@@ -1,4 +1,3 @@
-import { get } from 'http';
 import Pool from '../config/dbConnect';
 
 interface Wish {
