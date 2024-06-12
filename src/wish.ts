@@ -93,7 +93,7 @@ async function EditWish(wishid: string, column: string, value: string) {
     }
     const client = await Pool.connect();
     try {
-        const result = await client.query(`UPDATE wish SET ${column} = $1 WHERE wishid = $2 RETURNING *`, [value, wishid]);
+        const result = await client.query(`UPDATE "Wish" SET ${column} = $1 WHERE wishid = $2 RETURNING *`, [value, wishid]);
         return result.rows[0];
     } catch (err) {
         console.log(err);
@@ -151,7 +151,7 @@ async function DeleteWish(wishid: String) {
 async function getAllWishes(): Promise<Wish[]> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('SELECT * FROM wish');
+        const result = await client.query('SELECT * FROM "Wish"');
         return result.rows;
     } catch (err) {
         console.log(err);
