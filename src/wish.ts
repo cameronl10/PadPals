@@ -3,7 +3,7 @@ import Pool from '../config/dbConnect';
 interface Wish {
     wishid: String
     userid: String
-    groupid: String
+    group: String
     houseid: String
     name: String
     price: number
@@ -16,7 +16,7 @@ export const typeDefs = `#graphql
         wishid: String
         userid: String
         houseid: String
-        groupid: String
+        group: String
         name: String
         price: Int
         purchased: Boolean
@@ -24,13 +24,16 @@ export const typeDefs = `#graphql
     input WishInput{
         userid: String!
         houseid: String!
+        group: String
         name: String!
-        price: Int!
+        price: Int
         purchased: Boolean!
     }
     input EditWishInput {
         wishid: String!
         name: String
+        householdid: String
+        group: String
         price: Int
         purchased: Boolean
     }
@@ -45,7 +48,6 @@ export const typeDefs = `#graphql
         getWish(wishID: String!): Wish
     }
 `;
-
 
 export const resolvers = {
     Query: {
@@ -74,8 +76,8 @@ export const resolvers = {
 async function CreateWish(wish: Wish) {
     const client = await Pool.connect();
     try {
-        const result = await client.query('INSERT INTO "Wish"(userid, houseid, name, price, purchased) VALUES($1, $2, $3, $4, $5) RETURNING *',
-            [wish.userid, wish.houseid, wish.name, wish.price, wish.purchased]);
+        const result = await client.query('INSERT INTO wish(userid, houseid, wishgroup, name, price, purchased) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+            [wish.userid, wish.houseid, wish.group, wish.name, wish.price, wish.purchased]);
         return result.rows[0];
     } catch (err) {
         console.log(err);
@@ -85,7 +87,7 @@ async function CreateWish(wish: Wish) {
 };
 
 async function EditWish(wishid: string, column: string, value: string) {
-    const validInputs = ["name", "price", "purchased"];
+    const validInputs = ["name", "price", "wishgroup", "purchased"];
     if (!validInputs.includes(column)) {
         throw new Error('Column does not exist.');
     }
@@ -100,10 +102,29 @@ async function EditWish(wishid: string, column: string, value: string) {
     }
 }
 
-async function EditEntireWish(wish: Wish) {
+async function EditEntireWish(wish: Partial<Wish>) {
     const client = await Pool.connect();
     try {
-        const result = await client.query('UPDATE "Wish" SET name = $1, price = $2, purchased = $3 WHERE wishid = $4 RETURNING *,')
+        let query = 'UPDATE wish SET ';
+        let values = [];
+        let index = 1;
+
+        for (let key in wish) {
+            if (wish[key] !== undefined && key !== 'wishid') {
+                query += `${key} = $${index}, `;
+                values.push(wish[key]);
+                index++;
+            }
+        }
+
+        // Remove the last comma and space
+        query = query.slice(0, -2);
+
+        // Add the WHERE clause
+        query += ` WHERE wishid = $${index} RETURNING *`;
+        values.push(wish.wishid);
+
+        const result = await client.query(query, values);
     } catch (err) {
         console.log(err);
     } finally {
@@ -114,7 +135,7 @@ async function EditEntireWish(wish: Wish) {
 async function DeleteWish(wishid: String) {
     const client = await Pool.connect();
     try {
-        const result = await client.query('DELETE FROM "Wish" WHERE wishid = $1', [wishid]);
+        const result = await client.query('DELETE FROM wish WHERE wishid = $1', [wishid]);
         return {
             success: true,
             message: "Wish deleted",
