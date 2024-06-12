@@ -1,20 +1,36 @@
 import Pool from '../config/dbConnect';
 
 interface WishGroup {
-    color: String
     title: String
     houseid: String
+    color: String
+
 };
 
 export const typeDefs = `#graphql
-    type WishGroup {
-        color: String
+    input WishGroupInput{
+        title: String!
+        houseid: String!
+        color: String!
+    }
+    input WishGroupDelete{
+        title: String!
+        housid: String!
+    }
+    type WishGroup{
         title: String
         houseid: String
+        color: String
     }
+    type WishGroup {
+        color: String
+     }
     type Mutation {
+
         editGroupTitle(houseID: String!, title: String!, updatedTitle: String!): WishGroup
         editGroupColor(houseID: String!, title: String!, updatedColor: String!): WishGroup
+        createWishGroup(wishgroup: WishGroupInput!): WishGroup
+        deleteWishGroup(title: String, houseid: String): WishGroup
     }
     type Query {
         getGroup(houseID: String!, title: String!): WishGroup
@@ -34,7 +50,12 @@ export const resolvers = {
         },
         editGroupColor: async (_: any, { houseID, title, updatedColor }: any) => {
             return await editWishGroupColor( houseID, title, updatedColor );
-        }
+        },
+        createWishGroup: async (_: any, { wishgroup }: any) => {
+            return await CreateWishGroup(wishgroup);
+        },
+        deleteWishGroup: async (_: any, { title, houseid }: any) => {
+            return await DeleteWishGroup(title, houseid);
     }
 };
 
@@ -64,12 +85,33 @@ async function editWishGroupColor( houseID: String , title: String, updatedColor
     }
 }
 
+async function CreateWishGroup(wishgroup: WishGroup) {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query('INSERT INTO wishgroup (title, houseid, color) VALUES($1, $2, $3) RETURNING *',
+            [wishgroup.title, wishgroup.houseid, wishgroup.color]);
+      
 //Given houseID and title, return the wishgroup
 async function getWishGroup(houseID: String, title: String): Promise<WishGroup> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM wishgroup WHERE houseid = $1 AND title = $2', [houseID, title]);
         return result.rows[0];
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+};
+
+async function DeleteWishGroup(title: String, houseid: String) {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query('DELETE FROM wishgroup WHERE title = $1 AND houseid = $2', [title, houseid]);
+        return {
+            success: true,
+            message: "WishGroup deleted"
+        }
     } catch (err) {
         console.log(err);
     } finally {

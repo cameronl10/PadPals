@@ -14,7 +14,6 @@ import {
 
 
 
-
 const typeDefs = `#graphql
     type User{
         name: String
@@ -38,7 +37,7 @@ const resolvers = {
 // definition and your set of resolvers.
 const server = new ApolloServer({
     typeDefs : [typeDefs, wishType, wishGroupType],
-    resolvers : _.merge(wishResolvers, wishGroupResolvers, resolvers),
+    resolvers : _.merge(wishResolvers, resolvers, wishGroupResolvers),
   });
   
   // Passing an ApolloServer instance to the `startStandaloneServer` function:
