@@ -74,7 +74,7 @@ export const resolvers = {
 async function CreateWish(wish: Wish) {
     const client = await Pool.connect();
     try {
-        const result = await client.query('INSERT INTO wish(userid, houseid, name, price, purchased) VALUES($1, $2, $3, $4, $5) RETURNING *',
+        const result = await client.query('INSERT INTO "Wish"(userid, houseid, name, price, purchased) VALUES($1, $2, $3, $4, $5) RETURNING *',
             [wish.userid, wish.houseid, wish.name, wish.price, wish.purchased]);
         return result.rows[0];
     } catch (err) {
@@ -91,7 +91,7 @@ async function EditWish(wishid: string, column: string, value: string) {
     }
     const client = await Pool.connect();
     try {
-        const result = await client.query(`UPDATE wish SET ${column} = $1 WHERE wishid = $2 RETURNING *`, [value, wishid]);
+        const result = await client.query(`UPDATE "Wish" SET ${column} = $1 WHERE wishid = $2 RETURNING *`, [value, wishid]);
         return result.rows[0];
     } catch (err) {
         console.log(err);
@@ -103,7 +103,7 @@ async function EditWish(wishid: string, column: string, value: string) {
 async function EditEntireWish(wish: Wish) {
     const client = await Pool.connect();
     try {
-        const result = await client.query('UPDATE wish SET name = $1, price = $2, purchased = $3 WHERE wishid = $4 RETURNING *,')
+        const result = await client.query('UPDATE "Wish" SET name = $1, price = $2, purchased = $3 WHERE wishid = $4 RETURNING *,')
     } catch (err) {
         console.log(err);
     } finally {
@@ -114,7 +114,7 @@ async function EditEntireWish(wish: Wish) {
 async function DeleteWish(wishid: String) {
     const client = await Pool.connect();
     try {
-        const result = await client.query('DELETE FROM "wish" WHERE wishid = $1', [wishid]);
+        const result = await client.query('DELETE FROM "Wish" WHERE wishid = $1', [wishid]);
         return {
             success: true,
             message: "Wish deleted",
@@ -130,7 +130,7 @@ async function DeleteWish(wishid: String) {
 async function getAllWishes(): Promise<Wish[]> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('SELECT * FROM wish');
+        const result = await client.query('SELECT * FROM "Wish"');
         return result.rows;
     } catch (err) {
         console.log(err);
@@ -142,7 +142,7 @@ async function getAllWishes(): Promise<Wish[]> {
 async function getAWish(wishID: String): Promise<Wish> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('SELECT * FROM wish WHERE wishid = $1', [wishID]);
+        const result = await client.query('SELECT * FROM "Wish" WHERE wishid = $1', [wishID]);
         return result.rows[0];
     } catch (err) {
         console.log(err);
