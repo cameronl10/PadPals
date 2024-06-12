@@ -38,8 +38,6 @@ export const typeDefs = `#graphql
 `;
 
 
-
-
 export const resolvers = {
     Query: {
         getWishes: getAllWishes,
