@@ -7,7 +7,10 @@ import {
     typeDefs as wishType,
     resolvers as wishResolvers
 } from './wish';
-
+import {
+    typeDefs as wishGroupType,
+    resolvers as wishGroupResolvers
+} from './wishGroup';
 
 
 
@@ -33,8 +36,8 @@ const resolvers = {
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
 const server = new ApolloServer({
-    typeDefs : [typeDefs, wishType],
-    resolvers : _.merge(wishResolvers, resolvers),
+    typeDefs : [typeDefs, wishType, wishGroupType],
+    resolvers : _.merge(wishResolvers, resolvers, wishGroupResolvers),
   });
   
   // Passing an ApolloServer instance to the `startStandaloneServer` function:
