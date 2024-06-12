@@ -52,16 +52,8 @@ export const resolvers = {
         createWish: async (_: any, { wish }: any) => {
             return await CreateWish(wish);
         },
-        // inputWishId = takes in the wish you're editing
-        // column = takes in "name", "price", or "purchased" to see which value you're editing
-        // value = takes in the new value
-        editWish: async (inputWishId: any, column: String, value: any) => {
-            try {
-                const client = await Pool.connect();
-                await client.query(`UPDATE wish SET ${column} = ${value} WHERE wishid = ${inputWishId}`);
-            } catch (err) {
-                console.log(err);
-            }
+        editWish: async (_: any, { inputWishId, column, value }: any) => {
+            return await EditWish(inputWishId, column, value);
         },
         deleteWish: async (_: any, args: any) => {
             const { wishid } = args;
@@ -82,6 +74,23 @@ async function CreateWish(wish: Wish) {
         client.release();
     }
 };
+
+async function EditWish(inputWishId: string, column: string, value: string) {
+    const validInputs = ["name", "price", "purchased"];
+    if (!validInputs.includes(column)) {
+        throw new Error('Column does not exist.');
+    }
+    
+    const client = await Pool.connect();
+    try {
+        const result = await client.query(`UPDATE wish SET ${column} = $1 WHERE wishid = $2 RETURNING *`, [value, inputWishId]);
+        return result.rows[0];
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+}
 
 async function DeleteWish(wishid: String) {
     const client = await Pool.connect();
