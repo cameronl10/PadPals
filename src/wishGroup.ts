@@ -1,13 +1,16 @@
 import Pool from '../config/dbConnect';
 
 interface WishGroup {
+delete
     title: String
     houseid: String
     color: String
+
 };
 
 
 export const typeDefs = `#graphql
+delete
     input WishGroupInput{
         title: String!
         houseid: String!
@@ -25,6 +28,7 @@ export const typeDefs = `#graphql
     type Mutation {
         createWishGroup(wishgroup: WishGroupInput!): WishGroup
         deleteWishGroup(title: String, houseid: String): WishGroup
+
     }
 `;
 
@@ -32,6 +36,7 @@ export const typeDefs = `#graphql
 
 
 export const resolvers = {
+delete
     Mutation: {
         createWishGroup: async (_: any, { wishgroup }: any) => {
             return await CreateWishGroup(wishgroup);
@@ -68,4 +73,5 @@ async function DeleteWishGroup(title: String, houseid: String) {
     } finally {
         client.release();
     }
+
 };
