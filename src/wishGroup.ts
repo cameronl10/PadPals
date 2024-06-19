@@ -26,7 +26,11 @@ export const typeDefs = `#graphql
     type Mutation {
         createWishGroup(wishgroup: WishGroupInput!): WishGroup
         deleteWishGroup(title: String, houseid: String): WishGroup
-
+        editGroupTitle(houseID: String!, title: String!, updatedTitle: String!): WishGroup
+        editGroupColor(houseID: String!, title: String!, updatedColor: String!): WishGroup
+    }
+    type Query {
+        getGroup(houseID: String!, title: String!): WishGroup
     }
 `;
 
@@ -51,7 +55,7 @@ export const resolvers = {
         },
         deleteWishGroup: async (_: any, { title, houseid }: any) => {
             return await DeleteWishGroup(title, houseid);
-        },
+        }
     }
 };
 
@@ -119,5 +123,4 @@ async function DeleteWishGroup(title: String, houseid: String) {
     } finally {
         client.release();
     }
-
 };
