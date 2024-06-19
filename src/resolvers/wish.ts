@@ -1,14 +1,15 @@
 import { resolve } from 'path';
 import Pool from '../../config/dbConnect';
 
+
 interface Wish {
     wishid: String
     userid: String
-    group: String
-    houseid: String
     name: String
     price: number
     purchased: Boolean
+    houseid: String
+    group: String
 };
 
 const resolvers = {
@@ -38,7 +39,7 @@ const resolvers = {
 async function CreateWish(wish: Wish) {
     const client = await Pool.connect();
     try {
-        const result = await client.query('INSERT INTO wish(userid, houseid, wishgroup, name, price, purchased) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+        const result = await client.query('INSERT INTO wish(userid, houseid, wishgrouptitle, name, price, purchased) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
             [wish.userid, wish.houseid, wish.group, wish.name, wish.price, wish.purchased]);
         return result.rows[0];
     } catch (err) {

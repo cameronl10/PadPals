@@ -11,6 +11,7 @@ type WishGroup {
   title: String
   houseid: String
   color: String
+  wishes: [Wish]
 }
 type Mutation {
   createWishGroup(wishgroup: WishGroupInput!): WishGroup

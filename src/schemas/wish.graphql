@@ -1,11 +1,10 @@
 type Wish {
   wishid: String
   userid: String
-  houseid: String
-  group: String
   name: String
   price: Int
   purchased: Boolean
+  wishGroup: WishGroup!
 }
 input WishInput {
   userid: String!

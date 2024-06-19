@@ -15,8 +15,6 @@ const server = new ApolloServer({
 });
 
 async function startServer() {
-  console.log(typeDefs);
-  console.log(resolvers);
   try {
     // Starting the Apollo Server
     const { url } = await startStandaloneServer(server, {
