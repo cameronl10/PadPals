@@ -33,6 +33,12 @@ const resolvers = {
         deleteWishGroup: async (_: any, { title, houseid }: any) => {
             return await DeleteWishGroup(title, houseid);
         }
+    },
+
+    Wish:{
+        wishGroup: async(wish: any) => {
+            return await getWishGroup(wish.houseid,wish.wishgrouptitle)
+        }
     }
 };
 
@@ -79,10 +85,8 @@ async function getWishGroup(houseID: String, title: String): Promise<WishGroup> 
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM wishgroup WHERE houseid = $1 AND title = $2', [houseID, title]);
-        console.log(result);
         const wishes = await getWishes(houseID, title);
         const wishesResult = wishes;
-        console.log(wishesResult);
         return {
             houseid: houseID,
             title: title,
