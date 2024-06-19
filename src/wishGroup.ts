@@ -90,6 +90,7 @@ async function CreateWishGroup(wishgroup: WishGroup) {
     try {
         const result = await client.query('INSERT INTO wishgroup (title, houseid, color) VALUES($1, $2, $3) RETURNING *',
             [wishgroup.title, wishgroup.houseid, wishgroup.color])
+        return result.rows[0];
     } catch (err) {
         console.log(err);
     } finally {
