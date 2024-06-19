@@ -7,6 +7,7 @@ interface WishGroup {
 
 };
 
+
 export const typeDefs = `#graphql
     input WishGroupInput{
         title: String!
@@ -22,20 +23,14 @@ export const typeDefs = `#graphql
         houseid: String
         color: String
     }
-    type WishGroup {
-        color: String
-     }
     type Mutation {
-
-        editGroupTitle(houseID: String!, title: String!, updatedTitle: String!): WishGroup
-        editGroupColor(houseID: String!, title: String!, updatedColor: String!): WishGroup
         createWishGroup(wishgroup: WishGroupInput!): WishGroup
         deleteWishGroup(title: String, houseid: String): WishGroup
-    }
-    type Query {
-        getGroup(houseID: String!, title: String!): WishGroup
+
     }
 `;
+
+
 
 
 export const resolvers = {
@@ -97,6 +92,7 @@ async function CreateWishGroup(wishgroup: WishGroup) {
         client.release();
     }
 };
+
 //Given houseID and title, return the wishgroup
 async function getWishGroup(houseID: String, title: String): Promise<WishGroup> {
     const client = await Pool.connect();
@@ -123,4 +119,5 @@ async function DeleteWishGroup(title: String, houseid: String) {
     } finally {
         client.release();
     }
+
 };
