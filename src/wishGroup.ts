@@ -33,7 +33,3 @@ export const typeDefs = `#graphql
         getGroup(houseID: String!, title: String!): WishGroup
     }
 `;
-
-
-
-
