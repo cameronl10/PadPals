@@ -11,7 +11,11 @@ async function loadResolvers() {
     const files = fs.readdirSync(resolversDir);
     const resolverImports = files
         .filter(file => file.endsWith('.ts') && file !== 'merger.ts')
-        .map(file => import(path.join(resolversDir, file)))
+        .map(file => {
+            // Convert path to use forward slashes for compatibility with dynamic import
+            const filePath = path.join(resolversDir, file).replace(/\\/g, '/');
+            return import(filePath);
+        });
 
         // gets the module imports
         const resolverExports = await Promise.all(resolverImports);
