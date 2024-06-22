@@ -18,6 +18,15 @@ const server = new ApolloServer({
   resolvers,
 });
 
+
+const context = async ({req}) =>{
+  let account = null;
+  const sessionId = req.headers('x-session-id')
+  if(sessionId){
+    const sessionData = await redisClient.get(sessionId);
+  }
+};
+
 async function startServer() {
   try {
     // Starting the Apollo Server

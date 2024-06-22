@@ -6,6 +6,7 @@ import fs from 'fs';
 const currentFileUrl = fileURLToPath(import.meta.url);
 //Get directory of merger.ts 
 const resolversDir = path.dirname(currentFileUrl);
+console.log(resolversDir);
 
 async function loadResolvers() {
     const files = fs.readdirSync(resolversDir);
