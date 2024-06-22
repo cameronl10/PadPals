@@ -12,8 +12,8 @@ async function loadResolvers() {
     const resolverImports = files
         .filter(file => file.endsWith('.ts') && file !== 'merger.ts')
         .map(file => {
-            // Convert path to use forward slashes for compatibility with dynamic import
-            const filePath = path.join(resolversDir, file).replace(/\\/g, '/');
+            let filePath = path.join(resolversDir, file).replace(/\\/g, '/');
+            filePath = filePath.replace(/^([A-Za-z]):\//, '/$1:/');
             return import(filePath);
         });
 
