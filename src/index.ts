@@ -3,7 +3,7 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import 'dotenv/config';
 import _ from 'lodash';
 import Pool from '../config/dbConnect';
-
+import redisClient from '../config/redisConnect';
 import resolvers from './resolvers/merger';
 import typeDefs from './schemas/merger';
 
@@ -21,13 +21,14 @@ async function startServer() {
       listen: { port: 4000 },
     });
     console.log(`🚀 Server ready at: ${url}`);
-    await testConnect(); // Ensure DB connection after server starts
+    await testDBConnect(); // Ensure DB connection after server starts
+    await testRedisConnect();
   } catch (error) {
     console.error('Error starting server or connecting to DB:', error);
   }
 }
 
-async function testConnect() {
+async function testDBConnect() {
   const client = await Pool.connect();
   try {
     console.log("Connected to DB");
@@ -35,6 +36,15 @@ async function testConnect() {
     console.log(err);
   } finally {
     client.release();
+  }
+}
+
+async function testRedisConnect() {
+  const client = await redisClient.connect();
+  try {
+    console.log("Connected to redis");
+  } catch (err) {
+    redisClient.on('error', (err) => console.log('Redis Client Error', err));
   }
 }
 
