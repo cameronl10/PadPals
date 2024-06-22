@@ -16,27 +16,27 @@ interface Wish {
 }
 const resolvers = {
     Query: {
-        getGroup: async (_: any, { houseID, title, }: any) => {
+        getGroup: async (_: any, { houseID, title, }: any): Promise<WishGroup> => {
             return await getWishGroup(houseID, title);
         }
     },
     Mutation: {
-        editGroupTitle: async (_: any, { houseID, title, updatedTitle }: any) => {
+        editGroupTitle: async (_: any, { houseID, title, updatedTitle }: any): Promise<WishGroup> => {
             return await editWishGroupTitle(houseID, title, updatedTitle);
         },
-        editGroupColor: async (_: any, { houseID, title, updatedColor }: any) => {
+        editGroupColor: async (_: any, { houseID, title, updatedColor }: any): Promise<WishGroup> => {
             return await editWishGroupColor(houseID, title, updatedColor);
         },
-        createWishGroup: async (_: any, { wishgroup }: any) => {
+        createWishGroup: async (_: any, { wishgroup }: any): Promise<void> => {
             return await CreateWishGroup(wishgroup);
         },
-        deleteWishGroup: async (_: any, { title, houseid }: any) => {
+        deleteWishGroup: async (_: any, { title, houseid }: any): Promise<void> => {
             return await DeleteWishGroup(title, houseid);
         }
     },
 
     Wish: {
-        wishGroup: async (parent: Wish) => {
+        wishGroup: async (parent: Wish): Promise<WishGroup> => {
             console.log(parent);
             return await getWishGroup(parent.wishGroup.houseid,parent.wishGroup.title);
         }
@@ -74,6 +74,7 @@ async function CreateWishGroup(wishgroup: WishGroup): Promise<void> {
     try {
         const result = await client.query('INSERT INTO wishgroup (title, houseid, color) VALUES($1, $2, $3) RETURNING *',
             [wishgroup.title, wishgroup.houseid, wishgroup.color])
+        return result.rows[0];
     } catch (err) {
         console.log(err);
     } finally {
@@ -105,7 +106,7 @@ async function DeleteWishGroup(title: String, houseid: String): Promise<void> {
     const client = await Pool.connect();
     try {
         const result = await client.query('DELETE FROM wishgroup WHERE title = $1 AND houseid = $2', [title, houseid]);
-        return;
+        return result.rows[0];
     } catch (err) {
         console.log(err);
     } finally {

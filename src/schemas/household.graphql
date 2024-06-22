@@ -3,6 +3,20 @@ type Household {
   name: String
   address: String
 }
+input HouseholdInput {
+  name: String!
+  address: String!
+}
+input EditHouseholdInput {
+  houseid: String!
+  name: String
+  address: String
+}
+type Mutation {
+  createHousehold(household: HouseholdInput!): Household
+  editHousehold(household: EditHouseholdInput): Household
+  deleteHousehold(houseid: String): Household
+}
 
 type Query {
   getHousehold(houseid: String!): Household
