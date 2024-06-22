@@ -59,7 +59,6 @@ async function EditWish(wish: Partial<Wish>): Promise<void> {
                 index++;
             }
         }
-
         // Remove the last comma and space
         query = query.slice(0, -2);
 

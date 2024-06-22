@@ -4,11 +4,15 @@ import 'dotenv/config';
 import _ from 'lodash';
 import Pool from '../config/dbConnect';
 import redisClient from '../config/redisConnect';
-import resolvers from './resolvers/merger';
+import loadResolvers from './resolvers/merger';
 import typeDefs from './schemas/merger';
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
+
+//  resolvers need to be loaded asynchronously
+const resolvers = await loadResolvers;
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,

@@ -17,6 +17,7 @@ type Mutation {
   editHousehold(household: EditHouseholdInput): Household
   deleteHousehold(houseid: String): Household
 }
+
 type Query {
-  getWish(wishID: String!): Wish
+  getHousehold(houseid: String!): Household
 }
