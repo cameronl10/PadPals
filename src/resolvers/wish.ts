@@ -14,7 +14,6 @@ interface Wish {
 
 const resolvers = {
     Query: {
-        getWishes: getAllWishes,
         getWish: async (_: any, args: any) => {
             const { wishID } = args;
             return await getAWish(wishID);
@@ -111,17 +110,7 @@ async function DeleteWish(wishid: String) {
     }
 };
 
-async function getAllWishes(): Promise<Wish[]> {
-    const client = await Pool.connect();
-    try {
-        const result = await client.query('SELECT * FROM wish');
-        return result.rows;
-    } catch (err) {
-        console.log(err);
-    } finally {
-        client.release();
-    }
-};
+
 
 async function getAWish(wishID: String): Promise<Wish> {
     const client = await Pool.connect();

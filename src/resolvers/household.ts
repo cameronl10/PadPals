@@ -1,8 +1,11 @@
-import Pool from '../config/dbConnect';
+import Pool from '../../config/dbConnect';
 
 interface Household {
-    
+    householdid: String,
+    name: String,
+    address: String,
 };
+
 
 export const typeDefs = `#graphql
     type Mutation {
@@ -17,3 +20,5 @@ export const resolvers = {
     Mutation: {
     }
 };
+
+export default resolvers;

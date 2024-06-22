@@ -1,0 +1,9 @@
+type Mutation {
+  createWish(wish: WishInput!): Wish
+  editWish(wishid: String, column: String, value: String): Wish
+  editEntireWish(wish: EditWishInput!): Wish
+  deleteWish(wishid: String): Wish
+}
+type Query {
+  getWish(wishID: String!): Wish
+}
