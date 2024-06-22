@@ -64,6 +64,7 @@ async function EditWish(wishid: string, column: string, value: string) {
     }
 }
 
+//Function to edit the attributes you want in Edit
 async function EditEntireWish(wish: Partial<Wish>) {
     const client = await Pool.connect();
     try {
@@ -78,7 +79,6 @@ async function EditEntireWish(wish: Partial<Wish>) {
                 index++;
             }
         }
-
         // Remove the last comma and space
         query = query.slice(0, -2);
 
