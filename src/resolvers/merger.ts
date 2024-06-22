@@ -1,11 +1,24 @@
 import { mergeResolvers } from '@graphql-tools/merge';
 import path from 'path';
-import wishGroup from './wishGroup';
-import wish from './wish';
-import household from './household';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
 
-const resolversArray = [wishGroup, wish, household]
+const currentFileUrl = fileURLToPath(import.meta.url);
+//Get directory of merger.ts 
+const resolversDir = path.dirname(currentFileUrl);
 
-const resolvers = mergeResolvers(resolversArray);
+async function loadResolvers() {
+    const files = fs.readdirSync(resolversDir);
+    const resolverImports = files
+        .filter(file => file.endsWith('.ts') && file !== 'merger.ts')
+        .map(file => import(path.join(resolversDir, file)))
 
-export default resolvers;
+        // gets the module imports
+        const resolverExports = await Promise.all(resolverImports);
+        
+        // extract exports from imported modules
+        const resolversArray = resolverExports.map(module => module.default);
+        return mergeResolvers(resolversArray);
+}
+
+export default loadResolvers();
