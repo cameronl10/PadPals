@@ -1,8 +1,21 @@
+type Household {
+  houseid: String
+  name: String
+  address: String
+}
+input HouseholdInput {
+  name: String!
+  address: String!
+}
+input EditHouseholdInput {
+  houseid: String!
+  name: String
+  address: String
+}
 type Mutation {
-  createWish(wish: WishInput!): Wish
-  editWish(wishid: String, column: String, value: String): Wish
-  editEntireWish(wish: EditWishInput!): Wish
-  deleteWish(wishid: String): Wish
+  createHousehold(household: HouseholdInput!): Household
+  editHousehold(household: EditHouseholdInput): Household
+  deleteHousehold(houseid: String): Household
 }
 type Query {
   getWish(wishID: String!): Wish

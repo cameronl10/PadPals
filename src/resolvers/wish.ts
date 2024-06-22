@@ -14,28 +14,25 @@ interface Wish {
 
 const resolvers = {
     Query: {
-        getWish: async (_: any, args: any) => {
+        getWish: async (_: any, args: any): Promise<Wish> => {
             const { wishID } = args;
             return await getAWish(wishID);
         }
     },
     Mutation: {
-        createWish: async (_: any, { wish }: any) => {
+        createWish: async (_: any, { wish }: any): Promise<Wish> => {
             return await CreateWish(wish);
         },
-        editWish: async (_: any, { wishid, column, value }: any) => {
-            return await EditWish(wishid, column, value);
+        editWish: async (_: any, { wish }: any): Promise<void> => {
+            return await EditWish(wish);
         },
-        editEntireWish: async (_: any, { wish }: any) => {
-            return await EditEntireWish(wish);
-        },
-        deleteWish: async (_: any, { wishid }: any) => {
+        deleteWish: async (_: any, { wishid }: any): Promise<void> => {
             return await DeleteWish(wishid);
         }
     },
 };
 
-async function CreateWish(wish: Wish) {
+async function CreateWish(wish: Wish): Promise<Wish> {
     const client = await Pool.connect();
     try {
         const result = await client.query('INSERT INTO wish(userid, houseid, wishgrouptitle, name, price, purchased) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
@@ -48,23 +45,7 @@ async function CreateWish(wish: Wish) {
     }
 };
 
-async function EditWish(wishid: string, column: string, value: string) {
-    const validInputs = ["name", "price", "wishgroup", "purchased"];
-    if (!validInputs.includes(column)) {
-        throw new Error('Column does not exist.');
-    }
-    const client = await Pool.connect();
-    try {
-        const result = await client.query(`UPDATE "Wish" SET ${column} = $1 WHERE wishid = $2 RETURNING *`, [value, wishid]);
-        return result.rows[0];
-    } catch (err) {
-        console.log(err);
-    } finally {
-        client.release();
-    }
-}
-
-async function EditEntireWish(wish: Partial<Wish>) {
+async function EditWish(wish: Partial<Wish>): Promise<void> {
     const client = await Pool.connect();
     try {
         let query = 'UPDATE wish SET ';
@@ -94,15 +75,10 @@ async function EditEntireWish(wish: Partial<Wish>) {
     }
 }
 
-async function DeleteWish(wishid: String) {
+async function DeleteWish(wishid: String): Promise<void> {
     const client = await Pool.connect();
     try {
         const result = await client.query('DELETE FROM wish WHERE wishid = $1', [wishid]);
-        return {
-            success: true,
-            message: "Wish deleted",
-            wishID: wishid
-        }
     } catch (err) {
         console.log(err);
     } finally {
