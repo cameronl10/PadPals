@@ -2,7 +2,6 @@ import Pool from '../../config/dbConnect';
 
 interface Household {
     houseid: String,
-    houseid: String,
     name: String,
     address: String,
 };
@@ -13,6 +12,17 @@ export const resolvers = {
             return await GetHousehold(houseid);
         } 
     },
+    Mutation: {
+        createHousehold: async (_: any, { household }: any): Promise<Household> => {
+            return await CreateHousehold(household);
+        },
+        editHousehold: async(_: any, { household }: any): Promise<void> => {
+            return await EditHousehold(household);
+        },
+        deleteHousehold: async(_: any, { houseid }: any): Promise<void> => {
+            return await DeleteHousehold(houseid);
+        }
+    }
 };
 
 // Get a household by houseid
@@ -25,15 +35,6 @@ async function GetHousehold(houseid: string): Promise<Household>{
         console.log(err);
     } finally {
         client.release();
-        createHousehold: async (_: any, { household }: any): Promise<Household> => {
-            return await CreateHousehold(household);
-        },
-        editHousehold: async(_: any, { household }: any): Promise<void> => {
-            return await EditHousehold(household);
-        },
-        deleteHousehold: async(_: any, { houseid }: any): Promise<void> => {
-            return await DeleteHousehold(houseid);
-        }
     }
 };
 
