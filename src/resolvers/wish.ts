@@ -1,55 +1,18 @@
-import Pool from '../config/dbConnect';
+import { resolve } from 'path';
+import Pool from '../../config/dbConnect';
+
 
 interface Wish {
     wishid: String
     userid: String
-    group: String
-    houseid: String
     name: String
     price: number
     purchased: Boolean
+    houseid: String
+    group: String
 };
 
-
-export const typeDefs = `#graphql
-    type Wish {
-        wishid: String
-        userid: String
-        houseid: String
-        group: String
-        name: String
-        price: Int
-        purchased: Boolean
-    }
-    input WishInput{
-        userid: String!
-        houseid: String!
-        group: String
-        name: String!
-        price: Int
-        purchased: Boolean!
-    }
-    input EditWishInput {
-        wishid: String!
-        name: String
-        householdid: String
-        group: String
-        price: Int
-        purchased: Boolean
-    }
-    type Mutation {
-        createWish(wish: WishInput!): Wish
-        editWish(wishid: String, column: String, value: String): Wish
-        editEntireWish(wish: EditWishInput!): Wish
-        deleteWish(wishid: String): Wish
-    }
-    type Query{
-        getWishes: [Wish]
-        getWish(wishID: String!): Wish
-    }
-`;
-
-export const resolvers = {
+const resolvers = {
     Query: {
         getWishes: getAllWishes,
         getWish: async (_: any, args: any) => {
@@ -76,7 +39,7 @@ export const resolvers = {
 async function CreateWish(wish: Wish) {
     const client = await Pool.connect();
     try {
-        const result = await client.query('INSERT INTO wish(userid, houseid, wishgroup, name, price, purchased) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+        const result = await client.query('INSERT INTO wish(userid, houseid, wishgrouptitle, name, price, purchased) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
             [wish.userid, wish.houseid, wish.group, wish.name, wish.price, wish.purchased]);
         return result.rows[0];
     } catch (err) {
@@ -151,7 +114,7 @@ async function DeleteWish(wishid: String) {
 async function getAllWishes(): Promise<Wish[]> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('SELECT * FROM "Wish"');
+        const result = await client.query('SELECT * FROM wish');
         return result.rows;
     } catch (err) {
         console.log(err);
@@ -171,3 +134,5 @@ async function getAWish(wishID: String): Promise<Wish> {
         client.release();
     }
 };
+
+export default resolvers;
