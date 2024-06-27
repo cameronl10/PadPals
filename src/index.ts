@@ -1,5 +1,6 @@
-import { ApolloServer } from '@apollo/server'; // Corrected import
-import { startStandaloneServer } from '@apollo/server/standalone';
+import { ApolloServer } from 'apollo-server-express'; // Corrected import
+import express from 'express';
+import clientSessions from 'client-sessions';
 import 'dotenv/config';
 import _ from 'lodash';
 import Pool from '../config/dbConnect';
@@ -13,29 +14,24 @@ import typeDefs from './schemas/merger';
 //  resolvers need to be loaded asynchronously
 const resolvers = await loadResolvers;
 
+const sessionMiddleware = clientSessions;
+const app = express();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
-
-
-const context = async ({req}) =>{
-  let account = null;
-  const sessionId = req.headers('x-session-id')
-  if(sessionId){
-    const sessionData = await redisClient.get(sessionId);
-  }
-};
+await server.start();
+server.applyMiddleware({app});
 
 async function startServer() {
   try {
-    // Starting the Apollo Server
-    const { url } = await startStandaloneServer(server, {
-      listen: { port: 4000 },
+    const PORT = process.env.PORT;
+    app.listen(PORT, () => {
+      console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+      testDBConnect(); // Ensure DB connection after server starts
+      testRedisConnect();
     });
-    console.log(`🚀 Server ready at: ${url}`);
-    await testDBConnect(); // Ensure DB connection after server starts
-    await testRedisConnect();
   } catch (error) {
     console.error('Error starting server or connecting to DB:', error);
   }
