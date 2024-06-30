@@ -38,7 +38,7 @@ const resolvers = {
     Wish: {
         wishGroup: async (parent: Wish): Promise<WishGroup> => {
             console.log(parent);
-            return await getWishGroup(parent.wishGroup.houseid,parent.wishGroup.title);
+            return await getWishGroup(parent.wishGroup.houseid, parent.wishGroup.title);
         }
     }
 };
@@ -123,7 +123,7 @@ async function getWishes(houseID: String, title: String): Promise<Wish[]> {
         wishArr.forEach(wish => {
             wishResult.push({
                 ...wish,
-                wishGroup:{houseid:houseID,title:title}
+                wishGroup: { houseid: houseID, title: title }
             });
         });
         return wishResult;

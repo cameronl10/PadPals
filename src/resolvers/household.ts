@@ -8,25 +8,25 @@ interface Household {
 
 export const resolvers = {
     Query: {
-        getHousehold: async (_: any, { houseid}: any) => {
+        getHousehold: async (_: any, { houseid }: any) => {
             return await GetHousehold(houseid);
-        } 
+        }
     },
     Mutation: {
         createHousehold: async (_: any, { household }: any): Promise<Household> => {
             return await CreateHousehold(household);
         },
-        editHousehold: async(_: any, { household }: any): Promise<void> => {
+        editHousehold: async (_: any, { household }: any): Promise<void> => {
             return await EditHousehold(household);
         },
-        deleteHousehold: async(_: any, { houseid }: any): Promise<void> => {
+        deleteHousehold: async (_: any, { houseid }: any): Promise<void> => {
             return await DeleteHousehold(houseid);
         }
     }
 };
 
 // Get a household by houseid
-async function GetHousehold(houseid: string): Promise<Household>{
+async function GetHousehold(houseid: string): Promise<Household> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM household WHERE houseid = $1', [houseid]);
