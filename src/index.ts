@@ -4,7 +4,6 @@ import express from 'express';
 import http from 'http';
 import session from 'express-session';
 import 'dotenv/config';
-import _ from 'lodash';
 import Pool from '../config/dbConnect';
 import redisClient from '../config/redisConnect';
 import loadResolvers from './resolvers/merger';
@@ -21,7 +20,7 @@ const httpServer = http.createServer(app);
 
 app.use(express.json());
 app.use(session({
-  secret: process.env.SESSION_SECRET
+  secret: "tempsecretkey"
 }))
 
 const server = new ApolloServer({
