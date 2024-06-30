@@ -1,0 +1,10 @@
+type Allocation {
+}
+input AllocationInput {
+}
+input EditAllocationInput {
+}
+type Mutation {
+}
+type Query {
+}
