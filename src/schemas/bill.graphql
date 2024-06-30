@@ -1,0 +1,10 @@
+type Bill {
+}
+input BillInput {
+}
+input EditBillInput {
+}
+type Mutation {
+}
+type Query {
+}
