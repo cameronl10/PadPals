@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server-express'; // Corrected import
 import express from 'express';
-import clientSessions from 'client-sessions';
+import session from 'express-session';
 import 'dotenv/config';
 import _ from 'lodash';
 import Pool from '../config/dbConnect';
@@ -14,12 +14,17 @@ import typeDefs from './schemas/merger';
 //  resolvers need to be loaded asynchronously
 const resolvers = await loadResolvers;
 
-const sessionMiddleware = clientSessions;
 const app = express();
+app.use(session({
+  secret:process.env.SESSION_SECRET
+}))
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context:{
+    test: "hello world"
+  }
 });
 await server.start();
 server.applyMiddleware({app});
