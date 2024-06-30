@@ -1,8 +1,9 @@
-import { ApolloServer } from 'apollo-server-express'; // Corrected import
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
 import express from 'express';
-import clientSessions from 'client-sessions';
+import http from 'http';
+import session from 'express-session';
 import 'dotenv/config';
-import _ from 'lodash';
 import Pool from '../config/dbConnect';
 import redisClient from '../config/redisConnect';
 import loadResolvers from './resolvers/merger';
@@ -14,24 +15,35 @@ import typeDefs from './schemas/merger';
 //  resolvers need to be loaded asynchronously
 const resolvers = await loadResolvers;
 
-const sessionMiddleware = clientSessions;
 const app = express();
+const httpServer = http.createServer(app);
+
+app.use(express.json());
+app.use(session({
+  secret: "tempsecretkey"
+}))
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers,
+  resolvers
 });
+
 await server.start();
-server.applyMiddleware({app});
+
+app.use('/graphql', expressMiddleware(server, {
+  context: async ({ req }) => ({ test: "hello world" }),
+  }
+));
 
 async function startServer() {
   try {
     const PORT = process.env.PORT;
-    app.listen(PORT, () => {
-      console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
-      testDBConnect(); // Ensure DB connection after server starts
-      testRedisConnect();
+    await new Promise<void>((resolve) => {
+      httpServer.listen(PORT, resolve)
+      console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
     });
+    testDBConnect(); // Ensure DB connection after server starts
+    testRedisConnect();
   } catch (error) {
     console.error('Error starting server or connecting to DB:', error);
   }
