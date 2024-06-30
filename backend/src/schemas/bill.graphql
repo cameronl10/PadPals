@@ -1,0 +1,35 @@
+type Bill {
+  billid: String
+  houseid: String
+  creatorid: String
+  title: String
+  price: Int
+  paid: Boolean
+  interval_val: Int
+}
+input BillInput {
+  houseid: String!
+  creatorid: String!
+  title: String!
+  price: Int!
+  paid: Boolean!
+  interval_val: Int!
+}
+input EditBillInput {
+  billid: String!
+  creatorid: String
+  title: String
+  price: Int
+  paid: Boolean
+  interval_val: Int
+}
+
+type Mutation {
+  createBill(bill: BillInput!): Bill
+  editBill(bill: EditBillInput!): Bill
+  deleteBill(billid: String!): Bill
+}
+
+type Query {
+  getBills(houseid: String!): [Bill]
+}

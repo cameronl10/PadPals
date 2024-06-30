@@ -1,0 +1,37 @@
+{
+  "name": "padpals",
+  "version": "1.0.0",
+  "description": "Start dev environment : npm run devStart",
+  "main": "server.js",
+  "scripts": {
+    "compile": "tsc",
+    "start": "nodemon --exec node --no-warnings=ExperimentalWarning --loader ts-node/esm src/index.ts",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.10.4",
+    "@graphql-tools/load-files": "^7.0.0",
+    "apollo-server-express": "^3.13.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "fs": "^0.0.1-security",
+    "graphql": "^16.8.1",
+    "graphql-tools": "^9.0.1",
+    "nodemon": "^3.1.2",
+    "path": "^0.12.7",
+    "pg": "^8.11.5",
+    "redis": "^4.6.14",
+    "ts-node": "^10.9.2"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.5"
+  }
+}
