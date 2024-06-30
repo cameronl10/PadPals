@@ -1,18 +1,18 @@
 type Allocation {
-    billid: String
-    userid: String
-    allocation: Float
+  billid: String
+  userid: String
+  allocation: Float
 }
 input AllocationInput {
-    billid: String!
-    userid: String!
-    allocation: Float!
+  billid: String!
+  userid: String!
+  allocation: Float!
 }
 type Mutation {
-    createAllocation(allocation: AllocationInput!): Allocation
-    editAllocation(allocation: AllocationInput!): Allocation
-    deleteAllocation(billid: String!, userid: String!): Allocation
+  createAllocation(allocation: AllocationInput!): Allocation
+  editAllocation(allocation: AllocationInput!): Allocation
+  deleteAllocation(billid: String!, userid: String!): Allocation
 }
 type Query {
-    getAllocations(billid: String!): Allocation
+  getAllocations(billid: String!): Allocation
 }
