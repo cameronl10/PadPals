@@ -1,10 +1,32 @@
 type User {
+    userid: String
+    email: String
+    password: String
+    houseid: String
+    name: String
+    profilepicture: String
 }
 input UserInput {
+    email: String!
+    password: String!
+    houseid: String
+    name: String!
+    profilepicture: String
 }
-input EditUserInput {
+input EditSimpleUserInput {
+    userid: String!
+    email: String
+    houseid: String
+    name: String
+    profilepicture: String
+}
+input EditPassword {
+    userid: String!
+    password: String!
 }
 type Mutation {
+
 }
 type Query {
+
 }
