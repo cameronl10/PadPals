@@ -7,7 +7,7 @@ interface Bill {
     creatorid: String,
     title: String,
     price: number,
-    purchased : boolean,
+    paid : boolean,
     interval_val: number
 };
 
@@ -41,7 +41,7 @@ async function GetBills(houseid: string): Promise<Bill[]> {
             creatorid: bill.creatorid,
             title: bill.title,
             price: bill.price,
-            purchased: bill.purchased,
+            paid: bill.paid,
             interval_val: bill.interval_val
         }));
         return bills;
@@ -59,8 +59,8 @@ async function GetBills(houseid: string): Promise<Bill[]> {
 async function CreateBill(bill: Bill): Promise<Bill> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('INSERT INTO bill(houseid, creatorid, title, price, purchased, interval_val) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
-            [bill.houseid, bill.creatorid, bill.title, bill.price, bill.purchased, bill.interval_val]);
+        const result = await client.query('INSERT INTO bill(houseid, creatorid, title, price, paid, interval_val) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+            [bill.houseid, bill.creatorid, bill.title, bill.price, bill.paid, bill.interval_val]);
         return result.rows[0];
     } catch (err) {
         console.log(err);
