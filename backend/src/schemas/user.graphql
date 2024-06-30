@@ -1,0 +1,10 @@
+type User {
+}
+input UserInput {
+}
+input EditUserInput {
+}
+type Mutation {
+}
+type Query {
+}
