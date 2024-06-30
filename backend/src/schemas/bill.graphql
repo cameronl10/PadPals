@@ -4,7 +4,7 @@ type Bill {
   creatorid: String
   title: String
   price: Int
-  purchased: Boolean
+  paid: Boolean
   interval_val: Int
 }
 input BillInput {
@@ -12,7 +12,7 @@ input BillInput {
   creatorid: String!
   title: String!
   price: Int!
-  purchased: Boolean!
+  paid: Boolean!
   interval_val: Int!
 }
 input EditBillInput {
@@ -20,7 +20,7 @@ input EditBillInput {
   creatorid: String
   title: String
   price: Int
-  purchased: Boolean
+  paid: Boolean
   interval_val: Int
 }
 

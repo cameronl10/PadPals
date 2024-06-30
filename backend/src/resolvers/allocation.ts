@@ -4,6 +4,7 @@ interface Allocation {
     billid: String,
     userid: String,
     allocation: Number,
+    paid: Boolean
 };
 
 export const resolvers = {
@@ -40,7 +41,7 @@ async function GetAllocations(billid: String): Promise<Allocation> {
 async function CreateAllocation(allocation: Allocation): Promise<Allocation> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('INSERT INTO allocation(billid, userid, allocation) VALUES($1, $2, $3) RETURNING *',
+        const result = await client.query('INSERT INTO allocation(billid, userid, allocation, paid) VALUES($1, $2, $3, false) RETURNING *',
             [allocation.billid, allocation.userid, allocation.allocation]);
         return result.rows[0];
     } catch (err) {
@@ -50,11 +51,30 @@ async function CreateAllocation(allocation: Allocation): Promise<Allocation> {
     }
 };
 
-async function EditAllocation(allocation: Allocation): Promise<Allocation> {
+async function EditAllocation(allocation: Partial<Allocation>): Promise<Allocation> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('UPDATE allocation SET allocation = $1 WHERE billid = $2 AND userid = $3 RETURNING *',
-            [allocation.allocation, allocation.billid, allocation.userid]);
+        let query = 'UPDATE allocation SET ';
+        let values = [];
+        let index = 1;
+
+        for (let key in allocation) {
+            if (allocation[key] !== undefined && key !== 'billid' && key !== 'userid') {
+                query += `${key} = $${index}, `;
+                values.push(allocation[key]);
+                index++;
+            }
+        }
+
+        // Remove the last comma and space
+        query = query.slice(0, -2);
+
+        // Add the WHERE clause
+        let useridindex = index + 1;
+        query += ` WHERE billid = $${index} AND userid = $${useridindex} RETURNING *`;
+        values.push(allocation.billid, allocation.userid);
+
+        const result = await client.query(query, values);
         return result.rows[0];
     } catch (err) {
         console.log(err);
