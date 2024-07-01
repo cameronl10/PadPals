@@ -28,17 +28,49 @@ export const resolvers = {
         editUserFields: async(_: any, { user } : any): Promise<void> => {
             return await EditUser(user);
         },
+        editUserPassword: async (_, { editPassInput }) => {
+            const { userid, oldpassword, newpassword } = editPassInput;
+            return editUserPassword(userid, oldpassword, newpassword);
+        },
         deleteUser: async (_: any, { userid } : any): Promise<void> => {
             return await DeleteUser(userid);
         }
     }
 };
 
-async function DeleteUser(userid): Promise<void> {
+async function DeleteUser(userid: String): Promise<void> {
     const client = await Pool.connect();
     try {
         const result = await client.query(`DELETE FROM account WHERE userid = $1`, [userid]);
     } catch(err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+}
+
+async function editUserPassword(userid: String, oldpassword: String, newpassword: String): Promise<void> {
+    const client = await Pool.connect();
+    //Check if user exists
+    const user = await client.query(`SELECT * FROM account WHERE userid = $1`, [userid]);
+    if (user.rows[0] == null) {
+        console.log("User not found");
+        return null;
+    }
+    try {
+        //check if oldpassword is valid before changing password
+       if(await bcrypt.compare(oldpassword, user.rows[0].password)) {
+              console.log("Logged in, attempting to change password")
+                const hashedPassword = await bcrypt.hash(newpassword, 10);
+                const result = await client.query(
+                    `UPDATE account SET password = $1 WHERE userid = $2 RETURNING *`, [hashedPassword, userid]);
+                console.log("Successfully changed password")
+              return result.rows[0];
+       } else {
+              console.log("Incorrect password, can't edit password")
+            return null;
+       }
+    } catch (err) {
         console.log(err);
     } finally {
         client.release();
@@ -90,7 +122,7 @@ async function CreateUser(user: User): Promise<void> {
     try {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         const result = await client.query(
-            `INSERT INTO account(email, name, password, houseid, profilepicture) VALUES ($1, $2, $3, $4, 5) RETURNING *`, 
+            `INSERT INTO account(email, name, password, houseid, profilepicture) VALUES ($1, $2, $3, $4, $5) RETURNING *`, 
             [user.email, user.name, hashedPassword, user.houseid, user.profilepicture]);
         return result.rows[0];
     } catch (err) {
