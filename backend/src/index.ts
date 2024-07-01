@@ -24,7 +24,7 @@ const redisStore = new RedisStore({ client: redisClient })
 app.use(express.json());
 app.use(session({
   store: redisStore,
-  secret: "tempsecretkey",
+  secret: process.env.SESSION_SECRET,
   cookie: {
     expires: new Date(253402300000000), /// Approximately Friday, 31 Dec 9999 23:59:59 GMT
     secure: false // turn this on when in production
