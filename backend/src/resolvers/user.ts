@@ -1,3 +1,4 @@
+import { create } from 'domain';
 import Pool from '../../config/dbConnect';
 import * as bcrypt from 'bcrypt';
 
@@ -15,6 +16,14 @@ export const resolvers = {
         loginUser: async (_: any, {loginInput}: any, context) => {
             const { email, password } = loginInput;
             return await UserLogin(email, password, context);
+        },
+        getUser: async(_: any, { email } : any): Promise<User> => {
+            return await GetUser(email);
+        }
+
+        loginUser: async (_: any, {loginInput}: any) => {
+            const { email, password } = loginInput;
+            return await UserLogin(email, password);
         },
         getUser: async(_: any, { email } : any): Promise<User> => {
             return await GetUser(email);
