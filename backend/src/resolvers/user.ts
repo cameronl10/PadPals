@@ -20,15 +20,6 @@ export const resolvers = {
         getUser: async (_: any, { email }: any): Promise<User> => {
             return await GetUser(email);
         }
-
-        loginUser: async (_: any, {loginInput}: any) => {
-            const { email, password } = loginInput;
-            return await UserLogin(email, password);
-        },
-        getUser: async(_: any, { email } : any): Promise<User> => {
-            return await GetUser(email);
-        }
-
     },
     Mutation: {
         createUser: async (_: any, { user }: any) => {
