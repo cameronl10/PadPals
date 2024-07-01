@@ -13,11 +13,11 @@ interface User {
 
 export const resolvers = {
     Query: {
-        loginUser: async (_: any, {loginInput}: any, context) => {
+        loginUser: async (_: any, { loginInput }: any, context) => {
             const { email, password } = loginInput;
             return await UserLogin(email, password, context);
         },
-        getUser: async(_: any, { email } : any): Promise<User> => {
+        getUser: async (_: any, { email }: any): Promise<User> => {
             return await GetUser(email);
         }
 
@@ -34,14 +34,14 @@ export const resolvers = {
         createUser: async (_: any, { user }: any) => {
             return await CreateUser(user);
         },
-        editUserFields: async(_: any, { user } : any): Promise<void> => {
+        editUserFields: async (_: any, { user }: any): Promise<void> => {
             return await EditUser(user);
         },
         editUserPassword: async (_, { editPassInput }) => {
             const { userid, oldpassword, newpassword } = editPassInput;
             return editUserPassword(userid, oldpassword, newpassword);
         },
-        deleteUser: async (_: any, { userid } : any): Promise<void> => {
+        deleteUser: async (_: any, { userid }: any): Promise<void> => {
             return await DeleteUser(userid);
         }
     }
@@ -51,7 +51,7 @@ async function DeleteUser(userid: String): Promise<void> {
     const client = await Pool.connect();
     try {
         const result = await client.query(`DELETE FROM account WHERE userid = $1`, [userid]);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
     } finally {
         client.release();
@@ -68,17 +68,17 @@ async function editUserPassword(userid: String, oldpassword: String, newpassword
     }
     try {
         //check if oldpassword is valid before changing password
-       if(await bcrypt.compare(oldpassword, user.rows[0].password)) {
-              console.log("Logged in, attempting to change password")
-                const hashedPassword = await bcrypt.hash(newpassword, 10);
-                const result = await client.query(
-                    `UPDATE account SET password = $1 WHERE userid = $2 RETURNING *`, [hashedPassword, userid]);
-                console.log("Successfully changed password")
-              return result.rows[0];
-       } else {
-              console.log("Incorrect password, can't edit password")
+        if (await bcrypt.compare(oldpassword, user.rows[0].password)) {
+            console.log("Logged in, attempting to change password")
+            const hashedPassword = await bcrypt.hash(newpassword, 10);
+            const result = await client.query(
+                `UPDATE account SET password = $1 WHERE userid = $2 RETURNING *`, [hashedPassword, userid]);
+            console.log("Successfully changed password")
+            return result.rows[0];
+        } else {
+            console.log("Incorrect password, can't edit password")
             return null;
-       }
+        }
     } catch (err) {
         console.log(err);
     } finally {
@@ -91,7 +91,7 @@ async function GetUser(email): Promise<User> {
     try {
         const result = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
         return result.rows[0];
-    } catch(err) {
+    } catch (err) {
         console.log(err);
     } finally {
         client.release();
@@ -131,7 +131,7 @@ async function CreateUser(user: User): Promise<void> {
     try {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         const result = await client.query(
-            `INSERT INTO account(email, name, password, houseid, profilepicture) VALUES ($1, $2, $3, $4, $5) RETURNING *`, 
+            `INSERT INTO account(email, name, password, houseid, profilepicture) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
             [user.email, user.name, hashedPassword, user.houseid, user.profilepicture]);
         return result.rows[0];
     } catch (err) {
@@ -149,15 +149,15 @@ async function UserLogin(email: String, pass: String, context): Promise<String> 
         return null;
     }
     try {
-       if(await bcrypt.compare(pass, user.rows[0].password)) {
-              context.session.userID = user.rows[0].userid;
-              context.session.username = user.rows[0].name;
-              console.log("Logged in")
-              return user.rows[0];
-       } else {
-              console.log("Incorrect password")
+        if (await bcrypt.compare(pass, user.rows[0].password)) {
+            context.session.userID = user.rows[0].userid;
+            context.session.username = user.rows[0].name;
+            console.log("Logged in")
+            return user.rows[0];
+        } else {
+            console.log("Incorrect password")
             return null;
-       }
+        }
 
 
     } catch (err) {
