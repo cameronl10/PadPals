@@ -22,4 +22,5 @@ type Mutation {
 }
 type Query {
   getAllocations(billid: String!): Allocation
+  getAllocationOwed(userid: String!, owedUserid: String!): Float
 }

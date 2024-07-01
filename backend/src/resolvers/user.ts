@@ -12,12 +12,14 @@ interface User {
 
 export const resolvers = {
     Query: {
-        loginUser: async (_: any, {email, password }: any,context) => {
-            return await UserLogin(email, password,context);
+        loginUser: async (_: any, {loginInput}: any, context) => {
+            const { email, password } = loginInput;
+            return await UserLogin(email, password, context);
         },
         getUser: async(_: any, { email } : any): Promise<User> => {
             return await GetUser(email);
         }
+
     },
     Mutation: {
         createUser: async (_: any, { user }: any) => {
@@ -130,7 +132,7 @@ async function CreateUser(user: User): Promise<void> {
     }
 }
 
-async function UserLogin(email: String, pass: String,context): Promise<String> {
+async function UserLogin(email: String, pass: String, context): Promise<String> {
     const client = await Pool.connect();
     const user = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
     if (user == null) {

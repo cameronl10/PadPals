@@ -11,6 +11,9 @@ export const resolvers = {
     Query: {
         getAllocations: async (_: any, { billid }: any): Promise<Allocation> => {
             return await GetAllocations(billid);
+        },
+        getAllocationOwed: async(_: any, { userid, owedUserid}: any): Promise<Number> => {
+            return await GetAllocationOwed(userid, owedUserid);
         }
     },
     Mutation: {
@@ -93,5 +96,35 @@ async function DeleteAllocation(billid: String, userid: String): Promise<void> {
         client.release();
     }
 };
+
+// Owed user is the user that is owed money, not the user that owes money
+async function GetAllocationOwed(userId: String, owedUserid: String): Promise<Number> {
+    const client = await Pool.connect();
+    try {
+        // Left join on the bill with allocation table to get the total amount owed
+        const query = `
+            SELECT
+                SUM(b.price * a.allocation) AS amount_owed
+            FROM bill b
+            LEFT JOIN
+                allocation a ON b.billid = a.billid
+            WHERE
+                b.creatorid = $2 AND a.userid = $1
+                AND a.paid <> true
+        `;
+        const values = [userId, owedUserid];
+        const result = await client.query(query, values);
+
+        if (result.rows.length > 0) {
+            return result.rows[0].amount_owed;
+        } else {
+            return 0;
+        }
+    } catch(err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+}
 
 export default resolvers;
