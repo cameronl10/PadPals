@@ -15,7 +15,11 @@ export const resolvers = {
     Query: {
         loginUser: async (_: any, {email, password }: any) => {
             return await UserLogin(email, password);
+        },
+        getUser: async(_: any, { email } : any): Promise<User> => {
+            return await GetUser(email);
         }
+
     },
     Mutation: {
         createUser: async (_: any, { user }: any) => {
@@ -23,9 +27,35 @@ export const resolvers = {
         },
         editUserFields: async(_: any, { user } : any): Promise<void> => {
             return await EditUser(user);
+        },
+        deleteUser: async (_: any, { userid } : any): Promise<void> => {
+            return await DeleteUser(userid);
         }
     }
 };
+
+async function DeleteUser(userid): Promise<void> {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query(`DELETE FROM account WHERE userid = $1`, [userid]);
+    } catch(err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+}
+
+async function GetUser(email): Promise<User> {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
+        return result.rows[0];
+    } catch(err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+}
 async function EditUser(user: Partial<User>): Promise<void> {
     const client = await Pool.connect();
     try {

@@ -27,8 +27,9 @@ input EditPassword {
 type Mutation {
   editUserFields(user: EditUserFieldInput!): User
   createUser(user: UserInput!): User
+  deleteUser(userid: String!): User
 }
 type Query {
   loginUser(email: String!, password: String!): User
-  getUser(userID: String!): User
+  getUser(email: String!): User
 }
