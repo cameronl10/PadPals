@@ -8,7 +8,7 @@ import Pool from '../config/dbConnect';
 import redisClient from '../config/redisConnect';
 import loadResolvers from './resolvers/merger';
 import typeDefs from './schemas/merger';
-
+import RedisStore from 'connect-redis';
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
 
@@ -18,10 +18,21 @@ const resolvers = await loadResolvers;
 const app = express();
 const httpServer = http.createServer(app);
 
+connectToRedis();
+const redisStore = new RedisStore({ client: redisClient })
+
 app.use(express.json());
 app.use(session({
-  secret: "tempsecretkey"
-}))
+  store: redisStore,
+  secret: process.env.SESSION_SECRET,
+  cookie: {
+    expires: new Date(253402300000000), /// Approximately Friday, 31 Dec 9999 23:59:59 GMT
+    secure: false // turn this on when in production
+  },
+  saveUninitialized: false,
+  resave: false
+}));
+
 
 const server = new ApolloServer({
   typeDefs,
@@ -31,8 +42,10 @@ const server = new ApolloServer({
 await server.start();
 
 app.use('/graphql', expressMiddleware(server, {
-  context: async ({ req }) => ({ test: "hello world" }),
-  }
+  context: async ({ req }: { req: any }) => ({
+    session: req.session
+  }),
+}
 ));
 
 async function startServer() {
@@ -43,7 +56,6 @@ async function startServer() {
       console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
     });
     testDBConnect(); // Ensure DB connection after server starts
-    testRedisConnect();
   } catch (error) {
     console.error('Error starting server or connecting to DB:', error);
   }
@@ -60,7 +72,7 @@ async function testDBConnect() {
   }
 }
 
-async function testRedisConnect() {
+async function connectToRedis() {
   const client = await redisClient.connect();
   try {
     console.log("Connected to redis");
