@@ -22,13 +22,19 @@ input EditUserFieldInput {
 }
 input EditPassword {
   userid: String!
+  oldpassword: String!
+  newpassword: String!
+}
+input LoginInput {
+  email: String!
   password: String!
 }
 type Mutation {
   editUserFields(user: EditUserFieldInput!): User
   createUser(user: UserInput!): User
+  editUserPassword(editPassInput: EditPassword!): User
 }
 type Query {
-  loginUser(email: String!, password: String!): User
+  loginUser(user: LoginInput!): User
   getUser(userID: String!): User
 }
