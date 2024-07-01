@@ -33,8 +33,10 @@ type Mutation {
   editUserFields(user: EditUserFieldInput!): User
   createUser(user: UserInput!): User
   editUserPassword(editPassInput: EditPassword!): User
+  deleteUser(userid: String!): User
 }
 type Query {
   loginUser(user: LoginInput!): User
   getUser(userID: String!): User
+  deleteUser(userid: String!): User
 }
