@@ -13,7 +13,8 @@ interface User {
 
 export const resolvers = {
     Query: {
-        loginUser: async (_: any, {email, password }: any) => {
+        loginUser: async (_: any, {loginInput}: any) => {
+            const { email, password } = loginInput;
             return await UserLogin(email, password);
         },
         getUser: async(_: any, { email } : any): Promise<User> => {
