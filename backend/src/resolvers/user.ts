@@ -27,9 +27,23 @@ export const resolvers = {
         },
         editUserFields: async(_: any, { user } : any): Promise<void> => {
             return await EditUser(user);
+        },
+        deleteUser: async (_: any, { userid } : any): Promise<void> => {
+            return await DeleteUser(userid);
         }
     }
 };
+
+async function DeleteUser(userid): Promise<void> {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query(`DELETE FROM account WHERE userid = $1`, [userid]);
+    } catch(err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+}
 
 async function GetUser(email): Promise<User> {
     const client = await Pool.connect();
