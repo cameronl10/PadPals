@@ -20,8 +20,15 @@ const httpServer = http.createServer(app);
 
 app.use(express.json());
 app.use(session({
-  secret: "tempsecretkey"
-}))
+  secret: "tempsecretkey",
+  cookie: {
+    expires: new Date(253402300000000), /// Approximately Friday, 31 Dec 9999 23:59:59 GMT
+    secure: false // turn this on when in production
+  },
+  saveUninitialized: false,
+  resave: false
+}));
+
 
 const server = new ApolloServer({
   typeDefs,
@@ -31,7 +38,9 @@ const server = new ApolloServer({
 await server.start();
 
 app.use('/graphql', expressMiddleware(server, {
-  context: async ({ req }) => ({ test: "hello world" }),
+  context: async ({req}: {req : any}) => ({
+    session: req.session
+  }),
   }
 ));
 
