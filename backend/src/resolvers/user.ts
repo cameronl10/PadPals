@@ -20,9 +20,40 @@ export const resolvers = {
     Mutation: {
         createUser: async (_: any, { user }: any) => {
             return await CreateUser(user);
+        },
+        editUserFields: async(_: any, { user } : any): Promise<void> => {
+            return await EditUser(user);
         }
     }
 };
+async function EditUser(user: Partial<User>): Promise<void> {
+    const client = await Pool.connect();
+    try {
+        let query = 'UPDATE account SET ';
+        let values = [];
+        let index = 1;
+
+        for (let key in user) {
+            if (user[key] !== undefined && key !== 'userid') {
+                query += `${key} = $${index}, `;
+                values.push(user[key]);
+                index++
+            }
+        }
+
+        query = query.slice(0, -2);
+
+        query += ` WHERE userid = $${index} RETURNING *`;
+        values.push(user.userid);
+
+        const result = await client.query(query, values);
+
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+}
 
 async function CreateUser(user: User): Promise<void> {
     const client = await Pool.connect();
@@ -62,6 +93,4 @@ async function UserLogin(email: String, pass: String): Promise<String> {
         client.release();
     }
 }
-
-
 export default resolvers;
