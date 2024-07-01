@@ -1,32 +1,34 @@
 type User {
-    userid: String
-    email: String
-    password: String
-    houseid: String
-    name: String
-    profilepicture: String
+  userid: String
+  email: String
+  password: String
+  houseid: String
+  name: String
+  profilepicture: String
 }
 input UserInput {
-    email: String!
-    password: String!
-    houseid: String
-    name: String!
-    profilepicture: String
+  email: String!
+  password: String!
+  houseid: String
+  name: String!
+  profilepicture: String
 }
 input EditUserFieldInput {
-    userid: String!
-    email: String
-    houseid: String
-    name: String
-    profilepicture: String
+  userid: String!
+  email: String
+  houseid: String
+  name: String
+  profilepicture: String
 }
 input EditPassword {
-    userid: String!
-    password: String!
+  userid: String!
+  password: String!
 }
 type Mutation {
-    editUserFields(user: EditUserFieldInput!): User
+  editUserFields(user: EditUserFieldInput!): User
+  createUser(user: UserInput!): User
 }
 type Query {
-    getUser(userID: String!): User
+  loginUser(email: String!, password: String!): User
+  getUser(userID: String!): User
 }

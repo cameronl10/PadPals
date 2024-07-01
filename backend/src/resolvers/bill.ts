@@ -7,7 +7,7 @@ interface Bill {
     creatorid: String,
     title: String,
     price: number,
-    paid : boolean,
+    paid: boolean,
     interval_val: number
 };
 
@@ -17,7 +17,7 @@ export const resolvers = {
             return await GetBills(houseid);
         }
     },
-     Mutation: {
+    Mutation: {
         createBill: async (_: any, { bill }: any): Promise<Bill> => {
             return await CreateBill(bill);
         },
@@ -27,7 +27,7 @@ export const resolvers = {
         deleteBill: async (_: any, { billid }: any): Promise<void> => {
             return await DeleteBill(billid);
         }
-     }
+    }
 };
 
 // Get all bills by houseid
