@@ -13,7 +13,7 @@ interface Wish {
     price: Number
     purchased: Boolean
     wishGroup: WishGroup
-}
+};
 const resolvers = {
     Query: {
         getGroup: async (_: any, { houseID, title, }: any): Promise<WishGroup> => {
@@ -34,10 +34,13 @@ const resolvers = {
             return await DeleteWishGroup(title, houseid);
         }
     },
-
+    WishGroup: {
+        wishes: async (parent: WishGroup): Promise<Wish[]> => {
+            return await getWishes(parent.houseid, parent.title);
+        }
+    },
     Wish: {
         wishGroup: async (parent: Wish): Promise<WishGroup> => {
-            console.log(parent);
             return await getWishGroup(parent.wishGroup.houseid, parent.wishGroup.title);
         }
     }
@@ -87,13 +90,11 @@ async function getWishGroup(houseID: String, title: String): Promise<WishGroup> 
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM wishgroup WHERE houseid = $1 AND title = $2', [houseID, title]);
-        const wishes = await getWishes(houseID, title);
-        const wishesResult = wishes;
         return {
             houseid: houseID,
             title: title,
             color: result.rows[0].color,
-            wishes: wishesResult
+            wishes: []
         }
     } catch (err) {
         console.log(err);
