@@ -21,6 +21,6 @@ type Mutation {
   deleteAllocation(billid: String!, userid: String!): Allocation
 }
 type Query {
-  getAllocations(billid: String!): Allocation
-  getAllocationOwed(userid: String!, owedUserid: String!): Float
+  allocations(billid: String!): [Allocation]
+  amountOwed(userid: String!, owedUserid: String!): Float
 }

@@ -8,7 +8,7 @@ interface Household {
 
 export const resolvers = {
     Query: {
-        getHousehold: async (_: any, { houseid }: any, context) => {
+        household: async (_: any, { houseid }: any, context) => {
             return await GetHousehold(houseid, context);
         }
     },

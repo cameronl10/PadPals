@@ -13,7 +13,7 @@ interface Bill {
 
 export const resolvers = {
     Query: {
-        getBills: async (_: any, { houseid }: any) => {
+        bills: async (_: any, { houseid }: any) => {
             return await GetBills(houseid);
         }
     },

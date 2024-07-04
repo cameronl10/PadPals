@@ -28,5 +28,5 @@ type Mutation {
   deleteWish(wishid: String): Wish
 }
 type Query {
-  getWish(wishID: String!): Wish
+  wish(wishID: String!): Wish
 }

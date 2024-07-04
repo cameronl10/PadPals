@@ -16,7 +16,7 @@ interface Wish {
 }
 const resolvers = {
     Query: {
-        getGroup: async (_: any, { houseID, title, }: any): Promise<WishGroup> => {
+        wishGroup: async (_: any, { houseID, title, }: any): Promise<WishGroup> => {
             return await getWishGroup(houseID, title);
         }
     },

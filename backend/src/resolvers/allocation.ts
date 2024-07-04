@@ -9,10 +9,10 @@ interface Allocation {
 
 export const resolvers = {
     Query: {
-        getAllocations: async (_: any, { billid }: any): Promise<Allocation> => {
+        allocations: async (_: any, { billid }: any): Promise<Allocation[]> => {
             return await GetAllocations(billid);
         },
-        getAllocationOwed: async(_: any, { userid, owedUserid}: any): Promise<Number> => {
+        amountOwed: async(_: any, { userid, owedUserid}: any): Promise<Number> => {
             return await GetAllocationOwed(userid, owedUserid);
         }
     },
@@ -29,11 +29,11 @@ export const resolvers = {
     }
 };
 
-async function GetAllocations(billid: String): Promise<Allocation> {
+async function GetAllocations(billid: String): Promise<Allocation[]> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM allocation WHERE billid = $1', [billid]);
-        return result.rows[0];
+        return result.rows;
     } catch (err) {
         console.log(err);
     } finally {
