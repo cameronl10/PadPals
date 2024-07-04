@@ -14,7 +14,8 @@ import RedisStore from 'connect-redis';
 
 //  resolvers need to be loaded asynchronously
 const resolvers = await loadResolvers;
-
+const sessionTesting = false // default to false, change to true if u want to turn on session authentication
+const resolversToSkipSessionAuth = ["CreateUser","IntrospectionQuery", "LoginUser"] //hide this in the future?
 const app = express();
 const httpServer = http.createServer(app);
 
@@ -36,15 +37,19 @@ app.use(session({
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  introspection: true //false in production
 });
 
 await server.start();
 
 app.use('/graphql', expressMiddleware(server, {
-  context: async ({ req }: { req: any }) => ({
-    session: req.session
-  }),
+  context: async ({ req }: { req: any }) => {
+    checkSession(req);
+    return {
+      session: req.session
+    }
+  },
 }
 ));
 
@@ -78,6 +83,15 @@ async function connectToRedis() {
     console.log("Connected to redis");
   } catch (err) {
     redisClient.on('error', (err) => console.log('Redis Client Error', err));
+  }
+}
+
+function checkSession(req: any) {
+  if(resolversToSkipSessionAuth.includes(req.body.operationName) || !sessionTesting){
+    return
+  }
+  if(!req.session || !req.session.userID){
+    throw new Error("Session auth not found");
   }
 }
 
