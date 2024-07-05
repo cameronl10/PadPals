@@ -1,10 +1,11 @@
 declare global {
     interface User {
+        household: any
         userid: String,
         email: String,
         name: String,
         password: String,
-        houseid: String,
+        houseid: Household,
         profilepicture: String
     }
     
@@ -12,6 +13,7 @@ declare global {
         houseid: String,
         name: String,
         address: String,
+        users: User[]
     }
     
     interface Wish {
