@@ -1,10 +1,5 @@
 import Pool from '../../config/dbConnect';
-
-interface Household {
-    houseid: String,
-    name: String,
-    address: String,
-};
+import { Household } from './global';
 
 export const resolvers = {
     Query: {

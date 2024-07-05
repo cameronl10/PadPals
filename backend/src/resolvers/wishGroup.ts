@@ -1,19 +1,6 @@
 import Pool from '../../config/dbConnect';
+import { Wish, WishGroup} from './global';
 
-interface WishGroup {
-    title: String
-    houseid: String
-    color: String
-    wishes: Wish[]
-};
-interface Wish {
-    wishid: String
-    userid: String
-    name: String
-    price: Number
-    purchased: Boolean
-    wishGroup: WishGroup
-};
 const resolvers = {
     Query: {
         wishGroup: async (_: any, { houseID, title, }: any): Promise<WishGroup> => {
@@ -41,7 +28,7 @@ const resolvers = {
     },
     Wish: {
         wishGroup: async (parent: Wish): Promise<WishGroup> => {
-            return await getWishGroup(parent.wishGroup.houseid, parent.wishGroup.title);
+            return await getWishGroup(parent.group.houseid, parent.group.title);
         }
     }
 };

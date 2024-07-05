@@ -1,15 +1,6 @@
 import { get } from 'http';
 import Pool from '../../config/dbConnect';
-
-interface Bill {
-    billid: String,
-    houseid: String,
-    creatorid: String,
-    title: String,
-    price: number,
-    paid: boolean,
-    interval_val: number
-};
+import { Bill } from './global';
 
 export const resolvers = {
     Query: {

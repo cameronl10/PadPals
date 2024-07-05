@@ -1,15 +1,7 @@
 import { create } from 'domain';
 import Pool from '../../config/dbConnect';
 import * as bcrypt from 'bcrypt';
-
-interface User {
-    userid: String,
-    email: String,
-    name: String,
-    password: String,
-    houseid: String,
-    profilepicture: String
-};
+import { User } from './global';
 
 export const resolvers = {
     Query: {

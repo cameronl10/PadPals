@@ -1,11 +1,5 @@
 import Pool from '../../config/dbConnect';
-
-interface Allocation {
-    billid: String,
-    userid: String,
-    allocation: Number,
-    paid: Boolean
-};
+import { Allocation } from './global';
 
 export const resolvers = {
     Query: {

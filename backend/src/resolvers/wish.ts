@@ -1,16 +1,6 @@
 import { resolve } from 'path';
 import Pool from '../../config/dbConnect';
-
-
-interface Wish {
-    wishid: String
-    userid: String
-    name: String
-    price: number
-    purchased: Boolean
-    houseid: String
-    group: String
-};
+import { Wish } from './global';
 
 const resolvers = {
     Query: {
