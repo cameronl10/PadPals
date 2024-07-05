@@ -2,7 +2,8 @@ import { getWishGroup, editWishGroupColor, editWishGroupTitle, CreateWishGroup, 
 
 const resolvers = {
     Query: {
-        wishGroup: async (_: any, { houseid, title, }: Partial<WishGroup>): Promise<WishGroup> => {
+        wishGroup: async (_: any, { houseid, title, }: { houseid: String, title: String }): Promise<WishGroup> => {
+            console.log(houseid);
             return await getWishGroup(houseid, title);
         }
     },
@@ -13,7 +14,7 @@ const resolvers = {
         editGroupColor: async (_: any, { houseid, title, updatedColor }: {houseid: String, title: String, updatedColor: String}): Promise<WishGroup> => {
             return await editWishGroupColor(houseid, title, updatedColor);
         },
-        createWishGroup: async (_: any, wishgroup : WishGroup): Promise<void> => {
+        createWishGroup: async (_: any, { wishgroup }: { wishgroup: WishGroup }): Promise<void> => {
             return await CreateWishGroup(wishgroup);
         },
         deleteWishGroup: async (_: any, { title, houseid }: any): Promise<void> => {

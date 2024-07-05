@@ -57,7 +57,7 @@ async function DeleteWish(wishid: String): Promise<void> {
 async function getAWish(wishID: String): Promise<Wish> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('SELECT * FROM "Wish" WHERE wishid = $1', [wishID]);
+        const result = await client.query('SELECT * FROM wish WHERE wishid = $1', [wishID]);
         return result.rows[0];
     } catch (err) {
         console.log(err);

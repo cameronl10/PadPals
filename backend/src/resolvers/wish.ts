@@ -4,19 +4,19 @@ import {getWishGroup} from '../handlers/wishGroupHandler'
 
 const resolvers = {
     Query: {
-        wish: async (_: any, wishID: String): Promise<Wish> => {
+        wish: async (_: any, {wishID}: {wishID:String}): Promise<Wish> => {
             return await getAWish(wishID);
         }
     },
     Mutation: {
-        createWish: async (_: any, wish: Wish): Promise<Wish> => {
+        createWish: async (_: any, {wish}: {wish:Wish}): Promise<Wish> => {
             return await CreateWish(wish);
         },
-        editWish: async (_: any, wish: Wish): Promise<void> => {
+        editWish: async (_: any,{wish}: {wish:Wish}): Promise<void> => {
             return await EditWish(wish);
         },
-        deleteWish: async (_: any, wishid: String): Promise<void> => {
-            return await DeleteWish(wishid);
+        deleteWish: async (_: any, {wishID}: {wishID:String}): Promise<void> => {
+            return await DeleteWish(wishID);
         }
     },
     Wish: {
