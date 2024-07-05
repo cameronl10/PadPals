@@ -1,11 +1,5 @@
 import Pool from '../../config/dbConnect';
 
-interface Household {
-    houseid: String,
-    name: String,
-    address: String,
-};
-
 export const resolvers = {
     Query: {
         household: async (_: any, { houseid }: any, context) => {
