@@ -1,23 +1,6 @@
 import { resolve } from 'path';
 import Pool from '../../config/dbConnect';
 
-
-interface WishGroup {
-    title: String
-    houseid: String
-    color: String
-    wishes: Wish[]
-};
-interface Wish {
-    wishid: String
-    userid: String
-    name: String
-    price: number
-    purchased: Boolean
-    wishGroup: WishGroup
-    group: String
-};
-
 const resolvers = {
     Query: {
         wish: async (_: any, args: any): Promise<Wish> => {

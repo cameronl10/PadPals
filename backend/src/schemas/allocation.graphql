@@ -3,6 +3,7 @@ type Allocation {
   userid: String
   allocation: Float
   paid: Boolean
+  bill: Bill
 }
 input AllocationInput {
   billid: String!

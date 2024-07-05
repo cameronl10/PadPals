@@ -6,6 +6,7 @@ type Bill {
   price: Int
   paid: Boolean
   interval_val: Int
+  allocations: [Allocation]
 }
 input BillInput {
   houseid: String!
