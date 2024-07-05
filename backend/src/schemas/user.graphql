@@ -2,7 +2,7 @@ type User {
   userid: String
   email: String
   password: String
-  houseid: String
+  household: Household
   name: String
   profilepicture: String
 }
@@ -37,5 +37,5 @@ type Mutation {
 }
 type Query {
   loginUser(loginInput: LoginInput!): User
-  user(userID: String!): User
+  user(email: String!): User
 }

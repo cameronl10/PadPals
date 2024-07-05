@@ -54,6 +54,19 @@ async function GetUser(email): Promise<User> {
         client.release();
     }
 }
+
+async function GetUsers(household): Promise<User[]> {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query(`SELECT * FROM account WHERE houseid = $1`, [household]);
+        return result.rows;
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.release();
+    }
+}
+
 async function EditUser(user: Partial<User>): Promise<void> {
     const client = await Pool.connect();
     try {
@@ -123,4 +136,4 @@ async function UserLogin(email: String, pass: String, context): Promise<String> 
     }
 }
 
-export { CreateUser, UserLogin, EditUser, GetUser, editUserPassword, DeleteUser };  
+export { CreateUser, UserLogin, EditUser, GetUser, GetUsers, editUserPassword, DeleteUser };  
