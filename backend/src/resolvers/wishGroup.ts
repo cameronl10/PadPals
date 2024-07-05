@@ -24,11 +24,6 @@ const resolvers = {
         wishes: async (parent: WishGroup): Promise<Wish[]> => {
             return await getWishes(parent.houseid, parent.title);
         }
-    },
-    Wish: {
-        wishGroup: async (parent: Wish): Promise<WishGroup> => {
-            return await getWishGroup(parent.group.houseid, parent.group.title);
-        }
     }
 };
 
