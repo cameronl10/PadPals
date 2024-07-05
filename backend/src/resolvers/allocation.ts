@@ -1,12 +1,5 @@
 import Pool from '../../config/dbConnect';
 
-interface Allocation {
-    billid: String,
-    userid: String,
-    allocation: Number,
-    paid: Boolean
-};
-
 export const resolvers = {
     Query: {
         allocations: async (_: any, { billid }: any): Promise<Allocation[]> => {

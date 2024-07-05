@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import Pool from '../../config/dbConnect';
 
+
 interface WishGroup {
     title: String
     houseid: String
