@@ -1,16 +1,6 @@
 import { get } from 'http';
 import Pool from '../../config/dbConnect';
 
-interface Bill {
-    billid: String,
-    houseid: String,
-    creatorid: String,
-    title: String,
-    price: number,
-    paid: boolean,
-    interval_val: number
-};
-
 export const resolvers = {
     Query: {
         bills: async (_: any, { houseid }: any) => {

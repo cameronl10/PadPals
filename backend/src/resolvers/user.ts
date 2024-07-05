@@ -2,15 +2,6 @@ import { create } from 'domain';
 import Pool from '../../config/dbConnect';
 import * as bcrypt from 'bcrypt';
 
-interface User {
-    userid: String,
-    email: String,
-    name: String,
-    password: String,
-    houseid: String,
-    profilepicture: String
-};
-
 export const resolvers = {
     Query: {
         loginUser: async (_: any, { loginInput }: any, context) => {
