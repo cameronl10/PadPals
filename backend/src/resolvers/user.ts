@@ -3,6 +3,7 @@ import Pool from '../../config/dbConnect';
 import * as bcrypt from 'bcrypt';
 
 import { CreateUser, UserLogin, EditUser, GetUser, editUserPassword, DeleteUser } from '../handlers/userHandler';
+import { GetHouseholdByUser} from '../handlers/householdHandler';
 
 export const resolvers = {
     Query: {
@@ -28,7 +29,14 @@ export const resolvers = {
         deleteUser: async (_: any, { userid }: any): Promise<void> => {
             return await DeleteUser(userid);
         }
-    }
+    },
+    User: {
+        household: async (parent: User): Promise<Household> => {
+            console.log(parent)
+            return await GetHouseholdByUser(parent.userid);
+        }
+    } 
+
 };
 
 export default resolvers;

@@ -2,6 +2,7 @@ type Household {
   houseid: String
   name: String
   address: String
+  users: [User]
 }
 input HouseholdInput {
   name: String!
