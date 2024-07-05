@@ -34,7 +34,6 @@ app.use(session({
   resave: false
 }));
 
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,

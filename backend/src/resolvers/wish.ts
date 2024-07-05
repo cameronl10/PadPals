@@ -1,14 +1,19 @@
 import { resolve } from 'path';
 import Pool from '../../config/dbConnect';
 
-
+interface WishGroup {
+    title: String
+    houseid: String
+    color: String
+    wishes: Wish[]
+};
 interface Wish {
     wishid: String
     userid: String
     name: String
     price: number
     purchased: Boolean
-    houseid: String
+    wishGroup: WishGroup
     group: String
 };
 
@@ -30,7 +35,17 @@ const resolvers = {
             return await DeleteWish(wishid);
         }
     },
+    Wish: {
+        wishGroup: async (parent: Wish): Promise<WishGroup> => {
+            console.log(parent.wishGroup.houseid, parent.wishGroup.title)
+            return await getWishGroup(parent.wishGroup.houseid, parent.wishGroup.title);
+        }
+    }
 };
+
+function getWishGroup(houseID: String, title: String): Promise<WishGroup> {
+    return Promise.resolve({ title: "", houseid: "", color: "", wishes: [] });
+}
 
 async function CreateWish(wish: Wish): Promise<Wish> {
     const client = await Pool.connect();
