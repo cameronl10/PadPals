@@ -31,5 +31,5 @@ type Mutation {
 }
 
 type Query {
-  getBills(houseid: String!): [Bill]
+  bills(houseid: String!): [Bill]
 }

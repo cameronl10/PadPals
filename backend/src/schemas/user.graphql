@@ -37,6 +37,5 @@ type Mutation {
 }
 type Query {
   loginUser(loginInput: LoginInput!): User
-  getUser(userID: String!): User
-  deleteUser(userid: String!): User
+  user(userID: String!): User
 }

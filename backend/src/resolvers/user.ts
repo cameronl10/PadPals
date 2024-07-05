@@ -17,7 +17,7 @@ export const resolvers = {
             const { email, password } = loginInput;
             return await UserLogin(email, password, context);
         },
-        getUser: async (_: any, { email }: any): Promise<User> => {
+        user: async (_: any, { email }: any): Promise<User> => {
             return await GetUser(email);
         }
     },

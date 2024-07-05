@@ -14,7 +14,7 @@ interface Wish {
 
 const resolvers = {
     Query: {
-        getWish: async (_: any, args: any): Promise<Wish> => {
+        wish: async (_: any, args: any): Promise<Wish> => {
             const { wishID } = args;
             return await getAWish(wishID);
         }

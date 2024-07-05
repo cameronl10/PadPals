@@ -19,5 +19,5 @@ type Mutation {
 }
 
 type Query {
-  getHousehold(houseid: String!): Household
+  household(houseid: String!): Household
 }
