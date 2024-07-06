@@ -1,22 +1,22 @@
 
-import {getAWish,CreateWish,EditWish,DeleteWish} from '../handlers/wishHandler'
+import * as wishHandler from '../handlers/wishHandler'
 import {getWishGroup} from '../handlers/wishGroupHandler'
 
 const resolvers = {
     Query: {
         wish: async (_: any, {wishID}: {wishID:String}): Promise<Wish> => {
-            return await getAWish(wishID);
+            return await wishHandler.getAWish(wishID);
         }
     },
     Mutation: {
         createWish: async (_: any, {wish}: {wish:Wish}): Promise<Wish> => {
-            return await CreateWish(wish);
+            return await wishHandler.CreateWish(wish);
         },
         editWish: async (_: any,{wish}: {wish:Wish}): Promise<void> => {
-            return await EditWish(wish);
+            return await wishHandler.EditWish(wish);
         },
         deleteWish: async (_: any, {wishID}: {wishID:String}): Promise<void> => {
-            return await DeleteWish(wishID);
+            return await wishHandler.DeleteWish(wishID);
         }
     },
     Wish: {

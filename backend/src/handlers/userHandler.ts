@@ -1,4 +1,3 @@
-import { create } from 'domain';
 import Pool from '../../config/dbConnect';
 import * as bcrypt from 'bcrypt';
 

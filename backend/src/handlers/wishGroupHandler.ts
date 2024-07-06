@@ -79,4 +79,4 @@ async function getWishes(houseID: String, title: String): Promise<Wish[]> {
         client.release();
     }
 }
-export{getWishGroup,getWishes,DeleteWishGroup,CreateWishGroup,editWishGroupTitle,editWishGroupColor}
+export { getWishGroup, getWishes, DeleteWishGroup, CreateWishGroup, editWishGroupTitle, editWishGroupColor }
