@@ -1,7 +1,7 @@
 import Pool from '../../config/dbConnect';
 
 // Get a household by houseid
-async function GetHousehold(houseid: string): Promise<Household> {
+async function GetHousehold(houseid: String): Promise<Household> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM household WHERE houseid = $1', [houseid]);

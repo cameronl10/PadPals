@@ -1,38 +1,31 @@
-import { create } from 'domain';
-import Pool from '../../config/dbConnect';
-import * as bcrypt from 'bcrypt';
-
-import { CreateUser, UserLogin, EditUser, GetUser, editUserPassword, DeleteUser } from '../handlers/userHandler';
+import * as userHandler from '../handlers/userHandler';
 import { GetHouseholdByUser} from '../handlers/householdHandler';
 
 export const resolvers = {
     Query: {
-        loginUser: async (_: any, { loginInput }: any, context) => {
-            const { email, password } = loginInput;
-            return await UserLogin(email, password, context);
+        loginUser: async (_: any, {email, password }: {email: String, password: String}, context) => {
+            return await userHandler.UserLogin(email, password, context);
         },
-        user: async (_: any, { email }: any): Promise<User> => {
-            return await GetUser(email);
+        user: async (_: any, { email }: {email: String}): Promise<User> => {
+            return await userHandler.GetUser(email);
         }
     },
     Mutation: {
-        createUser: async (_: any, { user }: any) => {
-            return await CreateUser(user);
+        createUser: async (_: any, { user }: {user: User}) => {
+            return await userHandler.CreateUser(user);
         },
-        editUserFields: async (_: any, { user }: any): Promise<void> => {
-            return await EditUser(user);
+        editUserFields: async (_: any, { user }: {user: User}): Promise<void> => {
+            return await userHandler.EditUser(user);
         },
-        editUserPassword: async (_, { editPassInput }) => {
-            const { userid, oldpassword, newpassword } = editPassInput;
-            return editUserPassword(userid, oldpassword, newpassword);
+        editUserPassword: async (_, {userid, oldPassword, newPassword}: {userid: String, oldPassword: String, newPassword:String}) => {
+            return userHandler.editUserPassword(userid, oldPassword, newPassword);
         },
-        deleteUser: async (_: any, { userid }: any): Promise<void> => {
-            return await DeleteUser(userid);
+        deleteUser: async (_: any, { userid }: {userid: String}): Promise<void> => {
+            return await userHandler.DeleteUser(userid);
         }
     },
     User: {
         household: async (parent: User): Promise<Household> => {
-            console.log(parent)
             return await GetHouseholdByUser(parent.userid);
         }
     } 

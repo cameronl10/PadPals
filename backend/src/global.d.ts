@@ -1,11 +1,10 @@
 declare global {
     interface User {
-        household: any
         userid: String,
         email: String,
         name: String,
         password: String,
-        houseid: Household,
+        houseid: String,
         profilepicture: String
     }
     
@@ -13,7 +12,6 @@ declare global {
         houseid: String,
         name: String,
         address: String,
-        users: User[]
     }
     
     interface Wish {
@@ -23,14 +21,13 @@ declare global {
         price: number
         purchased: Boolean
         houseid: String
-        group: WishGroup
+        wishgrouptitle: String
     }
     
     interface WishGroup {
         title: String
         houseid: String
         color: String
-        wishes: Wish[]
     }
     
     interface Bill {
@@ -42,8 +39,7 @@ declare global {
         paid: boolean,
         interval_val: number
     }
-
-    export interface Allocation {
+    interface Allocation {
         billid: String,
         userid: String,
         allocation: Number,
