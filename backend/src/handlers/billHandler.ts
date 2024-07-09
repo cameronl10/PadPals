@@ -1,6 +1,6 @@
 import Pool from '../../config/dbConnect';
 // Get all bills by houseid
-async function GetBills(houseid: string): Promise<Bill[]> {
+async function GetBills(houseid: String): Promise<Bill[]> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM bill WHERE houseid = $1', [houseid]);
@@ -78,7 +78,7 @@ async function DeleteBill(billid: String): Promise<void> {
 }
 
 //Gets single bill by billid
-async function GetBill(billid: string): Promise<Bill> { 
+async function GetBill(billid: String): Promise<Bill> { 
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM bill WHERE billid = $1', [billid]);
