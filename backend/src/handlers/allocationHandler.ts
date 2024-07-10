@@ -104,5 +104,27 @@ async function getAllocationOwed(userId: string, owedUserid: string): Promise<nu
         client.release();
     }
 }
+
+async function payOffMultipleAllocations(payerid: string, payeeid: string): Promise<void> {
+    const client = await Pool.connect();
+    try {
+        const payerAllocations = `
+        UPDATE allocation a
+        SET paid = true
+        FROM bill b
+        WHERE 
+            a.billid = b.billid
+            AND b.creatorid = $1
+            AND a.userid = $2
+            AND a.paid <> true
+        `;
+        const result = await client.query(payerAllocations, [payeeid, payerid]);
+    } catch(err) {
+        console.log(err);
+        throw err;
+    } finally {
+        client.release();
+    }
+}
   
-export { getAllocations, createAllocation, editAllocation, deleteAllocation, getAllocationOwed };
+export { getAllocations, createAllocation, editAllocation, deleteAllocation, getAllocationOwed, payOffMultipleAllocations };
