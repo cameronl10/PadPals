@@ -76,7 +76,7 @@ async function deleteAllocation(billid: string, userid: string): Promise<void> {
 };
 
 // Owed user is the user that is owed money, not the user that owes money
-async function getAllocationOwed(userId: string, owedUserid: string): Promise<Number> {
+async function getAllocationOwed(userId: string, owedUserid: string): Promise<number> {
     const client = await Pool.connect();
     try {
         // Left join on the bill with allocation table to get the total amount owed
