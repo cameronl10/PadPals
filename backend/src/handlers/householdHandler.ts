@@ -1,7 +1,7 @@
 import Pool from '../../config/dbConnect';
 
 // Get a household by houseid
-async function GetHousehold(houseid: String): Promise<Household> {
+async function getHousehold(houseid: String): Promise<Household> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM household WHERE houseid = $1', [houseid]);
@@ -13,7 +13,7 @@ async function GetHousehold(houseid: String): Promise<Household> {
     }
 };
 
-async function GetHouseholdByUser(userid: String): Promise<Household> {
+async function getHouseholdByUser(userid: String): Promise<Household> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM household WHERE houseid = (SELECT houseid FROM account WHERE userid = $1)', [userid]);
@@ -25,7 +25,7 @@ async function GetHouseholdByUser(userid: String): Promise<Household> {
     }
 }
 
-async function CreateHousehold(household: Household): Promise<Household> {
+async function createHousehold(household: Household): Promise<Household> {
     const client = await Pool.connect();
     try {
         const result = await client.query('INSERT INTO household(name, address) VALUES($1, $2) RETURNING *',
@@ -38,7 +38,7 @@ async function CreateHousehold(household: Household): Promise<Household> {
     }
 }
 
-async function EditHousehold(household: Partial<Household>): Promise<void> {
+async function editHousehold(household: Partial<Household>): Promise<void> {
     const client = await Pool.connect();
     try {
         let query = 'UPDATE household SET ';
@@ -68,7 +68,7 @@ async function EditHousehold(household: Partial<Household>): Promise<void> {
     }
 }
 
-async function DeleteHousehold(houseid: String): Promise<void> {
+async function deleteHousehold(houseid: String): Promise<void> {
     const client = await Pool.connect();
     try {
         const result = await client.query('DELETE FROM household WHERE houseid = $1', [houseid]);
@@ -79,4 +79,4 @@ async function DeleteHousehold(houseid: String): Promise<void> {
     }
 }
 
-export { GetHousehold, GetHouseholdByUser, CreateHousehold, EditHousehold, DeleteHousehold };
+export { getHousehold, getHouseholdByUser, createHousehold, editHousehold, deleteHousehold };
