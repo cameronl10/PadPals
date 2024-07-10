@@ -120,7 +120,6 @@ async function payOffMultipleAllocations(payerid: string, payeeid: string): Prom
         `;
         const result = await client.query(payerAllocations, [payeeid, payerid]);
     } catch(err) {
-        console.log(err);
         throw new Error("Error paying off multiple allocations: " + err);
     } finally {
         client.release();
