@@ -11,7 +11,7 @@ type WishGroup {
 }
 type Mutation {
   createWishGroup(wishgroup: WishGroupInput!): WishGroup
-  deleteWishGroup(title: String, houseid: String): WishGroup
+  deleteWishGroup(title: String!, houseid: String!): WishGroup
 
   editGroupTitle(
     houseID: String!
