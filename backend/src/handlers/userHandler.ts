@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt';
 
 
 
-async function deleteUser(userid: String): Promise<void> {
+async function deleteUser(userid: string): Promise<void> {
     const client = await Pool.connect();
     try {
         const result = await client.query(`DELETE FROM account WHERE userid = $1`, [userid]);
@@ -14,7 +14,7 @@ async function deleteUser(userid: String): Promise<void> {
     }
 }
 
-async function editUserPassword(userid: String, oldpassword: String, newpassword: String): Promise<void> {
+async function editUserPassword(userid: string, oldpassword: string, newpassword: string): Promise<void> {
     const client = await Pool.connect();
     //Check if user exists
     const user = await client.query(`SELECT * FROM account WHERE userid = $1`, [userid]);
@@ -110,7 +110,7 @@ async function createUser(user: User): Promise<void> {
     }
 }
 
-async function userLogin(email: String, pass: String, context): Promise<String> {
+async function userLogin(email: string, pass: string, context): Promise<string> {
     const client = await Pool.connect();
     const user = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
     if (user == null) {

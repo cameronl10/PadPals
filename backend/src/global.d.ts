@@ -42,7 +42,7 @@ declare global {
     interface Allocation {
         billid: string,
         userid: string,
-        allocation: Number,
+        allocation: number,
         paid: boolean
     }
 }
