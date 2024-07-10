@@ -1,7 +1,7 @@
 import Pool from '../../config/dbConnect';
 
 // Get a household by houseid
-async function getHousehold(houseid: String): Promise<Household> {
+async function getHousehold(houseid: string): Promise<Household> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM household WHERE houseid = $1', [houseid]);
@@ -13,7 +13,7 @@ async function getHousehold(houseid: String): Promise<Household> {
     }
 };
 
-async function getHouseholdByUser(userid: String): Promise<Household> {
+async function getHouseholdByUser(userid: string): Promise<Household> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM household WHERE houseid = (SELECT houseid FROM account WHERE userid = $1)', [userid]);
@@ -68,7 +68,7 @@ async function editHousehold(household: Partial<Household>): Promise<void> {
     }
 }
 
-async function deleteHousehold(houseid: String): Promise<void> {
+async function deleteHousehold(houseid: string): Promise<void> {
     const client = await Pool.connect();
     try {
         const result = await client.query('DELETE FROM household WHERE houseid = $1', [houseid]);
