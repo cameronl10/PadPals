@@ -1,6 +1,6 @@
 import Pool from '../../config/dbConnect';
 // Get all bills by houseid
-async function GetBills(houseid: String): Promise<Bill[]> {
+async function getBills(houseid: string): Promise<Bill[]> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM bill WHERE houseid = $1', [houseid]);
@@ -25,7 +25,7 @@ async function GetBills(houseid: String): Promise<Bill[]> {
 
 //Mutations
 //Creates a bill with the given bill object
-async function CreateBill(bill: Bill): Promise<Bill> {
+async function createBill(bill: Bill): Promise<Bill> {
     const client = await Pool.connect();
     try {
         const result = await client.query('INSERT INTO bill(houseid, creatorid, title, price, paid, interval_val) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
@@ -39,7 +39,7 @@ async function CreateBill(bill: Bill): Promise<Bill> {
 }
 
 //edits a bill with the given bill object
-async function EditBill(bill: Partial<Bill>): Promise<void> {
+async function editBill(bill: Partial<Bill>): Promise<void> {
     const client = await Pool.connect();
     try {
         let query = 'UPDATE bill SET ';
@@ -66,7 +66,7 @@ async function EditBill(bill: Partial<Bill>): Promise<void> {
 }
 
 //Deletes a bill with the given billid
-async function DeleteBill(billid: String): Promise<void> {
+async function deleteBill(billid: string): Promise<void> {
     const client = await Pool.connect();
     try {
         await client.query('DELETE FROM bill WHERE billid = $1', [billid]);
@@ -78,7 +78,7 @@ async function DeleteBill(billid: String): Promise<void> {
 }
 
 //Gets single bill by billid
-async function GetBill(billid: String): Promise<Bill> { 
+async function getBill(billid: string): Promise<Bill> { 
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM bill WHERE billid = $1', [billid]);
@@ -100,4 +100,4 @@ async function GetBill(billid: String): Promise<Bill> {
     }
 }
 
-export {GetBills, CreateBill, EditBill, DeleteBill, GetBill};
+export {getBills, createBill, editBill, deleteBill, getBill};
