@@ -1,4 +1,3 @@
-import Pool from '../../config/dbConnect';
 import * as allocationHandler from '../handlers/allocationHandler';
 export const resolvers = {
     Query: {
