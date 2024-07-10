@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt';
 
 
 
-async function DeleteUser(userid: String): Promise<void> {
+async function deleteUser(userid: String): Promise<void> {
     const client = await Pool.connect();
     try {
         const result = await client.query(`DELETE FROM account WHERE userid = $1`, [userid]);
@@ -42,7 +42,7 @@ async function editUserPassword(userid: String, oldpassword: String, newpassword
     }
 }
 
-async function GetUser(email): Promise<User> {
+async function getUser(email): Promise<User> {
     const client = await Pool.connect();
     try {
         const result = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
@@ -54,7 +54,7 @@ async function GetUser(email): Promise<User> {
     }
 }
 
-async function GetUsers(household): Promise<User[]> {
+async function getUsers(household): Promise<User[]> {
     const client = await Pool.connect();
     try {
         const result = await client.query(`SELECT * FROM account WHERE houseid = $1`, [household]);
@@ -66,7 +66,7 @@ async function GetUsers(household): Promise<User[]> {
     }
 }
 
-async function EditUser(user: Partial<User>): Promise<void> {
+async function editUser(user: Partial<User>): Promise<void> {
     const client = await Pool.connect();
     try {
         let query = 'UPDATE account SET ';
@@ -95,7 +95,7 @@ async function EditUser(user: Partial<User>): Promise<void> {
     }
 }
 
-async function CreateUser(user: User): Promise<void> {
+async function createUser(user: User): Promise<void> {
     const client = await Pool.connect();
     try {
         const hashedPassword = await bcrypt.hash(user.password, 10);
@@ -110,7 +110,7 @@ async function CreateUser(user: User): Promise<void> {
     }
 }
 
-async function UserLogin(email: String, pass: String, context): Promise<String> {
+async function userLogin(email: String, pass: String, context): Promise<String> {
     const client = await Pool.connect();
     const user = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
     if (user == null) {
@@ -135,4 +135,4 @@ async function UserLogin(email: String, pass: String, context): Promise<String> 
     }
 }
 
-export { CreateUser, UserLogin, EditUser, GetUser, GetUsers, editUserPassword, DeleteUser };  
+export { createUser, userLogin, editUser, getUser, getUsers, editUserPassword, deleteUser };  

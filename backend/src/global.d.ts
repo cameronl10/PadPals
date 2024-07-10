@@ -1,49 +1,49 @@
 declare global {
     interface User {
-        userid: String,
-        email: String,
-        name: String,
-        password: String,
-        houseid: String,
-        profilepicture: String
+        userid: string,
+        email: string,
+        name: string,
+        password: string,
+        houseid: string,
+        profilepicture: string
     }
     
     interface Household {
-        houseid: String,
-        name: String,
-        address: String,
+        houseid: string,
+        name: string,
+        address: string,
     }
     
     interface Wish {
-        wishid: String
-        userid: String
-        name: String
+        wishid: string
+        userid: string
+        name: string
         price: number
-        purchased: Boolean
-        houseid: String
-        wishgrouptitle: String
+        purchased: boolean
+        houseid: string
+        wishgrouptitle: string
     }
     
     interface WishGroup {
-        title: String
-        houseid: String
-        color: String
+        title: string
+        houseid: string
+        color: string
     }
     
     interface Bill {
-        billid: String,
-        houseid: String,
-        creatorid: String,
-        title: String,
+        billid: string,
+        houseid: string,
+        creatorid: string,
+        title: string,
         price: number,
         paid: boolean,
         interval_val: number
     }
     interface Allocation {
-        billid: String,
-        userid: String,
+        billid: string,
+        userid: string,
         allocation: Number,
-        paid: Boolean
+        paid: boolean
     }
 }
 
