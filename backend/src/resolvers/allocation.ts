@@ -4,7 +4,7 @@ export const resolvers = {
         allocations: async (_: any, { billid }: {billid: string}): Promise<Allocation[]> => {
             return allocationHandler.getAllocations(billid);
         },
-        amountOwed: async(_: any, { userid, owedUserid}: {userid: string, owedUserid: string}): Promise<Number> => {
+        amountOwed: async(_: any, { userid, owedUserid}: {userid: string, owedUserid: string}): Promise<number> => {
             return allocationHandler.getAllocationOwed(userid, owedUserid);
         }
     },
