@@ -17,6 +17,9 @@ export const resolvers = {
         },
         deleteAllocation: async (_: any, { billid, userid }: {billid: string, userid: string}): Promise<void> => {
             return allocationHandler.deleteAllocation(billid, userid);
+        },
+        payOffMultipleAllocations: async (_: any, { payerid, payeeid }: {payerid: string, payeeid: string}): Promise<void> => {
+            return allocationHandler.payOffMultipleAllocations(payerid, payeeid);
         }
     }
 };
