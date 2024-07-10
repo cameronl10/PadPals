@@ -1,23 +1,23 @@
 import Pool from '../../config/dbConnect';
-import { getAllocations, createAllocation, editAllocation, deleteAllocation, getAllocationOwed } from '../handlers/allocationHandler';
+import * as allocationHandler from '../handlers/allocationHandler';
 export const resolvers = {
     Query: {
-        allocations: async (_: any, { billid }: any): Promise<Allocation[]> => {
-            return await getAllocations(billid);
+        allocations: async (_: any, { billid }: {billid: string}): Promise<Allocation[]> => {
+            return allocationHandler.getAllocations(billid);
         },
-        amountOwed: async(_: any, { userid, owedUserid}: any): Promise<Number> => {
-            return await getAllocationOwed(userid, owedUserid);
+        amountOwed: async(_: any, { userid, owedUserid}: {userid: string, owedUserid: string}): Promise<number> => {
+            return allocationHandler.getAllocationOwed(userid, owedUserid);
         }
     },
     Mutation: {
-        createAllocation: async (_: any, { allocation }: any): Promise<Allocation> => {
-            return await createAllocation(allocation);
+        createAllocation: async (_: any, { allocation }: {allocation: Allocation}): Promise<Allocation> => {
+            return allocationHandler.createAllocation(allocation);
         },
-        editAllocation: async (_: any, { allocation }: any): Promise<Allocation> => {
-            return await editAllocation(allocation);
+        editAllocation: async (_: any, { allocation }: {allocation: Allocation}): Promise<Allocation> => {
+            return allocationHandler.editAllocation(allocation);
         },
-        deleteAllocation: async (_: any, { billid, userid }: any): Promise<void> => {
-            return await deleteAllocation(billid, userid);
+        deleteAllocation: async (_: any, { billid, userid }: {billid: string, userid: string}): Promise<void> => {
+            return allocationHandler.deleteAllocation(billid, userid);
         }
     }
 };
