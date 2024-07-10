@@ -3,10 +3,10 @@ import { getHouseholdByUser} from '../handlers/householdHandler';
 
 export const resolvers = {
     Query: {
-        loginUser: async (_: any, {email, password }: {email: String, password: String}, context) => {
+        loginUser: async (_: any, {email, password }: {email: string, password: string}, context) => {
             return await userHandler.userLogin(email, password, context);
         },
-        user: async (_: any, { email }: {email: String}): Promise<User> => {
+        user: async (_: any, { email }: {email: string}): Promise<User> => {
             return await userHandler.getUser(email);
         }
     },
@@ -17,10 +17,10 @@ export const resolvers = {
         editUserFields: async (_: any, { user }: {user: User}): Promise<void> => {
             return await userHandler.editUser(user);
         },
-        editUserPassword: async (_, {userid, oldPassword, newPassword}: {userid: String, oldPassword: String, newPassword:String}) => {
+        editUserPassword: async (_, {userid, oldPassword, newPassword}: {userid: string, oldPassword: string, newPassword:string}) => {
             return userHandler.editUserPassword(userid, oldPassword, newPassword);
         },
-        deleteUser: async (_: any, { userid }: {userid: String}): Promise<void> => {
+        deleteUser: async (_: any, { userid }: {userid: string}): Promise<void> => {
             return await userHandler.deleteUser(userid);
         }
     },
