@@ -1,6 +1,6 @@
 import Pool from '../../config/dbConnect';
 
-async function getAllocations(billid: String): Promise<Allocation[]> {
+async function getAllocations(billid: string): Promise<Allocation[]> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM allocation WHERE billid = $1', [billid]);
@@ -64,7 +64,7 @@ async function editAllocation(allocation: Partial<Allocation>): Promise<Allocati
     }
 };
 
-async function deleteAllocation(billid: String, userid: String): Promise<void> {
+async function deleteAllocation(billid: string, userid: string): Promise<void> {
     const client = await Pool.connect();
     try {
         const result = await client.query('DELETE FROM allocation WHERE billid = $1 AND userid = $2', [billid, userid]);
@@ -76,7 +76,7 @@ async function deleteAllocation(billid: String, userid: String): Promise<void> {
 };
 
 // Owed user is the user that is owed money, not the user that owes money
-async function getAllocationOwed(userId: String, owedUserid: String): Promise<Number> {
+async function getAllocationOwed(userId: string, owedUserid: string): Promise<Number> {
     const client = await Pool.connect();
     try {
         // Left join on the bill with allocation table to get the total amount owed
