@@ -3,6 +3,8 @@ type Household {
   name: String
   address: String
   users: [User]
+  wishgroups: [WishGroup]
+  bills: [Bill]
 }
 input HouseholdInput {
   name: String!

@@ -104,5 +104,5 @@ async function getAllocationOwed(userId: string, owedUserid: string): Promise<nu
         client.release();
     }
 }
-
+  
 export { getAllocations, createAllocation, editAllocation, deleteAllocation, getAllocationOwed };

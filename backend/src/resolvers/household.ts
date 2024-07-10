@@ -1,26 +1,34 @@
 import * as householdHandler from '../handlers/householdHandler';
-import { GetUsers } from '../handlers/userHandler';
+import { getUsers } from '../handlers/userHandler';
+import { getWishGroups } from '../handlers/wishGroupHandler';
+import { getBills } from '../handlers/billHandler';
 
 export const resolvers = {
     Query: {
-        household: async (_: any, { houseid }: {houseid: String}, context) => {
-            return await householdHandler.GetHousehold(houseid);
+        household: async (_: any, { houseid }: {houseid: string}, context) => {
+            return await householdHandler.getHousehold(houseid);
         }
     },
     Mutation: {
         createHousehold: async (_: any, { household }: {household: Household}): Promise<Household> => {
-            return await householdHandler.CreateHousehold(household);
+            return await householdHandler.createHousehold(household);
         },
         editHousehold: async (_: any, { household }: {household: Household}): Promise<void> => { // should this be a houseid instead of a whole household?
-            return await householdHandler.EditHousehold(household);
+            return await householdHandler.editHousehold(household);
         },
-        deleteHousehold: async (_: any, { houseid }: {houseid: String}): Promise<void> => {
-            return await householdHandler.DeleteHousehold(houseid);
+        deleteHousehold: async (_: any, { houseid }: {houseid: string}): Promise<void> => {
+            return await householdHandler.deleteHousehold(houseid);
         }
     },
     Household: {
         users: async (parent: Household): Promise<User[]> => {
-            return await GetUsers(parent.houseid);
+            return await getUsers(parent.houseid);
+        },
+        wishgroups: async (parent: Household): Promise<WishGroup[]> => {
+            return await getWishGroups(parent.houseid)
+        },
+        bills: async (parent: Household): Promise<Bill[]> => {
+            return await getBills(parent.houseid)
         }
     }
 };
