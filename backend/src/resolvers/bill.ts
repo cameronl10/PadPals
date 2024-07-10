@@ -1,27 +1,26 @@
-import { get } from 'http';
-import { CreateBill, DeleteBill, EditBill, GetBills } from '../handlers/billHandler';
-import { GetAllocations } from '../handlers/allocationHandler';
+import * as billHandler from '../handlers/billHandler';
+import { getAllocations } from '../handlers/allocationHandler';
 
 export const resolvers = {
     Query: {
-        bills: async (_: any, { houseid }: any) => {
-            return await GetBills(houseid);
+        bills: async (_: any, { houseid }: {houseid: string}) => {
+            return billHandler.getBills(houseid);
         }
     },
     Mutation: {
-        createBill: async (_: any, { bill }: any): Promise<Bill> => {
-            return await CreateBill(bill);
+        createBill: async (_: any, { bill }: {bill: Bill}): Promise<Bill> => {
+            return billHandler.createBill(bill);
         },
-        editBill: async (_: any, { bill }: any): Promise<void> => {
-            return await EditBill(bill);
+        editBill: async (_: any, { bill }: {bill: Bill}): Promise<void> => {
+            return billHandler.editBill(bill);
         },
-        deleteBill: async (_: any, { billid }: any): Promise<void> => {
-            return await DeleteBill(billid);
+        deleteBill: async (_: any, { billid }: {billid: string}): Promise<void> => {
+            return billHandler.deleteBill(billid);
         }
     },
     Bill: {
         allocations: async (parent: Bill): Promise<Allocation[]> => {
-            return await GetAllocations(parent.billid);
+            return getAllocations(parent.billid);
         }
     }
 };

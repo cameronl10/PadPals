@@ -1,6 +1,6 @@
 import Pool from '../../config/dbConnect';
 
-async function GetAllocations(billid: String): Promise<Allocation[]> {
+async function getAllocations(billid: string): Promise<Allocation[]> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM allocation WHERE billid = $1', [billid]);
@@ -19,7 +19,7 @@ async function GetAllocations(billid: String): Promise<Allocation[]> {
     }
 }
 
-async function CreateAllocation(allocation: Allocation): Promise<Allocation> {
+async function createAllocation(allocation: Allocation): Promise<Allocation> {
     const client = await Pool.connect();
     try {
         const result = await client.query('INSERT INTO allocation(billid, userid, allocation, paid) VALUES($1, $2, $3, false) RETURNING *',
@@ -32,7 +32,7 @@ async function CreateAllocation(allocation: Allocation): Promise<Allocation> {
     }
 };
 
-async function EditAllocation(allocation: Partial<Allocation>): Promise<Allocation> {
+async function editAllocation(allocation: Partial<Allocation>): Promise<Allocation> {
     const client = await Pool.connect();
     try {
         let query = 'UPDATE allocation SET ';
@@ -64,7 +64,7 @@ async function EditAllocation(allocation: Partial<Allocation>): Promise<Allocati
     }
 };
 
-async function DeleteAllocation(billid: String, userid: String): Promise<void> {
+async function deleteAllocation(billid: string, userid: string): Promise<void> {
     const client = await Pool.connect();
     try {
         const result = await client.query('DELETE FROM allocation WHERE billid = $1 AND userid = $2', [billid, userid]);
@@ -76,7 +76,7 @@ async function DeleteAllocation(billid: String, userid: String): Promise<void> {
 };
 
 // Owed user is the user that is owed money, not the user that owes money
-async function GetAllocationOwed(userId: String, owedUserid: String): Promise<Number> {
+async function getAllocationOwed(userId: string, owedUserid: string): Promise<number> {
     const client = await Pool.connect();
     try {
         // Left join on the bill with allocation table to get the total amount owed
@@ -105,4 +105,4 @@ async function GetAllocationOwed(userId: String, owedUserid: String): Promise<Nu
     }
 }
 
-export { GetAllocations, CreateAllocation, EditAllocation, DeleteAllocation, GetAllocationOwed };
+export { getAllocations, createAllocation, editAllocation, deleteAllocation, getAllocationOwed };
