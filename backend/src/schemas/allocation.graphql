@@ -20,6 +20,7 @@ type Mutation {
   createAllocation(allocation: AllocationInput!): Allocation
   editAllocation(allocation: EditAllocationInput!): Allocation
   deleteAllocation(billid: String!, userid: String!): Allocation
+  payOffMultipleAllocations(payerid: String!, payeeid: String!): Allocation
 }
 type Query {
   allocations(billid: String!): [Allocation]

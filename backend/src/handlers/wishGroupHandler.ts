@@ -58,7 +58,8 @@ async function getWishGroup(houseID: string, title: string): Promise<WishGroup> 
 async function deleteWishGroup(title: string, houseid: string): Promise<void> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('DELETE FROM wishgroup WHERE title = $1 AND houseid = $2', [title, houseid]);
+        const result = await client.query(`DELETE FROM wishgroup WHERE title = $1 AND houseid = $2`, [title, houseid]);
+        const trigger = await client.query(`UPDATE wish SET wishgrouptitle = 'Unspecified' WHERE wishgrouptitle = $1 AND houseid = $2`, [title, houseid]);
         return result.rows[0];
     } catch (err) {
         console.log(err);
