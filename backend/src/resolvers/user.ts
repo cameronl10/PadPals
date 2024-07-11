@@ -3,7 +3,8 @@ import { getHouseholdByUser} from '../handlers/householdHandler';
 
 export const resolvers = {
     Query: {
-        loginUser: async (_: any, {email, password }: {email: string, password: string}, context) => {
+        loginUser: async (_: any, {loginInput}: {loginInput: {email: string, password: string}}, context) => {
+            const { email, password } = loginInput;
             return await userHandler.userLogin(email, password, context);
         },
         user: async (_: any, { email }: {email: string}): Promise<User> => {
@@ -22,7 +23,11 @@ export const resolvers = {
         },
         deleteUser: async (_: any, { userid }: {userid: string}): Promise<void> => {
             return await userHandler.deleteUser(userid);
+        },
+        logoutUser: async(_: any, __: any, context): Promise<boolean> => {
+            return userHandler.userLogout(context);
         }
+        
     },
     User: {
         household: async (parent: User): Promise<Household> => {
