@@ -4,7 +4,6 @@ import { getHouseholdByUser } from '../handlers/householdHandler';
 export const resolvers = {
     Query: {
         loginUser: async (_: any, { loginInput }: { loginInput: LoginInput }, context) => {
-
             return await userHandler.userLogin(loginInput.email, loginInput.password, context);
         },
         user: async (_: any, { email }: { email: string }): Promise<User> => {
@@ -27,7 +26,6 @@ export const resolvers = {
         logoutUser: async (_: any, __: any, context): Promise<boolean> => {
             return userHandler.userLogout(context);
         }
-
     },
     User: {
         household: async (parent: User): Promise<Household> => {
