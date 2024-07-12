@@ -98,7 +98,7 @@ async function getAllocationOwed(userId: string, owedUserid: string): Promise<nu
         } else {
             return 0;
         }
-    } catch(err) {
+    } catch (err) {
         console.log(err);
     } finally {
         client.release();
@@ -119,11 +119,11 @@ async function payOffMultipleAllocations(payerid: string, payeeid: string): Prom
             AND a.paid <> true
         `;
         const result = await client.query(payerAllocations, [payeeid, payerid]);
-    } catch(err) {
+    } catch (err) {
         throw new Error("Error paying off multiple allocations: " + err);
     } finally {
         client.release();
     }
 }
-  
+
 export { getAllocations, createAllocation, editAllocation, deleteAllocation, getAllocationOwed, payOffMultipleAllocations };

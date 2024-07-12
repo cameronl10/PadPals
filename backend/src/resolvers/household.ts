@@ -5,18 +5,18 @@ import { getBills } from '../handlers/billHandler';
 
 export const resolvers = {
     Query: {
-        household: async (_: any, { houseid }: {houseid: string}, context) => {
+        household: async (_: any, { houseid }: { houseid: string }) => {
             return await householdHandler.getHousehold(houseid);
         }
     },
     Mutation: {
-        createHousehold: async (_: any, { household }: {household: Household}): Promise<Household> => {
+        createHousehold: async (_: any, { household }: { household: Household }): Promise<Household> => {
             return await householdHandler.createHousehold(household);
         },
-        editHousehold: async (_: any, { household }: {household: Household}): Promise<void> => { // should this be a houseid instead of a whole household?
+        editHousehold: async (_: any, { household }: { household: Household }): Promise<void> => { // should this be a houseid instead of a whole household?
             return await householdHandler.editHousehold(household);
         },
-        deleteHousehold: async (_: any, { houseid }: {houseid: string}): Promise<void> => {
+        deleteHousehold: async (_: any, { houseid }: { houseid: string }): Promise<void> => {
             return await householdHandler.deleteHousehold(houseid);
         }
     },

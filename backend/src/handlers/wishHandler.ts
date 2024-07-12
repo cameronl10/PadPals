@@ -1,4 +1,4 @@
-import Pool  from "../../config/dbConnect";
+import Pool from "../../config/dbConnect";
 async function CreateWish(wish: Wish): Promise<Wish> {
     const client = await Pool.connect();
     try {
@@ -66,4 +66,4 @@ async function getAWish(wishID: String): Promise<Wish> {
     }
 };
 
-export {getAWish,DeleteWish,EditWish,CreateWish}
+export { getAWish, DeleteWish, EditWish, CreateWish }
