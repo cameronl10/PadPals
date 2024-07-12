@@ -43,10 +43,11 @@ const server = new ApolloServer({
 await server.start();
 
 app.use('/graphql', expressMiddleware(server, {
-  context: async ({ req }: { req: any }) => {
+  context: async ({ req }: { req: any})=> {
     checkSession(req);
     return {
-      session: req.session
+      session: req.session,
+      req
     }
   },
 }
