@@ -15,7 +15,7 @@ import RedisStore from 'connect-redis';
 //  resolvers need to be loaded asynchronously
 const resolvers = await loadResolvers;
 const sessionTesting = false // default to false, change to true if u want to turn on session authentication
-const resolversToSkipSessionAuth = ["CreateUser","IntrospectionQuery", "LoginUser"] //hide this in the future?
+const resolversToSkipSessionAuth = ["CreateUser", "IntrospectionQuery", "LoginUser"] //hide this in the future?
 const app = express();
 const httpServer = http.createServer(app);
 
@@ -87,10 +87,10 @@ async function connectToRedis() {
 }
 
 function checkSession(req: any) {
-  if(resolversToSkipSessionAuth.includes(req.body.operationName) || !sessionTesting){
+  if (resolversToSkipSessionAuth.includes(req.body.operationName) || !sessionTesting) {
     return
   }
-  if(!req.session || !req.session.userID){
+  if (!req.session || !req.session.userID) {
     throw new Error("Session auth not found");
   }
 }

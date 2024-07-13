@@ -17,12 +17,12 @@ async function loadResolvers() {
             return import(filePath);
         });
 
-        // gets the module imports
-        const resolverExports = await Promise.all(resolverImports);
-        
-        // extract exports from imported modules
-        const resolversArray = resolverExports.map(module => module.default);
-        return mergeResolvers(resolversArray);
+    // gets the module imports
+    const resolverExports = await Promise.all(resolverImports);
+
+    // extract exports from imported modules
+    const resolversArray = resolverExports.map(module => module.default);
+    return mergeResolvers(resolversArray);
 }
 
 export default loadResolvers();

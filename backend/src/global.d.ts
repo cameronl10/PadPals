@@ -7,13 +7,13 @@ declare global {
         houseid: string,
         profilepicture: string
     }
-    
+
     interface Household {
         houseid: string,
         name: string,
         address: string,
     }
-    
+
     interface Wish {
         wishid: string
         userid: string
@@ -23,13 +23,13 @@ declare global {
         houseid: string
         wishgrouptitle: string
     }
-    
+
     interface WishGroup {
         title: string
         houseid: string
         color: string
     }
-    
+
     interface Bill {
         billid: string,
         houseid: string,
@@ -45,6 +45,27 @@ declare global {
         allocation: number,
         paid: boolean
     }
+
+    interface EditPassword {
+        userid: string
+        oldpassword: string
+        newpassword: string
+    }
+    interface LoginInput {
+        email: string
+        password: string
+    }
+    interface EditWishGroupTitle {
+        houseID: string
+        title: string
+        updatedTitle: string
+    }
+    interface EditWishGroupColor {
+        houseID: string
+        color: string
+        updatedColor: string
+    }
+
 }
 
-export {};
+export { };
