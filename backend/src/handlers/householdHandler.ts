@@ -110,16 +110,7 @@ async function getBills(houseid: string): Promise<Bill[]> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM bill WHERE houseid = $1', [houseid]);
-        const bills = result.rows.map(bill => ({
-            billid: bill.billid,
-            houseid: bill.houseid,
-            creatorid: bill.creatorid,
-            title: bill.title,
-            price: bill.price,
-            paid: bill.paid,
-            interval_val: bill.interval_val
-        }));
-        return bills;
+        return result.rows;
     } catch (err) {
         throw new Error("Issue with getting bills: " + err);
     } finally {
