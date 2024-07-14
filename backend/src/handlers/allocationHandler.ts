@@ -6,26 +6,30 @@ async function getAnAllocation(billid: string, userid: string): Promise<Allocati
         const result = await client.query('SELECT * FROM allocation WHERE billid = $1 AND userid = $2', [billid, userid]);
         return result.rows[0];
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with getting allocations: " + err);
     } finally {
         client.release();
     }
 }
 
+
 async function createAllocation(allocation: CreateAllocation): Promise<Allocation> {
+
     const client = await Pool.connect();
     try {
         const result = await client.query('INSERT INTO allocation(billid, userid, allocation, paid) VALUES($1, $2, $3, false) RETURNING *',
             [allocation.billid, allocation.userid, allocation.allocation]);
-        return result.rows[0];
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with creating allocation: " + err);
     } finally {
         client.release();
     }
 };
 
+
 async function editAllocation(allocation: EditAllocation): Promise<Allocation> {
+
     const client = await Pool.connect();
     try {
         let query = 'UPDATE allocation SET ';
@@ -49,20 +53,21 @@ async function editAllocation(allocation: EditAllocation): Promise<Allocation> {
         values.push(allocation.billid, allocation.userid);
 
         const result = await client.query(query, values);
-        return result.rows[0];
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with editing allocation: " + err);
     } finally {
         client.release();
     }
 };
 
-async function deleteAllocation(billid: string, userid: string): Promise<void> {
+async function deleteAllocation(billid: string, userid: string): Promise<boolean> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('DELETE FROM allocation WHERE billid = $1 AND userid = $2', [billid, userid]);
+        await client.query('DELETE FROM allocation WHERE billid = $1 AND userid = $2', [billid, userid]);
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with deleting allocation: " + err);
     } finally {
         client.release();
     }
@@ -92,13 +97,13 @@ async function getAllocationOwed(userId: string, owedUserid: string): Promise<nu
             return 0;
         }
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with getting allocation amount owed: " + err);
     } finally {
         client.release();
     }
 }
 
-async function payOffMultipleAllocations(payerid: string, payeeid: string): Promise<void> {
+async function payOffMultipleAllocations(payerid: string, payeeid: string): Promise<boolean> {
     const client = await Pool.connect();
     try {
         const payerAllocations = `
@@ -111,7 +116,8 @@ async function payOffMultipleAllocations(payerid: string, payeeid: string): Prom
             AND a.userid = $2
             AND a.paid <> true
         `;
-        const result = await client.query(payerAllocations, [payeeid, payerid]);
+        await client.query(payerAllocations, [payeeid, payerid]);
+        return true;
     } catch (err) {
         throw new Error("Error paying off multiple allocations: " + err);
     } finally {

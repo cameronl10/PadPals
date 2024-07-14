@@ -16,9 +16,9 @@ input EditHouseholdInput {
   address: String
 }
 type Mutation {
-  createHousehold(household: HouseholdInput!): Household
-  editHousehold(household: EditHouseholdInput): Household
-  deleteHousehold(houseid: String): Household
+  createHousehold(household: HouseholdInput!): Boolean
+  editHousehold(household: EditHouseholdInput): Boolean
+  deleteHousehold(houseid: String): Boolean
 }
 
 type Query {

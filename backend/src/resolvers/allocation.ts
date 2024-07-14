@@ -14,13 +14,13 @@ export const resolvers = {
         createAllocation: async (_: any, { createAllocation }: { createAllocation: CreateAllocation }): Promise<Allocation> => {
             return allocationHandler.createAllocation( createAllocation );
         },
-        editAllocation: async (_: any, { editAllocation }: { editAllocation: EditAllocation }): Promise<Allocation> => {
+        editAllocation: async (_: any, { editAllocation }: { editAllocation: EditAllocation }): Promise<boolean> => {
             return allocationHandler.editAllocation(editAllocation);
         },
-        deleteAllocation: async (_: any, { billid, userid }: { billid: string, userid: string }): Promise<void> => {
+        deleteAllocation: async (_: any, { billid, userid }: { billid: string, userid: string }): Promise<boolean> => {
             return allocationHandler.deleteAllocation(billid, userid);
         },
-        payOffMultipleAllocations: async (_: any, { payerid, payeeid }: { payerid: string, payeeid: string }): Promise<void> => {
+        payOffMultipleAllocations: async (_: any, { payerid, payeeid }: { payerid: string, payeeid: string }): Promise<boolean> => {
             return allocationHandler.payOffMultipleAllocations(payerid, payeeid);
         }
     },
