@@ -35,6 +35,7 @@ type Mutation {
   editUserPassword(editPassInput: EditPassword!): Boolean
   deleteUser(userid: String!): Boolean
   logoutUser: Boolean
+  assignHousehold(userid: String!, houseid: String!): Boolean
 }
 type Query {
   loginUser(loginInput: LoginInput!): User

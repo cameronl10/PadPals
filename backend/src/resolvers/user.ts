@@ -25,8 +25,10 @@ export const resolvers = {
         },
         logoutUser: async (_: any, __: any, context: Express.Request): Promise<boolean> => {
             return userHandler.userLogout(context);
+        },
+        assignHousehold: async (_: any, { userid, houseid }: { userid: string, houseid: string }): Promise<boolean> => {
+            return userHandler.assignHousehold(userid, houseid);
         }
-
     },
     User: {
         household: async (parent: User): Promise<Household> => {
