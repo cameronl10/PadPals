@@ -96,6 +96,10 @@ declare global {
         allocation: number
         paid: boolean
     }
+    interface PartialAllocationInput {
+        userid: string
+        allocation: number
+    }
     interface CreateAllocation {
         billid: string
         userid: string
