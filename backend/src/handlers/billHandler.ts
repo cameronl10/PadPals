@@ -64,7 +64,8 @@ async function getBill(billid: string): Promise<Bill> {
         const result = await client.query('SELECT * FROM bill WHERE billid = $1', [billid]);
         return result.rows[0];
     } catch (err) {
-        throw new Error("Issue with getting bill: " + err);
+        console.log(err);
+        throw err; // Re-throw the error after logging it
     } finally {
         client.release();
     }
