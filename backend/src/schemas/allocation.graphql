@@ -17,9 +17,9 @@ input EditAllocationInput {
   paid: Boolean
 }
 type Mutation {
-  createAllocation(allocation: AllocationInput!): Allocation
-  editAllocation(allocation: EditAllocationInput!): Allocation
-  deleteAllocation(billid: String!, userid: String!): Allocation
+  createAllocation(allocation: AllocationInput!): Boolean
+  editAllocation(allocation: EditAllocationInput!): Boolean
+  deleteAllocation(billid: String!, userid: String!): Boolean
   payOffMultipleAllocations(payerid: String!, payeeid: String!): Allocation
 }
 type Query {

@@ -1,10 +1,10 @@
 import Pool from "../../config/dbConnect";
-async function createWish(wish: Wish): Promise<Wish> {
+async function createWish(wish: Wish): Promise<boolean> {
     const client = await Pool.connect();
     try {
         const result = await client.query('INSERT INTO wish(userid, houseid, wishgrouptitle, name, price, purchased) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
             [wish.userid, wish.houseid, wish.wishgrouptitle, wish.name, wish.price, wish.purchased]);
-        return result.rows[0];
+        return true;
     } catch (err) {
         throw new Error("Issue with creating a wish: " + err);
     } finally {
@@ -12,7 +12,7 @@ async function createWish(wish: Wish): Promise<Wish> {
     }
 };
 
-async function editWish(wish: Partial<Wish>): Promise<Boolean> {
+async function editWish(wish: Partial<Wish>): Promise<boolean> {
     const client = await Pool.connect();
     try {
         let query = 'UPDATE wish SET ';
@@ -33,7 +33,7 @@ async function editWish(wish: Partial<Wish>): Promise<Boolean> {
         query += ` WHERE wishid = $${index} RETURNING *`;
         values.push(wish.wishid);
 
-        const result = await client.query(query, values);
+        await client.query(query, values);
 
         return true;
     } catch (err) {
@@ -43,10 +43,10 @@ async function editWish(wish: Partial<Wish>): Promise<Boolean> {
     }
 }
 
-async function deleteWish(wishid: String): Promise<Boolean> {
+async function deleteWish(wishid: String): Promise<boolean> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('DELETE FROM wish WHERE wishid = $1', [wishid]);
+        await client.query('DELETE FROM wish WHERE wishid = $1', [wishid]);
         return true;
     } catch (err) {
         throw new Error("Issue with deleting a wish: " + err);
@@ -68,11 +68,11 @@ async function getAWish(wishID: String): Promise<Wish> {
 };
 
 // takes in a string of wishids, marks them all as purchased aka complete
-async function markMultipleWishesAsDone(wishes: String[]): Promise<Boolean> {
+async function markMultipleWishesAsDone(wishes: String[]): Promise<boolean> {
     const client = await Pool.connect();
     try {
         await client.query('BEGIN');
-        const result = client.query('UPDATE wish SET purchased = true WHERE wishid = ANY($1)', [wishes]);
+        await client.query('UPDATE wish SET purchased = true WHERE wishid = ANY($1)', [wishes]);
         await client.query('COMMIT');
         return true;
     } catch (err) {
