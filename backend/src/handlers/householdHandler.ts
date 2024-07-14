@@ -28,10 +28,10 @@ async function createHousehold(household: Household, context: Express.Request): 
     const client = await Pool.connect();
     try {
         await client.query('BEGIN');
-        await client.query('INSERT INTO household(name, address, adminuser) VALUES($1, $2, $3) RETURNING *',
+        await client.query('INSERT INTO household(name, address, adminid) VALUES($1, $2, $3) RETURNING *',
             [household.name, household.address, context.session.userid]);
         await client.query('UPDATE account SET houseid = $1 WHERE userid = $2',
-            [household.houseid,context.session.userid]);
+            [household.houseid, context.session.userid]);
         await client.query('COMMIT');
         return true;
     } catch (err) {
@@ -74,11 +74,15 @@ async function editHousehold(household: Partial<Household>): Promise<boolean> {
     }
 }
 
-async function deleteHousehold(houseid: string): Promise<boolean> {
+async function deleteHousehold(houseid: string, context: Express.Request): Promise<boolean> {
     const client = await Pool.connect();
     try {
-        await client.query('DELETE FROM household WHERE houseid = $1', [houseid]);
-        return true;
+        const result = await client.query('DELETE FROM household WHERE houseid = $1 AND adminid = $2', [houseid, context.session.userid]);
+        if (result.rowCount > 0) {
+            return true;
+        } else {
+            throw new Error();
+        }
     } catch (err) {
         throw new Error("Issue with deleting household: " + err);
     } finally {

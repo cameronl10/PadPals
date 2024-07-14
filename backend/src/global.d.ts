@@ -2,9 +2,10 @@ import session from 'express-session'
 declare global {
     namespace Express {
         interface SessionData {
-            userID: string;
-            houseID: string;
-            username: string;
+            userID: string,
+            houseID: string,
+            username: string,
+            email: string
         }
         interface Request {
             session: session.Session & Partial<SessionData>;
