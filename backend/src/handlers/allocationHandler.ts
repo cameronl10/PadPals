@@ -13,7 +13,7 @@ async function getAnAllocation(billid: string, userid: string): Promise<Allocati
 }
 
 
-async function createAllocation(allocation: CreateAllocation): Promise<Allocation> {
+async function createAllocation(allocation: CreateAllocation): Promise<boolean> {
 
     const client = await Pool.connect();
     try {
@@ -28,7 +28,7 @@ async function createAllocation(allocation: CreateAllocation): Promise<Allocatio
 };
 
 
-async function editAllocation(allocation: EditAllocation): Promise<Allocation> {
+async function editAllocation(allocation: EditAllocation): Promise<boolean> {
 
     const client = await Pool.connect();
     try {
