@@ -11,8 +11,8 @@ export const resolvers = {
         createBill: async (_: any, { bill }: { bill: Bill }): Promise<Bill> => {
             return billHandler.createBill(bill);
         },
-        editBill: async (_: any, { bill }: { bill: Bill }): Promise<void> => {
-            return billHandler.editBill(bill);
+        editBill: async (_: any, { editBill }: { editBill: EditBill }): Promise<void> => {
+            return billHandler.editBill(editBill);
         },
         deleteBill: async (_: any, { billid }: { billid: string }): Promise<void> => {
             return billHandler.deleteBill(billid);

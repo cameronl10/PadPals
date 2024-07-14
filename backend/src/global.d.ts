@@ -45,7 +45,6 @@ declare global {
         allocation: number,
         paid: boolean
     }
-
     interface EditPassword {
         userid: string
         oldpassword: string
@@ -64,6 +63,25 @@ declare global {
         houseID: string
         color: string
         updatedColor: string
+    }
+    interface EditHousehold {
+        houseid: string
+        name: string
+        address: string
+    }
+    interface EditBill {
+        billid: string
+        creatorid: string
+        title: string
+        price: number
+        paid: boolean
+        interval_val: number
+    }
+    interface EditAllocation {
+        billid: string
+        userid: string
+        allocation: number
+        paid: boolean
     }
 
 }
