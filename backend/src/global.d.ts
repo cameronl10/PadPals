@@ -23,6 +23,7 @@ declare global {
         houseid: string,
         name: string,
         address: string,
+        adminid: string
     }
 
     interface Wish {

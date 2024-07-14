@@ -2,6 +2,7 @@ type Household {
   houseid: String
   name: String
   address: String
+  admin: User
   users: [User]
   wishgroups: [WishGroup]
   bills: [Bill]

@@ -10,10 +10,10 @@ export const resolvers = {
         }
     },
     Mutation: {
-        createHousehold: async (_: any, { household }: { household: Household }): Promise<Household> => {
-            return await householdHandler.createHousehold(household);
+        createHousehold: async (_: any, { household }: { household: Household }, context: Express.Request): Promise<boolean> => {
+            return await householdHandler.createHousehold(household, context);
         },
-        editHousehold: async (_: any, { editHousehold }: { editHousehold : EditHousehold }): Promise<void> => { // should this be a houseid instead of a whole household?
+        editHousehold: async (_: any, { editHousehold }: { editHousehold: EditHousehold }): Promise<void> => { // should this be a houseid instead of a whole household?
             return await householdHandler.editHousehold(editHousehold);
         },
         deleteHousehold: async (_: any, { houseid }: { houseid: string }): Promise<void> => {
