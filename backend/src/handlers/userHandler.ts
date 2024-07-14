@@ -2,7 +2,6 @@ import Pool from '../../config/dbConnect';
 import * as bcrypt from 'bcrypt';
 
 
-
 async function deleteUser(userid: string): Promise<void> {
     const client = await Pool.connect();
     try {
@@ -114,25 +113,32 @@ async function userLogin(email: string, pass: string, context): Promise<string> 
     const client = await Pool.connect();
     const user = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
     if (user == null) {
-        console.log("User not found");
-        return null;
+        throw new Error("User not found");
     }
     try {
         if (await bcrypt.compare(pass, user.rows[0].password)) {
-            context.session.userID = user.rows[0].userid;
+            context.session.userid = user.rows[0].userid;
             context.session.username = user.rows[0].name;
-            console.log("Logged in")
+            context.session.houseid = user.rows[0].houseid;
             return user.rows[0];
         } else {
-            console.log("Incorrect password")
-            return null;
+            throw new Error("Wrong password");
         }
 
     } catch (err) {
-        console.log(err);
+        throw new Error("Error logging in: " + err);
     } finally {
         client.release();
     }
 }
 
-export { createUser, userLogin, editUser, getUser, getUsers, editUserPassword, deleteUser };  
+async function userLogout(context: any): Promise<boolean> {
+    try {
+        context.req.session.destroy();
+        return true;
+    } catch (err) {
+        throw new Error("Error logging out");
+    }
+}
+
+export { createUser, userLogin, editUser, getUser, getUsers, editUserPassword, deleteUser, userLogout };  

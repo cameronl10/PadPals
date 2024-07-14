@@ -7,11 +7,11 @@ const resolvers = {
         }
     },
     Mutation: {
-        editGroupTitle: async (_: any, { houseid, title, updatedTitle }: {houseid: string, title: string, updatedTitle: string}): Promise<WishGroup> => {
-            return await wishGroupHandler.editWishGroupTitle(houseid, title, updatedTitle);
+        editGroupTitle: async (_: any, { editTitle }: { editTitle: EditWishGroupTitle }): Promise<WishGroup> => {
+            return await wishGroupHandler.editWishGroupTitle(editTitle.houseID, editTitle.title, editTitle.updatedTitle);
         },
-        editGroupColor: async (_: any, { houseid, title, updatedColor }: {houseid: string, title: string, updatedColor: string}): Promise<WishGroup> => {
-            return await wishGroupHandler.editWishGroupColor(houseid, title, updatedColor);
+        editGroupColor: async (_: any, { editColor }: { editColor: EditWishGroupColor }): Promise<WishGroup> => {
+            return await wishGroupHandler.editWishGroupColor(editColor.houseID, editColor.color, editColor.updatedColor);
         },
         createWishGroup: async (_: any, { wishgroup }: { wishgroup: WishGroup }): Promise<void> => {
             return await wishGroupHandler.createWishGroup(wishgroup);

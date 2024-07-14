@@ -78,7 +78,7 @@ async function deleteBill(billid: string): Promise<void> {
 }
 
 //Gets single bill by billid
-async function getBill(billid: string): Promise<Bill> { 
+async function getBill(billid: string): Promise<Bill> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM bill WHERE billid = $1', [billid]);
@@ -100,4 +100,4 @@ async function getBill(billid: string): Promise<Bill> {
     }
 }
 
-export {getBills, createBill, editBill, deleteBill, getBill};
+export { getBills, createBill, editBill, deleteBill, getBill };

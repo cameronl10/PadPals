@@ -9,19 +9,21 @@ type WishGroup {
   color: String
   wishes: [Wish]
 }
+input EditWishGroupTitle{
+    houseID: String!
+    title: String!
+    updatedTitle: String!
+}
+input EditWishGroupColor{
+    houseID: String!
+    color: String!
+    updatedColor: String!
+}
 type Mutation {
   createWishGroup(wishgroup: WishGroupInput!): WishGroup
   deleteWishGroup(title: String!, houseid: String!): WishGroup
-
-  editGroupTitle(
-    houseID: String!
-    title: String!
-    updatedTitle: String!): WishGroup
-
-  editGroupColor(
-    houseID: String!
-    title: String!
-    updatedColor: String!): WishGroup
+  editGroupTitle(editTitleInput: EditWishGroup): WishGroup
+  editGroupColor(editColorInput: EditWishGroupColor): WishGroup
 }
 type Query {
   wishGroup(houseid: String!, title: String!): WishGroup
