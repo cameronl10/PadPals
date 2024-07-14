@@ -12,8 +12,8 @@ export const resolvers = {
         createAllocation: async (_: any, { allocation }: { allocation: Allocation }): Promise<Allocation> => {
             return allocationHandler.createAllocation(allocation);
         },
-        editAllocation: async (_: any, { allocation }: { allocation: Allocation }): Promise<Allocation> => {
-            return allocationHandler.editAllocation(allocation);
+        editAllocation: async (_: any, { editAllocation }: { editAllocation: EditAllocation }): Promise<Allocation> => {
+            return allocationHandler.editAllocation(editAllocation);
         },
         deleteAllocation: async (_: any, { billid, userid }: { billid: string, userid: string }): Promise<void> => {
             return allocationHandler.deleteAllocation(billid, userid);

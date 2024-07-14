@@ -1,4 +1,15 @@
+import session from 'express-session'
 declare global {
+    namespace Express {
+        interface SessionData {
+            userID: string;
+            houseID: string;
+            username: string;
+        }
+        interface Request {
+            session: session.Session & Partial<SessionData>;
+        }
+    }
     interface User {
         userid: string,
         email: string,
@@ -45,7 +56,6 @@ declare global {
         allocation: number,
         paid: boolean
     }
-
     interface EditPassword {
         userid: string
         oldpassword: string
@@ -64,6 +74,25 @@ declare global {
         houseID: string
         color: string
         updatedColor: string
+    }
+    interface EditHousehold {
+        houseid: string
+        name: string
+        address: string
+    }
+    interface EditBill {
+        billid: string
+        creatorid: string
+        title: string
+        price: number
+        paid: boolean
+        interval_val: number
+    }
+    interface EditAllocation {
+        billid: string
+        userid: string
+        allocation: number
+        paid: boolean
     }
 
 }
