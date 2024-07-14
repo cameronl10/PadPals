@@ -9,7 +9,7 @@ type Wish {
 input WishInput {
   userid: String!
   houseid: String!
-  group: String
+  wishgrouptitle: String
   name: String!
   price: Int
   purchased: Boolean!
