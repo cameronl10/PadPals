@@ -83,6 +83,11 @@ declare global {
         allocation: number
         paid: boolean
     }
+    interface CreateAllocation {
+        billid: string
+        userid: string
+        allocation: number
+    }
 
 }
 
