@@ -22,7 +22,7 @@ input EditWishGroupColor{
 type Mutation {
   createWishGroup(wishgroup: WishGroupInput!): WishGroup
   deleteWishGroup(title: String!, houseid: String!): WishGroup
-  editGroupTitle(editTitleInput: EditWishGroup): WishGroup
+  editGroupTitle(editTitleInput: EditWishGroupTitle): WishGroup
   editGroupColor(editColorInput: EditWishGroupColor): WishGroup
 }
 type Query {

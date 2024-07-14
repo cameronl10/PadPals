@@ -10,13 +10,16 @@ const resolvers = {
     },
     Mutation: {
         createWish: async (_: any, { wish }: { wish: Wish }): Promise<Wish> => {
-            return await wishHandler.CreateWish(wish);
+            return await wishHandler.createWish(wish);
         },
         editWish: async (_: any, { wish }: { wish: Wish }): Promise<void> => {
-            return await wishHandler.EditWish(wish);
+            return await wishHandler.editWish(wish);
         },
         deleteWish: async (_: any, { wishID }: { wishID: String }): Promise<void> => {
-            return await wishHandler.DeleteWish(wishID);
+            return await wishHandler.deleteWish(wishID);
+        },
+        markMultipleWishesAsDone: async(_: any, { wishes }: { wishes: String[] }): Promise<void> => {
+            return wishHandler.markMultipleWishesAsDone(wishes);
         }
     },
     Wish: {
