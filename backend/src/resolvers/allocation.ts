@@ -1,5 +1,5 @@
 import * as allocationHandler from '../handlers/allocationHandler';
-import { getBill }  from '../handlers/billHandler';
+import { createBillWithAllocations, getBill }  from '../handlers/billHandler';
 export const resolvers = {
     Query: {
         allocation: async (_: any, { billid, userid }: { billid: string, userid: string }): Promise<Allocation> => {
