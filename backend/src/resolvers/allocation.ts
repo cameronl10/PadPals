@@ -1,3 +1,4 @@
+import { create } from 'domain';
 import * as allocationHandler from '../handlers/allocationHandler';
 import { getBill }  from '../handlers/billHandler';
 export const resolvers = {
@@ -10,8 +11,8 @@ export const resolvers = {
         }
     },
     Mutation: {
-        createAllocation: async (_: any, { allocation }: { allocation: Allocation }): Promise<boolean> => {
-            return allocationHandler.createAllocation(allocation);
+        createAllocation: async (_: any, { createAllocation }: { createAllocation: CreateAllocation }): Promise<boolean> => {
+            return allocationHandler.createAllocation( createAllocation );
         },
         editAllocation: async (_: any, { editAllocation }: { editAllocation: EditAllocation }): Promise<boolean> => {
             return allocationHandler.editAllocation(editAllocation);
