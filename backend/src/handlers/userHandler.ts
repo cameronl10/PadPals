@@ -109,7 +109,7 @@ async function createUser(user: User): Promise<void> {
     }
 }
 
-async function userLogin(email: string, pass: string, context): Promise<string> {
+async function userLogin(email: string, pass: string, context: Express.Request): Promise<string> {
     const client = await Pool.connect();
     const user = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
     if (user == null) {
@@ -132,9 +132,9 @@ async function userLogin(email: string, pass: string, context): Promise<string> 
     }
 }
 
-async function userLogout(context: any): Promise<boolean> {
+async function userLogout(context: Express.Request): Promise<boolean> {
     try {
-        context.req.session.destroy();
+        context.session.destroy();
         return true;
     } catch (err) {
         throw new Error("Error logging out");
