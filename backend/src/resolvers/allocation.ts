@@ -11,7 +11,7 @@ export const resolvers = {
         }
     },
     Mutation: {
-        createAllocation: async (_: any, { createAllocation }: { createAllocation: CreateAllocation }): Promise<Allocation> => {
+        createAllocation: async (_: any, { createAllocation }: { createAllocation: CreateAllocation }): Promise<boolean> => {
             return allocationHandler.createAllocation( createAllocation );
         },
         editAllocation: async (_: any, { editAllocation }: { editAllocation: EditAllocation }): Promise<boolean> => {
