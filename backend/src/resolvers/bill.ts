@@ -1,10 +1,9 @@
 import * as billHandler from '../handlers/billHandler';
-import { getAllocations } from '../handlers/allocationHandler';
 
 export const resolvers = {
     Query: {
-        bills: async (_: any, { houseid }: { houseid: string }) => {
-            return billHandler.getBills(houseid);
+        bill: async (_: any, { billid }: { billid: string }) => {
+            return billHandler.getBill(billid);
         }
     },
     Mutation: {
@@ -20,7 +19,7 @@ export const resolvers = {
     },
     Bill: {
         allocations: async (parent: Bill): Promise<Allocation[]> => {
-            return getAllocations(parent.billid);
+            return billHandler.getAllocations(parent.billid);
         }
     }
 };
