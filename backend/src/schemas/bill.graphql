@@ -27,8 +27,8 @@ input EditBillInput {
 
 type Mutation {
   createBill(bill: BillInput!): Bill
-  editBill(bill: EditBillInput!): Bill
-  deleteBill(billid: String!): Bill
+  editBill(bill: EditBillInput!): Boolean
+  deleteBill(billid: String!): Boolean
 }
 
 type Query {

@@ -4,25 +4,24 @@ import { getHouseholdByUser } from '../handlers/householdHandler';
 export const resolvers = {
     Query: {
         loginUser: async (_: any, { loginInput }: { loginInput: LoginInput }, context: Express.Request) => {
-
-            return await userHandler.userLogin(loginInput.email, loginInput.password, context);
+            return userHandler.userLogin(loginInput.email, loginInput.password, context);
         },
         user: async (_: any, { email }: { email: string }): Promise<User> => {
-            return await userHandler.getUser(email);
+            return userHandler.getUser(email);
         }
     },
     Mutation: {
-        createUser: async (_: any, { user }: { user: User }) => {
-            return await userHandler.createUser(user);
+        createUser: async (_: any, { user }: { user: User }): Promise<boolean> => {
+            return userHandler.createUser(user);
         },
-        editUserFields: async (_: any, { user }: { user: User }): Promise<void> => {
-            return await userHandler.editUser(user);
+        editUserFields: async (_: any, { user }: { user: User }): Promise<boolean> => {
+            return userHandler.editUser(user);
         },
-        editUserPassword: async (_: any, { editPassword }: { editPassword: EditPassword }) => {
+        editUserPassword: async (_: any, { editPassword }: { editPassword: EditPassword }): Promise<boolean> => {
             return userHandler.editUserPassword(editPassword.userid, editPassword.oldpassword, editPassword.newpassword);
         },
-        deleteUser: async (_: any, { userid }: { userid: string }): Promise<void> => {
-            return await userHandler.deleteUser(userid);
+        deleteUser: async (_: any, { userid }: { userid: string }): Promise<boolean> => {
+            return userHandler.deleteUser(userid);
         },
         logoutUser: async (_: any, __: any, context: Express.Request): Promise<boolean> => {
             return userHandler.userLogout(context);
@@ -31,7 +30,7 @@ export const resolvers = {
     },
     User: {
         household: async (parent: User): Promise<Household> => {
-            return await getHouseholdByUser(parent.userid);
+            return getHouseholdByUser(parent.userid);
         }
     }
 

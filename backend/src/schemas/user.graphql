@@ -30,10 +30,10 @@ input LoginInput {
   password: String!
 }
 type Mutation {
-  editUserFields(user: EditUserFieldInput!): User
-  createUser(user: UserInput!): User
-  editUserPassword(editPassInput: EditPassword!): User
-  deleteUser(userid: String!): User
+  editUserFields(user: EditUserFieldInput!): Boolean
+  createUser(user: UserInput!): Boolean
+  editUserPassword(editPassInput: EditPassword!): Boolean
+  deleteUser(userid: String!): Boolean
   logoutUser: Boolean
 }
 type Query {

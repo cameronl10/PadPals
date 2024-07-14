@@ -2,24 +2,25 @@ import Pool from '../../config/dbConnect';
 import * as bcrypt from 'bcrypt';
 
 
-async function deleteUser(userid: string): Promise<void> {
+async function deleteUser(userid: string): Promise<boolean> {
     const client = await Pool.connect();
     try {
-        const result = await client.query(`DELETE FROM account WHERE userid = $1`, [userid]);
+        await client.query(`DELETE FROM account WHERE userid = $1`, [userid]);
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with deleting user: " + err);
     } finally {
         client.release();
     }
 }
 
-async function editUserPassword(userid: string, oldpassword: string, newpassword: string): Promise<void> {
+async function editUserPassword(userid: string, oldpassword: string, newpassword: string): Promise<boolean> {
     const client = await Pool.connect();
     //Check if user exists
     const user = await client.query(`SELECT * FROM account WHERE userid = $1`, [userid]);
     if (user.rows[0] == null) {
         console.log("User not found");
-        return null;
+        return false;
     }
     try {
         //check if oldpassword is valid before changing password
@@ -29,13 +30,13 @@ async function editUserPassword(userid: string, oldpassword: string, newpassword
             const result = await client.query(
                 `UPDATE account SET password = $1 WHERE userid = $2 RETURNING *`, [hashedPassword, userid]);
             console.log("Successfully changed password")
-            return result.rows[0];
+            return true;
         } else {
             console.log("Incorrect password, can't edit password")
-            return null;
+            return false;
         }
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with editing user password: " + err);
     } finally {
         client.release();
     }
@@ -47,25 +48,13 @@ async function getUser(email): Promise<User> {
         const result = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
         return result.rows[0];
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with getting a user by email: " + err);
     } finally {
         client.release();
     }
 }
 
-async function getUsers(household): Promise<User[]> {
-    const client = await Pool.connect();
-    try {
-        const result = await client.query(`SELECT * FROM account WHERE houseid = $1`, [household]);
-        return result.rows;
-    } catch (err) {
-        console.log(err);
-    } finally {
-        client.release();
-    }
-}
-
-async function editUser(user: Partial<User>): Promise<void> {
+async function editUser(user: Partial<User>): Promise<boolean> {
     const client = await Pool.connect();
     try {
         let query = 'UPDATE account SET ';
@@ -85,25 +74,26 @@ async function editUser(user: Partial<User>): Promise<void> {
         query += ` WHERE userid = $${index} RETURNING *`;
         values.push(user.userid);
 
-        const result = await client.query(query, values);
+        await client.query(query, values);
 
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with editing user: " + err);
     } finally {
         client.release();
     }
 }
 
-async function createUser(user: User): Promise<void> {
+async function createUser(user: User): Promise<boolean> {
     const client = await Pool.connect();
     try {
         const hashedPassword = await bcrypt.hash(user.password, 10);
-        const result = await client.query(
+        await client.query(
             `INSERT INTO account(email, name, password, houseid, profilepicture) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
             [user.email, user.name, hashedPassword, user.houseid, user.profilepicture]);
-        return result.rows[0];
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with creating user: " + err);
     } finally {
         client.release();
     }
@@ -137,8 +127,8 @@ async function userLogout(context: Express.Request): Promise<boolean> {
         context.session.destroy();
         return true;
     } catch (err) {
-        throw new Error("Error logging out");
+        throw new Error("Error logging out: " + err);
     }
 }
 
-export { createUser, userLogin, editUser, getUser, getUsers, editUserPassword, deleteUser, userLogout };  
+export { createUser, userLogin, editUser, getUser, editUserPassword, deleteUser, userLogout };  
