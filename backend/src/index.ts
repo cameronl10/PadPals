@@ -14,7 +14,7 @@ import RedisStore from 'connect-redis';
 
 //  resolvers need to be loaded asynchronously
 const resolvers = await loadResolvers;
-const sessionTesting = true // default to false, change to true if u want to turn on session authentication
+const sessionTesting = false // default to false, change to true if u want to turn on session authentication
 const resolversToSkipSessionAuth = ["CreateUser", "IntrospectionQuery", "LoginUser"] //hide this in the future?
 const app = express();
 const httpServer = http.createServer(app);
