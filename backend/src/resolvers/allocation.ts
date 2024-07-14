@@ -1,8 +1,9 @@
 import * as allocationHandler from '../handlers/allocationHandler';
+import { getBill }  from '../handlers/billHandler';
 export const resolvers = {
     Query: {
-        allocations: async (_: any, { billid }: { billid: string }): Promise<Allocation[]> => {
-            return allocationHandler.getAllocations(billid);
+        allocation: async (_: any, { billid, userid }: { billid: string, userid: string }): Promise<Allocation> => {
+            return allocationHandler.getAnAllocation(billid, userid);
         },
         amountOwed: async (_: any, { userid, owedUserid }: { userid: string, owedUserid: string }): Promise<number> => {
             return allocationHandler.getAllocationOwed(userid, owedUserid);
@@ -20,6 +21,11 @@ export const resolvers = {
         },
         payOffMultipleAllocations: async (_: any, { payerid, payeeid }: { payerid: string, payeeid: string }): Promise<boolean> => {
             return allocationHandler.payOffMultipleAllocations(payerid, payeeid);
+        }
+    },
+    Allocation: {
+        bill: async (parent: Allocation): Promise<Bill> => {
+            return getBill(parent.billid);
         }
     }
 };

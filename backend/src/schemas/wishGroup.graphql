@@ -9,15 +9,15 @@ type WishGroup {
   color: String
   wishes: [Wish]
 }
-input EditWishGroupTitle{
-    houseID: String!
-    title: String!
-    updatedTitle: String!
+input EditWishGroupTitle {
+  houseID: String!
+  title: String!
+  updatedTitle: String!
 }
-input EditWishGroupColor{
-    houseID: String!
-    color: String!
-    updatedColor: String!
+input EditWishGroupColor {
+  houseID: String!
+  color: String!
+  updatedColor: String!
 }
 type Mutation {
   createWishGroup(wishgroup: WishGroupInput!): Boolean

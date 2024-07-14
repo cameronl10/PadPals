@@ -1,16 +1,10 @@
 import Pool from '../../config/dbConnect';
 
-async function getAllocations(billid: string): Promise<Allocation[]> {
+async function getAnAllocation(billid: string, userid: string): Promise<Allocation> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('SELECT * FROM allocation WHERE billid = $1', [billid]);
-        const allocations = result.rows.map(allocation => ({
-            billid: allocation.billid,
-            userid: allocation.userid,
-            allocation: allocation.allocation,
-            paid: allocation.paid
-        }));
-        return allocations;
+        const result = await client.query('SELECT * FROM allocation WHERE billid = $1 AND userid = $2', [billid, userid]);
+        return result.rows[0];
     } catch (err) {
         throw new Error("Issue with getting allocations: " + err);
     } finally {
@@ -127,4 +121,4 @@ async function payOffMultipleAllocations(payerid: string, payeeid: string): Prom
     }
 }
 
-export { getAllocations, createAllocation, editAllocation, deleteAllocation, getAllocationOwed, payOffMultipleAllocations };
+export { getAnAllocation, createAllocation, editAllocation, deleteAllocation, getAllocationOwed, payOffMultipleAllocations };
