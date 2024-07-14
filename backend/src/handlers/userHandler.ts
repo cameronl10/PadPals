@@ -54,6 +54,18 @@ async function getUser(email): Promise<User> {
     }
 }
 
+async function getUserByID(userid: string): Promise<User> {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query(`SELECT * FROM account WHERE userid = $1`, [userid]);
+        return result.rows[0];
+    } catch (err) {
+        throw new Error("Issue with getting a user by userid: " + err);
+    } finally {
+        client.release();
+    }
+}
+
 async function editUser(user: Partial<User>): Promise<boolean> {
     const client = await Pool.connect();
     try {
@@ -110,6 +122,7 @@ async function userLogin(email: string, pass: string, context: Express.Request):
             context.session.userid = user.rows[0].userid;
             context.session.username = user.rows[0].name;
             context.session.houseid = user.rows[0].houseid;
+            context.session.email = user.rows[0].email;
             return user.rows[0];
         } else {
             throw new Error("Wrong password");
@@ -140,5 +153,4 @@ async function assignHousehold(userid: string, houseid: string): Promise<boolean
         throw new Error("Issue with assigning household: " + err)
     }
 }
-
-export { createUser, userLogin, editUser, getUser, editUserPassword, deleteUser, userLogout, assignHousehold };  
+export { createUser, userLogin, editUser, getUser,getUserByID, editUserPassword, deleteUser, userLogout, assignHousehold };  
