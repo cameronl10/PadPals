@@ -43,7 +43,7 @@ const server = new ApolloServer({
 await server.start();
 
 app.use('/graphql', expressMiddleware(server, {
-  context: async ({ req }: { req: any})=> {
+  context: async ({ req }: { req: express.Request }) => {
     checkSession(req);
     return {
       session: req.session,
@@ -86,11 +86,11 @@ async function connectToRedis() {
   }
 }
 
-function checkSession(req: any) {
+function checkSession(req: express.Request) {
   if (resolversToSkipSessionAuth.includes(req.body.operationName) || !sessionTesting) {
     return
   }
-  if (!req.session || !req.session.userID) {
+  if (!req.session || !req.session.userid) {
     throw new Error("Session auth not found");
   }
 }
