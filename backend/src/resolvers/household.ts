@@ -21,7 +21,6 @@ export const resolvers = {
     },
     Household: {
         users: async (parent: Household): Promise<User[]> => {
-            console.log(parent);
             return await GetUsers(parent.houseid);
         }
     }

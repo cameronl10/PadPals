@@ -21,6 +21,7 @@ export const resolvers = {
     },
     Bill: {
         allocations: async (parent: Bill): Promise<Allocation[]> => {
+            console.log(parent);
             return await GetAllocations(parent.billid);
         }
     }

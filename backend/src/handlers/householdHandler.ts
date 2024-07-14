@@ -5,6 +5,7 @@ async function GetHousehold(houseid: string): Promise<Household> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM household WHERE houseid = $1', [houseid]);
+        console.log(result.rows[0]);
         return result.rows[0];
     } catch (err) {
         console.log(err);

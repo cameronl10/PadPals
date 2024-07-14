@@ -2,8 +2,6 @@ import { create } from 'domain';
 import Pool from '../../config/dbConnect';
 import * as bcrypt from 'bcrypt';
 
-
-
 async function DeleteUser(userid: String): Promise<void> {
     const client = await Pool.connect();
     try {
@@ -43,7 +41,7 @@ async function editUserPassword(userid: String, oldpassword: String, newpassword
     }
 }
 
-async function GetUser(email): Promise<User> {
+async function GetUser(email : Partial<String>): Promise<User> {
     const client = await Pool.connect();
     try {
         const result = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
@@ -55,7 +53,7 @@ async function GetUser(email): Promise<User> {
     }
 }
 
-async function GetUsers(household): Promise<User[]> {
+async function GetUsers(household : Partial<String>): Promise<User[]> {
     const client = await Pool.connect();
     try {
         const result = await client.query(`SELECT * FROM account WHERE houseid = $1`, [household]);
