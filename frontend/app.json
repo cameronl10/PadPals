@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "padpals",
-    "slug": "padpals",
+    "name": "frontend",
+    "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -31,6 +31,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "53aa5e21-3aa3-42d4-8b45-1c7d25a38590"
+      }
     }
   }
 }
