@@ -4,16 +4,7 @@ async function getBills(houseid: string): Promise<Bill[]> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM bill WHERE houseid = $1', [houseid]);
-        const bills = result.rows.map(bill => ({
-            billid: bill.billid,
-            houseid: bill.houseid,
-            creatorid: bill.creatorid,
-            title: bill.title,
-            price: bill.price,
-            paid: bill.paid,
-            interval_val: bill.interval_val
-        }));
-        return bills;
+        return result.rows;
     } catch (err) {
         console.log(err);
         throw err; // Re-throw the error after logging it
@@ -96,13 +87,8 @@ async function getAllocations(billid: string): Promise<Allocation[]> {
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM allocation WHERE billid = $1', [billid]);
-        const allocations = result.rows.map(allocation => ({
-            billid: allocation.billid,
-            userid: allocation.userid,
-            allocation: allocation.allocation,
-            paid: allocation.paid
-        }));
-        return allocations;
+
+        return result.rows;
     } catch (err) {
         console.log(err);
         throw err; // Re-throw the error after logging it
