@@ -23,6 +23,6 @@ type Mutation {
   payOffMultipleAllocations(payerid: String!, payeeid: String!): Allocation
 }
 type Query {
-  allocations(billid: String!): [Allocation]
+  allocation(billid: String!, userid: String!): Allocation
   amountOwed(userid: String!, owedUserid: String!): Float
 }
