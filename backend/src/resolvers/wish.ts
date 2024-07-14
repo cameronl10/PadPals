@@ -10,26 +10,23 @@ const resolvers = {
     },
     Mutation: {
         createWish: async (_: any, { wish }: { wish: Wish }): Promise<Wish> => {
-            return await wishHandler.createWish(wish);
+            return wishHandler.createWish(wish);
         },
-        editWish: async (_: any, { wish }: { wish: Wish }): Promise<void> => {
-            return await wishHandler.editWish(wish);
+        editWish: async (_: any, { wish }: { wish: Wish }): Promise<Boolean> => {
+            return wishHandler.editWish(wish);
         },
-        deleteWish: async (_: any, { wishID }: { wishID: String }): Promise<void> => {
-            return await wishHandler.deleteWish(wishID);
+        deleteWish: async (_: any, { wishID }: { wishID: String }): Promise<Boolean> => {
+            return wishHandler.deleteWish(wishID);
         },
-        markMultipleWishesAsDone: async(_: any, { wishes }: { wishes: String[] }): Promise<void> => {
+        markMultipleWishesAsDone: async(_: any, { wishes }: { wishes: String[] }): Promise<Boolean> => {
             return wishHandler.markMultipleWishesAsDone(wishes);
         }
     },
     Wish: {
         wishGroup: async (parent: Wish): Promise<WishGroup> => {
-            return await getWishGroup(parent.houseid, parent.wishgrouptitle);
+            return getWishGroup(parent.houseid, parent.wishgrouptitle);
         }
     }
 };
-
-
-
 
 export default resolvers;
