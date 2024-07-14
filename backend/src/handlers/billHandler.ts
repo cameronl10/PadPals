@@ -92,10 +92,17 @@ async function createBillWithAllocations(bill: Bill, allocations: PartialAllocat
         await client.query('BEGIN');
         const result = await client.query('INSERT INTO bill(houseid, creatorid, title, price, paid, interval_val) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
             [bill.houseid, bill.creatorid, bill.title, bill.price, bill.paid, bill.interval_val]);
-        allocations.forEach(async (allocation) => {
-            await client.query('INSERT INTO allocation(billid, userid, allocation, paid) VALUES($1, $2, $3, false)',
-                [result.rows[0].billid, allocation.userid, allocation.allocation]);
-        });
+            const billid = result.rows[0].billid;
+
+            const allocationPromises = allocations.map((allocation) => 
+              client.query(
+                'INSERT INTO allocation (billid, userid, allocation, paid) VALUES ($1, $2, $3, false)',
+                [billid, allocation.userid, allocation.allocation]
+              )
+            );
+        
+        await Promise.all(allocationPromises);
+        
         await client.query('COMMIT');
         return true;
     } catch (err) {
