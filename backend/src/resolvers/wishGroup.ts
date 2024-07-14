@@ -2,7 +2,7 @@ import * as wishGroupHandler from '../handlers/wishGroupHandler';
 
 const resolvers = {
     Query: {
-        wishGroup: async (_: any, { houseid, title, }: { houseid: string, title: string }): Promise<WishGroup> => {
+        wishGroup: async (_: any, { houseid, title }: { houseid: string, title: string }): Promise<WishGroup> => {
             return wishGroupHandler.getWishGroup(houseid, title);
         }
     },

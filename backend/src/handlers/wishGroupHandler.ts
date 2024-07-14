@@ -43,11 +43,7 @@ async function getWishGroup(houseID: string, title: string): Promise<WishGroup> 
     const client = await Pool.connect();
     try {
         const result = await client.query('SELECT * FROM wishgroup WHERE houseid = $1 AND title = $2', [houseID, title]);
-        return {
-            houseid: houseID,
-            title: title,
-            color: result.rows[0].color
-        }
+        return result.rows[0];
     } catch (err) {
         throw new Error("Issue with getting wishgroup: " + err);
     } finally {

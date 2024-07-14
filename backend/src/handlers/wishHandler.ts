@@ -2,7 +2,7 @@ import Pool from "../../config/dbConnect";
 async function createWish(wish: Wish): Promise<boolean> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('INSERT INTO wish(userid, houseid, wishgrouptitle, name, price, purchased) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+        await client.query('INSERT INTO wish(userid, houseid, wishgrouptitle, name, price, purchased) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
             [wish.userid, wish.houseid, wish.wishgrouptitle, wish.name, wish.price, wish.purchased]);
         return true;
     } catch (err) {
