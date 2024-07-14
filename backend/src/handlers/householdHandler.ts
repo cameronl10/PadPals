@@ -6,7 +6,7 @@ async function getHousehold(houseid: string): Promise<Household> {
         const result = await client.query('SELECT * FROM household WHERE houseid = $1', [houseid]);
         return result.rows[0];
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with getting household: " + err);
     } finally {
         client.release();
     }
@@ -18,13 +18,13 @@ async function getHouseholdByUser(userid: string): Promise<Household> {
         const result = await client.query('SELECT * FROM household WHERE houseid = (SELECT houseid FROM account WHERE userid = $1)', [userid]);
         return result.rows[0];
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with getting household by userid: " + err);
     } finally {
         client.release();
     }
 }
 
-async function createHousehold(household: Household, context: Express.Request): Promise<Household> {
+async function createHousehold(household: Household, context: Express.Request): Promise<boolean> {
     const client = await Pool.connect();
     try {
         await client.query('BEGIN');
@@ -33,6 +33,7 @@ async function createHousehold(household: Household, context: Express.Request): 
         await client.query('UPDATE account SET houseid = $1 WHERE userid = $2',
             [household.houseid,context.session.userid]);
         await client.query('COMMIT');
+        return true;
     } catch (err) {
         await client.query('ROLLBACK');
         console.log(err);
@@ -41,7 +42,7 @@ async function createHousehold(household: Household, context: Express.Request): 
     }
 }
 
-async function editHousehold(household: Partial<Household>): Promise<void> {
+async function editHousehold(household: Partial<Household>): Promise<boolean> {
     const client = await Pool.connect();
     try {
         let query = 'UPDATE household SET ';
@@ -63,23 +64,63 @@ async function editHousehold(household: Partial<Household>): Promise<void> {
         query += ` WHERE houseid = $${index} RETURNING *`;
         values.push(household.houseid);
 
-        const result = await client.query(query, values);
+        await client.query(query, values);
+
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with editing household: " + err);
     } finally {
         client.release();
     }
 }
 
-async function deleteHousehold(houseid: string): Promise<void> {
+async function deleteHousehold(houseid: string): Promise<boolean> {
     const client = await Pool.connect();
     try {
-        const result = await client.query('DELETE FROM household WHERE houseid = $1', [houseid]);
+        await client.query('DELETE FROM household WHERE houseid = $1', [houseid]);
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with deleting household: " + err);
     } finally {
         client.release();
     }
 }
 
-export { getHousehold, getHouseholdByUser, createHousehold, editHousehold, deleteHousehold };
+async function getWishGroups(houseid: string): Promise<WishGroup[]> {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query(`SELECT * FROM wishgroup WHERE houseid = $1`, [houseid]);
+        return result.rows;
+    } catch (err) {
+        throw new Error("Issue with getting wishgroups from a household: " + err);
+    } finally {
+        client.release();
+    }
+}
+
+async function getUsers(household): Promise<User[]> {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query(`SELECT * FROM account WHERE houseid = $1`, [household]);
+        return result.rows;
+    } catch (err) {
+        throw new Error("Issue with getting users in a household: " + err);
+    } finally {
+        client.release();
+    }
+}
+
+// Get all bills by houseid
+async function getBills(houseid: string): Promise<Bill[]> {
+    const client = await Pool.connect();
+    try {
+        const result = await client.query('SELECT * FROM bill WHERE houseid = $1', [houseid]);
+        return result.rows;
+    } catch (err) {
+        throw new Error("Issue with getting bills: " + err);
+    } finally {
+        client.release();
+    }
+};
+
+export { getHousehold, getHouseholdByUser, createHousehold, editHousehold, deleteHousehold, getWishGroups, getUsers, getBills };

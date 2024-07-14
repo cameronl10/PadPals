@@ -20,10 +20,10 @@ input EditWishGroupColor {
   updatedColor: String!
 }
 type Mutation {
-  createWishGroup(wishgroup: WishGroupInput!): WishGroup
-  deleteWishGroup(title: String!, houseid: String!): WishGroup
-  editGroupTitle(editTitleInput: EditWishGroupTitle): WishGroup
-  editGroupColor(editColorInput: EditWishGroupColor): WishGroup
+  createWishGroup(wishgroup: WishGroupInput!): Boolean
+  deleteWishGroup(title: String!, houseid: String!): Boolean
+  editGroupTitle(editTitleInput: EditWishGroupTitle): Boolean
+  editGroupColor(editColorInput: EditWishGroupColor): Boolean
 }
 type Query {
   wishGroup(houseid: String!, title: String!): WishGroup

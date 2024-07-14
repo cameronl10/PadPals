@@ -1,34 +1,31 @@
 import * as householdHandler from '../handlers/householdHandler';
-import { getUsers } from '../handlers/userHandler';
-import { getWishGroups } from '../handlers/wishGroupHandler';
-import { getBills } from '../handlers/billHandler';
 
 export const resolvers = {
     Query: {
         household: async (_: any, { houseid }: { houseid: string }) => {
-            return await householdHandler.getHousehold(houseid);
+            return householdHandler.getHousehold(houseid);
         }
     },
     Mutation: {
         createHousehold: async (_: any, { household }: { household: Household }, context: Express.Request): Promise<boolean> => {
-            return await householdHandler.createHousehold(household, context);
+            return householdHandler.createHousehold(household,context);
         },
-        editHousehold: async (_: any, { editHousehold }: { editHousehold: EditHousehold }): Promise<void> => { // should this be a houseid instead of a whole household?
-            return await householdHandler.editHousehold(editHousehold);
+        editHousehold: async (_: any, { editHousehold }: { editHousehold : EditHousehold }): Promise<boolean> => { // should this be a houseid instead of a whole household?
+            return householdHandler.editHousehold(editHousehold);
         },
-        deleteHousehold: async (_: any, { houseid }: { houseid: string }): Promise<void> => {
-            return await householdHandler.deleteHousehold(houseid);
+        deleteHousehold: async (_: any, { houseid }: { houseid: string }): Promise<boolean> => {
+            return householdHandler.deleteHousehold(houseid);
         }
     },
     Household: {
         users: async (parent: Household): Promise<User[]> => {
-            return await getUsers(parent.houseid);
+            return householdHandler.getUsers(parent.houseid);
         },
         wishgroups: async (parent: Household): Promise<WishGroup[]> => {
-            return await getWishGroups(parent.houseid)
+            return householdHandler.getWishGroups(parent.houseid)
         },
         bills: async (parent: Household): Promise<Bill[]> => {
-            return await getBills(parent.houseid)
+            return householdHandler.getBills(parent.houseid)
         }
     }
 };
