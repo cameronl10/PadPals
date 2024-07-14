@@ -131,4 +131,14 @@ async function userLogout(context: Express.Request): Promise<boolean> {
     }
 }
 
-export { createUser, userLogin, editUser, getUser, editUserPassword, deleteUser, userLogout };  
+async function assignHousehold(userid: string, houseid: string): Promise<boolean> {
+    const client = await Pool.connect();
+    try {
+        await client.query('UPDATE account set houseid = $1 WHERE userid = $2', [houseid, userid]);
+        return true;
+    } catch (err) {
+        throw new Error("Issue with assigning household: " + err)
+    }
+}
+
+export { createUser, userLogin, editUser, getUser, editUserPassword, deleteUser, userLogout, assignHousehold };  
