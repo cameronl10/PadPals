@@ -1,45 +1,22 @@
 import Pool from '../../config/dbConnect';
-// Get all bills by houseid
-async function getBills(houseid: string): Promise<Bill[]> {
-    const client = await Pool.connect();
-    try {
-        const result = await client.query('SELECT * FROM bill WHERE houseid = $1', [houseid]);
-        const bills = result.rows.map(bill => ({
-            billid: bill.billid,
-            houseid: bill.houseid,
-            creatorid: bill.creatorid,
-            title: bill.title,
-            price: bill.price,
-            paid: bill.paid,
-            interval_val: bill.interval_val
-        }));
-        return bills;
-    } catch (err) {
-        console.log(err);
-        throw err; // Re-throw the error after logging it
-    } finally {
-        client.release();
-    }
-};
-
 
 //Mutations
 //Creates a bill with the given bill object
-async function createBill(bill: Bill): Promise<Bill> {
+async function createBill(bill: Bill): Promise<boolean> {
     const client = await Pool.connect();
     try {
         const result = await client.query('INSERT INTO bill(houseid, creatorid, title, price, paid, interval_val) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
             [bill.houseid, bill.creatorid, bill.title, bill.price, bill.paid, bill.interval_val]);
-        return result.rows[0];
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with creating bill: " + err);
     } finally {
         client.release();
     }
 }
 
 //edits a bill with the given bill object
-async function editBill(bill: Partial<Bill>): Promise<void> {
+async function editBill(bill: Partial<Bill>): Promise<boolean> {
     const client = await Pool.connect();
     try {
         let query = 'UPDATE bill SET ';
@@ -58,20 +35,23 @@ async function editBill(bill: Partial<Bill>): Promise<void> {
         query += ` WHERE billid = $${index}`;
         values.push(bill.billid);
         await client.query(query, values);
+
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with editing bill: " + err);
     } finally {
         client.release();
     }
 }
 
 //Deletes a bill with the given billid
-async function deleteBill(billid: string): Promise<void> {
+async function deleteBill(billid: string): Promise<boolean> {
     const client = await Pool.connect();
     try {
         await client.query('DELETE FROM bill WHERE billid = $1', [billid]);
+        return true;
     } catch (err) {
-        console.log(err);
+        throw new Error("Issue with deleting bill: " + err);
     } finally {
         client.release();
     }
@@ -93,11 +73,10 @@ async function getBill(billid: string): Promise<Bill> {
         }));
         return bill;
     } catch (err) {
-        console.log(err);
-        throw err; // Re-throw the error after logging it
+        throw new Error("Issue with getting bill: " + err);
     } finally {
         client.release();
     }
 }
 
-export { getBills, createBill, editBill, deleteBill, getBill };
+export { createBill, editBill, deleteBill, getBill };

@@ -23,7 +23,7 @@ input EditWishInput {
   purchased: Boolean
 }
 type Mutation {
-  createWish(wish: WishInput!): Wish
+  createWish(wish: WishInput!): Boolean
   editWish(wish: EditWishInput!): Boolean
   deleteWish(wishid: String): Boolean
   markMultipleWishesAsDone(wishes: [String!]!): Boolean

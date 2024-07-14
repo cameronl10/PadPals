@@ -5,20 +5,20 @@ import { getWishGroup } from '../handlers/wishGroupHandler'
 const resolvers = {
     Query: {
         wish: async (_: any, { wishID }: { wishID: String }): Promise<Wish> => {
-            return await wishHandler.getAWish(wishID);
+            return wishHandler.getAWish(wishID);
         }
     },
     Mutation: {
-        createWish: async (_: any, { wish }: { wish: Wish }): Promise<Wish> => {
+        createWish: async (_: any, { wish }: { wish: Wish }): Promise<boolean> => {
             return wishHandler.createWish(wish);
         },
-        editWish: async (_: any, { wish }: { wish: Wish }): Promise<Boolean> => {
+        editWish: async (_: any, { wish }: { wish: Wish }): Promise<boolean> => {
             return wishHandler.editWish(wish);
         },
-        deleteWish: async (_: any, { wishID }: { wishID: String }): Promise<Boolean> => {
+        deleteWish: async (_: any, { wishID }: { wishID: String }): Promise<boolean> => {
             return wishHandler.deleteWish(wishID);
         },
-        markMultipleWishesAsDone: async(_: any, { wishes }: { wishes: String[] }): Promise<Boolean> => {
+        markMultipleWishesAsDone: async(_: any, { wishes }: { wishes: String[] }): Promise<boolean> => {
             return wishHandler.markMultipleWishesAsDone(wishes);
         }
     },
