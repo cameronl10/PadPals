@@ -2,9 +2,10 @@ import session from 'express-session'
 declare global {
     namespace Express {
         interface SessionData {
-            userID: string;
-            houseID: string;
-            username: string;
+            userID: string,
+            houseID: string,
+            username: string,
+            email: string
         }
         interface Request {
             session: session.Session & Partial<SessionData>;
@@ -23,6 +24,7 @@ declare global {
         houseid: string,
         name: string,
         address: string,
+        adminid: string
     }
 
     interface Wish {
@@ -98,6 +100,12 @@ declare global {
         userid: string
         allocation: number
     }
+    interface CreateAllocation {
+        billid: string
+        userid: string
+        allocation: number
+    }
+
 
 }
 
