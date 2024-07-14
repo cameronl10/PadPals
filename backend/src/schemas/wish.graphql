@@ -24,8 +24,9 @@ input EditWishInput {
 }
 type Mutation {
   createWish(wish: WishInput!): Wish
-  editWish(wish: EditWishInput!): Wish
-  deleteWish(wishid: String): Wish
+  editWish(wish: EditWishInput!): Boolean
+  deleteWish(wishid: String): Boolean
+  markMultipleWishesAsDone(wishes: [String!]!): Boolean
 }
 type Query {
   wish(wishID: String!): Wish
