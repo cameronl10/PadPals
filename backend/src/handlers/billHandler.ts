@@ -85,4 +85,32 @@ async function getAllocations(billid: string): Promise<Allocation[]> {
     }
 }
 
-export { createBill, editBill, deleteBill, getBill, getAllocations };
+//create Bill with Allocations attached
+async function createBillWithAllocations(bill: Bill, allocations: PartialAllocationInput[]): Promise<boolean> {
+    const client = await Pool.connect();
+    try {
+        await client.query('BEGIN');
+        const result = await client.query('INSERT INTO bill(houseid, creatorid, title, price, paid, interval_val) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+            [bill.houseid, bill.creatorid, bill.title, bill.price, bill.paid, bill.interval_val]);
+            const billid = result.rows[0].billid;
+
+            const allocationPromises = allocations.map((allocation) => 
+              client.query(
+                'INSERT INTO allocation (billid, userid, allocation, paid) VALUES ($1, $2, $3, false)',
+                [billid, allocation.userid, allocation.allocation]
+              )
+            );
+        
+        await Promise.all(allocationPromises);
+        
+        await client.query('COMMIT');
+        return true;
+    } catch (err) {
+        await client.query('ROLLBACK');
+        throw new Error("Issue with creating bill with allocations: " + err);
+    } finally {
+        client.release();
+    }
+}
+
+export { createBillWithAllocations, createBill, editBill, deleteBill, getBill, getAllocations };

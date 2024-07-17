@@ -29,6 +29,10 @@ type Mutation {
   createBill(bill: BillInput!): Bill
   editBill(bill: EditBillInput!): Boolean
   deleteBill(billid: String!): Boolean
+  createBillWithAllocations(
+    bill: BillInput!
+    allocations: [PartialAllocationInput]!
+  ): Boolean
 }
 
 type Query {

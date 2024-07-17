@@ -15,6 +15,9 @@ export const resolvers = {
         },
         deleteBill: async (_: any, { billid }: { billid: string }): Promise<boolean> => {
             return billHandler.deleteBill(billid);
+        },
+        createBillWithAllocations: async (_: any, { bill, allocations }: { bill: Bill, allocations: PartialAllocationInput[] }): Promise<boolean> => {
+            return billHandler.createBillWithAllocations(bill, allocations);
         }
     },
     Bill: {

@@ -12,7 +12,9 @@ async function getAnAllocation(billid: string, userid: string): Promise<Allocati
     }
 }
 
-async function createAllocation(allocation: Allocation): Promise<boolean> {
+
+async function createAllocation(allocation: CreateAllocation): Promise<boolean> {
+
     const client = await Pool.connect();
     try {
         const result = await client.query('INSERT INTO allocation(billid, userid, allocation, paid) VALUES($1, $2, $3, false) RETURNING *',
@@ -25,7 +27,9 @@ async function createAllocation(allocation: Allocation): Promise<boolean> {
     }
 };
 
-async function editAllocation(allocation: Partial<Allocation>): Promise<boolean> {
+
+async function editAllocation(allocation: EditAllocation): Promise<boolean> {
+
     const client = await Pool.connect();
     try {
         let query = 'UPDATE allocation SET ';

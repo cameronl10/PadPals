@@ -16,6 +16,10 @@ input EditAllocationInput {
   allocation: Float
   paid: Boolean
 }
+input PartialAllocationInput {
+  userid: String!
+  allocation: Float
+}
 type Mutation {
   createAllocation(allocation: AllocationInput!): Boolean
   editAllocation(allocation: EditAllocationInput!): Boolean
