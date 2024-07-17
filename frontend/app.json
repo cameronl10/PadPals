@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "frontend",
-    "slug": "frontend",
+    "slug": "padpals",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -37,8 +37,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "53aa5e21-3aa3-42d4-8b45-1c7d25a38590"
+        "projectId": "ec448e28-b4ad-4bb7-8094-c7af5238e77c"
       }
-    }
+    },
+    "owner": "padpals"
   }
 }
