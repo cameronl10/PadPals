@@ -1,5 +1,6 @@
+import React, { useState } from "react";
 import { Text, View } from "react-native";
-import InputField from "../components/ui/input-field";
+import { Button } from "../components/ui/button";
 
 export default function Index() {
   return (
@@ -10,7 +11,8 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Button variant="bottom" title="bottom" />
+      <Button variant="default" title="default" />
     </View>
   );
 }
