@@ -1,6 +1,15 @@
+import React, { useState } from 'react';
 import { Text, View } from "react-native";
+import { Button } from "../components/ui/button";
 
 export default function Index() {
+  
+  //testing count
+  const [count, setCount] = useState(0);
+  function trackCount() {
+    setCount(prevCount => prevCount + 1);
+  }
+
   return (
     <View
       style={{
@@ -9,7 +18,9 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Button variant="bottom" title="bottom"/>
+      <Button variant="default" title="default" onPress={trackCount}/>
+      <Text>The count is now: {count}</Text>
     </View>
   );
 }
