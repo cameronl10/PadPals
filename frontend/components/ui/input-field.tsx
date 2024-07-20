@@ -1,41 +1,20 @@
 import React from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  TextStyle,
-  ViewStyle,
-} from "react-native";
-
-type InputFieldProps = {
-  type: "text" | "password";
-  containerStyle?: ViewStyle | ViewStyle[];
-  inputStyle?: TextStyle | TextStyle[];
-};
+import { View, TextInput, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  container: {},
   input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
     borderRadius: 5,
-    paddingLeft: 10,
-    paddingVertical: 5,
+    padding: 10,
   },
 });
 
-const InputField: React.FC<InputFieldProps> = ({
-  type,
-  containerStyle,
-  inputStyle,
-}) => {
+const InputField = () => {
   return (
-    <View style={[styles.container, containerStyle]}>
-      <TextInput
-        style={[styles.input, inputStyle]}
-        secureTextEntry={type === "password"}
-      />
+    <View>
+      <TextInput style={styles.input} />
     </View>
   );
 };
