@@ -13,9 +13,7 @@ const styles = StyleSheet.create({
 
 const InputField = () => {
   return (
-    <View>
       <TextInput style={styles.input} />
-    </View>
   );
 };
 
