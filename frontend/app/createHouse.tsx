@@ -1,27 +1,28 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, Dimensions } from "react-native";
 import { InputField } from "@/components/ui/input-field";
 import { Button } from "@/components/ui/button";
 
+const containerHeight = Dimensions.get('window').height * 0.7
 const CreateHouse = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.text}>Create a new household</Text>
-      <InputField label="Household Name" style={styles.item} />
-      <InputField label="Address" style={styles.item} />
+      <InputField label="Household Name" />
+      <InputField label="Address" />
       <Button
         variant="default"
         title="Create Household"
         onPress={() => alert("Created")}
       />
       <View style={styles.padding}></View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: containerHeight,
     justifyContent: "space-between",
     alignItems: "center",
     padding: 20,
@@ -30,9 +31,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
-  },
-  item: {
-    width: "80%",
   },
   button: {
     marginTop: 20,
