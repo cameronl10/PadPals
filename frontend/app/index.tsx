@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { Button } from "../components/ui/button";
 
 export default function Index() {
-
   return (
     <View
       style={{
@@ -12,8 +11,8 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Button variant="bottom" title="bottom"/>
-      <Button variant="default" title="default"/>
+      <Button variant="bottom" title="bottom" />
+      <Button variant="default" title="default" />
     </View>
   );
 }
