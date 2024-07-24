@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, Dimensions } from "react-native";
 import { InputField } from "@/components/ui/input-field";
 import { Button } from "@/components/ui/button";
 
-const containerHeight = Dimensions.get('window').height * 0.7
+const containerHeight = Dimensions.get('window').height * 0.4
 const CreateHouse = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -15,7 +15,6 @@ const CreateHouse = () => {
         title="Create Household"
         onPress={() => alert("Created")}
       />
-      <View style={styles.padding}></View>
     </SafeAreaView>
   );
 };

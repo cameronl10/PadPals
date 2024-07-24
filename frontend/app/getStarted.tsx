@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native'
 import { StyleSheet } from 'react-native';
 import { Button } from '@/components/ui/button';
 
-const halfHeight = Dimensions.get('window').height * 0.5
+const halfHeight = Dimensions.get('window').height * 0.4
 const GetStarted = () => {
     return (
         <SafeAreaView style={styles.container}>
@@ -19,7 +19,7 @@ const GetStarted = () => {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: "center",
+        justifyContent: "space-evenly",
         alignItems: "center",
         height: halfHeight
     }
