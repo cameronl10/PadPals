@@ -1,20 +1,37 @@
-import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  TextInputProps,
+  StyleSheet,
+} from "react-native";
 
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-  },
-});
+interface inputFieldProps extends TextInputProps {
+  label: string;
+}
 
-const InputField = () => {
+const InputField = (props: inputFieldProps) => {
   return (
+    <View style={styles.inputBox}>
+      <Text>{props.label}</Text>
       <TextInput style={styles.input} />
+    </View>
   );
 };
 
-export default InputField;
+const styles = StyleSheet.create({
+  inputBox: {
+    flex: 1,
+    width: "80%",
+    justifyContent: "flex-start",
+  },
+  input: {
+    marginVertical: 10,
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+});
+export { InputField };
