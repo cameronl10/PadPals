@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     common: {
         alignItems: 'center',
         justifyContent: 'center',   
-        height: 40,
+        height: "auto",
         borderColor: 'black',
         borderWidth: 2,
         backgroundColor: 'white'

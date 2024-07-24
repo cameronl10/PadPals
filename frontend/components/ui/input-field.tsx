@@ -14,7 +14,7 @@ const InputField = (props: inputFieldProps) => {
   return (
     <View style={styles.inputBox}>
       <Text>{props.label}</Text>
-      <TextInput style={styles.input} />
+      <TextInput style={styles.input}{...props} />
     </View>
   );
 };
