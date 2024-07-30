@@ -12,7 +12,14 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Button variant="bottom" title="bottom" onPress={() => { router.push("/joinCreate") }} />
+      <Link href={{ pathname: "landingPage" }}>Landing Page</Link>
+      <Button
+        variant="bottom"
+        title="bottom"
+        onPress={() => {
+          router.push("/joinCreate");
+        }}
+      />
       <Button variant="default" title="default" />
       <Link href={{ pathname: "getStarted" }}>Get Started!</Link>
     </View>
