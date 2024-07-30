@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { Button } from "../components/ui/button";
 import { Link, router } from "expo-router";
-
+import { InputField } from "@/components/ui/input-field";
 export default function Index() {
+
   return (
     <View
       style={{
