@@ -2,57 +2,64 @@ import { InputField } from '@/components/ui/input-field';
 import { SafeAreaView, KeyboardAvoidingView, Text, View, Platform, StyleSheet } from 'react-native'
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
-import DividerText from '@/components/ui/divider-text';
+import { ProfileIcon } from '@/components/ui/profileIcon'
+import { requestMediaLibraryPermissionsAsync, MediaTypeOptions, launchImageLibraryAsync } from 'expo-image-picker';
+import { useState } from 'react';
 
 interface FormData {
-    email: string,
-    password: string
+    username: string
 }
-const GetStarted = () => {
+const ProfileSetup = () => {
     const form = useForm<FormData>();
 
-    const onSubmitForm = (data: any) => {
-        alert(data.email + " " + data.password);
+    const [profilePicture, setPicture] = useState("")
 
+    const onSubmitForm = () => {
+        alert("pressed")
     }
+    const handleImagePress = async () => {
+        const permissionResult = await requestMediaLibraryPermissionsAsync();
+
+        if (permissionResult) {
+            const result = await launchImageLibraryAsync({
+                mediaTypes: MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1]
+            });
+            if (result.assets) {
+                setPicture(result.assets[0].uri);
+            } else {
+                alert("error");
+            }
+        } else {
+            alert("permission denied")
+        }
+    }
+
+    const imageSource = profilePicture ? { uri: profilePicture } : require('@/assets/images/pfp.jpg');
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.keyboardView}>
             <SafeAreaView style={styles.container}>
-                <Text style={styles.title}>Create an Account</Text>
+                <Text style={styles.title}>Set Up Your Profile</Text>
+                <View style={styles.profileIcon}>
+                    <ProfileIcon variant='plus' profilePicture={imageSource} onPress={handleImagePress} />
+                </View>
                 <View style={styles.signUpSection}>
                     <View style={styles.formBox}>
                         <InputField<FormData>
                             control={form.control}
-                            name="email"
-                            label="Email"
+                            name="username"
+                            label="Enter Your Name"
                             variant="controlled"
-                            rules={{
-                                required: "Email is required!", pattern: {
-                                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                                    message: 'Invalid email address',
-                                },
-                            }}
                         />
-                    </View>
-                    <View style={styles.formBox}>
-                        <InputField<FormData>
-                            control={form.control}
-                            name="password"
-                            label="Password"
-                            variant="controlled"
-                            rules={{ required: "Password is required!", minLength: { value: 8, message: "Password must be at least 8 characters!" } }}
-                            secureTextEntry
-                        />
-                        <Text style={styles.info}>Password must contain 8 characters.</Text>
                     </View>
                     <View>
-                        <Button variant="default" title="Sign Up" onPress={form.handleSubmit(onSubmitForm)} />
+                        <Button variant="default" title="Submit" onPress={form.handleSubmit(onSubmitForm)} />
                     </View>
                 </View>
-                <DividerText />
-                <Button variant="google" title="Sign in with Google" />
             </SafeAreaView>
         </KeyboardAvoidingView>
     )
@@ -69,6 +76,9 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         fontSize: 25,
         fontWeight: "bold"
+    },
+    profileIcon: {
+        alignSelf: "center"
     },
     info: {
         color: "gray"
@@ -94,4 +104,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default GetStarted
+export default ProfileSetup
