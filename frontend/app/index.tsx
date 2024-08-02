@@ -16,6 +16,7 @@ export default function Index() {
       <Button variant="bottom" title="bottom" onPress={() => { router.push("/joinCreate") }} />
       <Button variant="default" title="default" />
       <Link href={{ pathname: "getStarted" }}>Get Started!</Link>
+      <Link href={{pathname: "profileSetup"}}>Profile Setup</Link>
     </View>
   );
 }
