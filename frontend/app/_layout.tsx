@@ -6,6 +6,8 @@ export default function RootLayout() {
       <Stack.Screen name="index" />
       <Stack.Screen name="getStarted" options={{headerShown:false}}/>
       <Stack.Screen name="profileSetup" options={{headerShown:false}}/>
+      <Stack.Screen name="loginPage" options={{headerShown:false}}/>
+
     </Stack>
   );
 }
