@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import { Text, View } from "react-native";
+import {  View } from "react-native";
 import { Button } from "../components/ui/button";
 import { Link, router } from "expo-router";
-import { InputField } from "@/components/ui/input-field";
 export default function Index() {
 
   return (
@@ -17,6 +15,7 @@ export default function Index() {
       <Button variant="default" title="default" />
       <Link href={{ pathname: "getStarted" }}>Get Started!</Link>
       <Link href={{pathname: "profileSetup"}}>Profile Setup</Link>
+      <Link href={{pathname: "loginPage"}}>Login Page</Link>
     </View>
   );
 }
