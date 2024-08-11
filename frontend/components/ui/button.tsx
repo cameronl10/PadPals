@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, StyleSheet, Pressable, ButtonProps, KeyboardAvoidingView} from 'react-native';
-
+import { Text, StyleSheet, Pressable, ButtonProps, KeyboardAvoidingView } from 'react-native';
+import GoogleIcon from '@/assets/icons/googleIcon.svg'
 export interface ButtonProp extends ButtonProps {
-    variant: 'default' | 'bottom'
+    variant: 'default' | 'bottom' | 'google'
 };
 
 export function Button(props: ButtonProp) {
@@ -11,17 +11,21 @@ export function Button(props: ButtonProp) {
 
     //stylesheet select logic
     switch (variant) {
-        case('default'):
+        case ('default'):
             buttonStyle = styles.default;
             break;
-        case('bottom'):
+        case ('bottom'):
             buttonStyle = styles.bottom;
+            break;
+        case ('google'):
+            buttonStyle = styles.google;
             break;
     }
     const style = StyleSheet.compose(styles.common, buttonStyle)
 
     return (
         <Pressable style={style} onPress={onPress}>
+            {variant === 'google' && <GoogleIcon width={15} height={15} style={styles.googleButton} />}
             <Text>{title}</Text>
         </Pressable>
     )
@@ -30,16 +34,16 @@ export function Button(props: ButtonProp) {
 const styles = StyleSheet.create({
     common: {
         alignItems: 'center',
-        justifyContent: 'center',   
-        height: 40,
-        borderColor: 'black',
-        borderWidth: 2,
-        backgroundColor: 'white'
+        justifyContent: 'center',
+        height: 60,
+        backgroundColor: '#37B3CC'
     },
     default: {
         borderRadius: 12,
-        width: '80%',   
         padding: 10
+    },
+    googleButton: {
+        paddingRight: 30
     },
     bottom: {
         width: '100%',
@@ -47,5 +51,12 @@ const styles = StyleSheet.create({
         bottom: 0,
         borderWidth: 0,
         borderTopWidth: 2
+    },
+    google: {
+        flexDirection: "row",
+        borderRadius: 12,
+        backgroundColor: "transparent",
+        borderWidth: 1,
+        borderColor: "gray"
     }
 })

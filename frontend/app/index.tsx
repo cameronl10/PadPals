@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { Text, View } from "react-native";
+import {  View } from "react-native";
 import { Button } from "../components/ui/button";
-
+import { Link, router } from "expo-router";
 export default function Index() {
 
   return (
@@ -12,8 +11,11 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Button variant="bottom" title="bottom"/>
-      <Button variant="default" title="default"/>
+      <Button variant="bottom" title="bottom" onPress={() => { router.push("/joinCreate") }} />
+      <Button variant="default" title="default" />
+      <Link href={{ pathname: "getStarted" }}>Get Started!</Link>
+      <Link href={{pathname: "profileSetup"}}>Profile Setup</Link>
+      <Link href={{pathname: "loginPage"}}>Login Page</Link>
     </View>
   );
 }
