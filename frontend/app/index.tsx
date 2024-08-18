@@ -6,7 +6,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function Index() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{flex: 1}}>
       <View style={styles.viewContainer}>
         <Button variant="bottom" title="bottom" onPress={() => { router.push("/joinCreate") }} />
         <Button variant="default" title="default" />
