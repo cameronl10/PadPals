@@ -1,15 +1,11 @@
 import { View } from "react-native";
 import { Button } from "../components/ui/button";
 import { Link, router } from "expo-router";
+import styles from '@/styles/globalStyle';
+
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <View style={styles.viewContainer}>
       <Button variant="bottom" title="bottom" onPress={() => { router.push("/joinCreate") }} />
       <Button variant="default" title="default" />
       <Link href={{ pathname: "getStarted" }}>Get Started!</Link>
