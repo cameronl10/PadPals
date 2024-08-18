@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
 import { useMutation } from '@tanstack/react-query'
 import { login } from '@/api/auth';
+import styles from '@/styles/signUpStyle';
 
 interface FormData {
     email: string,
@@ -67,41 +68,5 @@ const LoginPage = () => {
         </KeyboardAvoidingView>
     )
 }
-
-const styles = StyleSheet.create({
-    keyboardView: {
-        flex: 1,
-        backgroundColor: "#F6F6F6",
-        paddingTop: 80,
-        paddingHorizontal: 10
-    },
-    title: {
-        marginBottom: 25,
-        fontSize: 25,
-        fontWeight: "bold"
-    },
-    info: {
-        color: "gray"
-    },
-    container: {
-        flex: 1,
-        paddingHorizontal: 25
-    },
-    googleButton: {
-        alignSelf: "center"
-    },
-    formBox: {
-        width: "100%",
-        marginBottom: 25,
-    },
-
-    alertText: {
-        color: "red"
-    },
-    signUpSection: {
-        justifyContent: "space-evenly",
-    }
-
-})
 
 export default LoginPage
