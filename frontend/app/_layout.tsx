@@ -13,6 +13,7 @@ export default function RootLayout() {
           <Stack.Screen name="profileSetup" options={{ headerShown: false }} />
           <Stack.Screen name="loginPage" options={{ headerShown: false }} />
           <Stack.Screen name="createHouse" options={{ headerShown : false}}/>
+          <Stack.Screen name="(tabs)"/>
         </Stack>
       </SignUpContextProvider>
     </QueryClientProvider>
