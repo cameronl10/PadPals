@@ -1,8 +1,7 @@
-import {  View } from "react-native";
+import { View } from "react-native";
 import { Button } from "../components/ui/button";
 import { Link, router } from "expo-router";
 export default function Index() {
-
   return (
     <View
       style={{
@@ -16,6 +15,7 @@ export default function Index() {
       <Link href={{ pathname: "getStarted" }}>Get Started!</Link>
       <Link href={{pathname: "profileSetup"}}>Profile Setup</Link>
       <Link href={{pathname: "loginPage"}}>Login Page</Link>
+      <Link href={{pathname: "createHouse"}}>Create or Join a House</Link>
     </View>
   );
 }

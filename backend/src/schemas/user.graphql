@@ -9,7 +9,6 @@ type User {
 input UserInput {
   email: String!
   password: String!
-  houseid: String
   name: String!
   profilepicture: String
 }
@@ -36,8 +35,8 @@ type Mutation {
   deleteUser(userid: String!): Boolean
   logoutUser: Boolean
   assignHousehold(userid: String!, houseid: String!): Boolean
+  loginUser(loginInput: LoginInput!): User
 }
 type Query {
-  loginUser(loginInput: LoginInput!): User
   user(email: String!): User
 }
