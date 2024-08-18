@@ -3,14 +3,14 @@ import { getHouseholdByUser } from '../handlers/householdHandler';
 
 export const resolvers = {
     Query: {
-        loginUser: async (_: any, { loginInput }: { loginInput: LoginInput }, context: Express.Request) => {
-            return userHandler.userLogin(loginInput.email, loginInput.password, context);
-        },
         user: async (_: any, { email }: { email: string }): Promise<User> => {
             return userHandler.getUser(email);
         }
     },
     Mutation: {
+        loginUser: async (_: any, { loginInput }: { loginInput: LoginInput }, context: Express.Request) => {
+            return userHandler.userLogin(loginInput.email, loginInput.password, context);
+        },
         createUser: async (_: any, { user }: { user: User }): Promise<boolean> => {
             return userHandler.createUser(user);
         },

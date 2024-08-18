@@ -5,17 +5,39 @@ import { useForm } from 'react-hook-form';
 import { ProfileIcon } from '@/components/ui/profileIcon'
 import { requestMediaLibraryPermissionsAsync, MediaTypeOptions, launchImageLibraryAsync } from 'expo-image-picker';
 import { useState } from 'react';
-
+import { useSignUpContext } from '@/hooks/useSignUpContext';
+import { useMutation } from '@tanstack/react-query';
+import { signup } from '@/api/auth';
+import { router } from 'expo-router';
 interface FormData {
     username: string
+    userEmail: string
+    userPassword: string 
+    profilepicture: string
 }
 const ProfileSetup = () => {
     const form = useForm<FormData>();
 
     const [profilePicture, setPicture] = useState("")
+    const {email,password} = useSignUpContext();
 
-    const onSubmitForm = () => {
-        alert("pressed")
+    const createUserMutation = useMutation({
+        mutationFn: async (userInput: FormData) => await signup(userInput),
+        onSuccess: (data) =>{
+            alert(data);
+        },
+        onError:(err) =>{
+            alert(err);
+        }
+    })
+
+    const onSubmitForm = async (formInput: FormData) => {
+        formInput.userEmail = email
+        formInput.userPassword = password
+        formInput.profilepicture = profilePicture
+        await createUserMutation.mutate(formInput)
+        router.push('/createHouse')
+
     }
     const handleImagePress = async () => {
         const permissionResult = await requestMediaLibraryPermissionsAsync();

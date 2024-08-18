@@ -3,6 +3,8 @@ import { SafeAreaView, KeyboardAvoidingView, Text, View, Platform, StyleSheet } 
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
+import { router } from 'expo-router';
+import { useSignUpContext } from '@/hooks/useSignUpContext';
 
 interface FormData {
     email: string,
@@ -10,10 +12,10 @@ interface FormData {
 }
 const GetStarted = () => {
     const form = useForm<FormData>();
-
-    const onSubmitForm = (data: any) => {
-        alert(data.email + " " + data.password);
-
+    const {updateForm}:any = useSignUpContext();
+    const onSubmitForm = (formInput: FormData) => {
+        updateForm(formInput.email, formInput.password)
+        router.push('/profileSetup')
     }
     return (
         <KeyboardAvoidingView
