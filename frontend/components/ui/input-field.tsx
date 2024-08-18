@@ -1,6 +1,8 @@
 import { Text, View, TextInput, TextInputProps, StyleSheet } from "react-native";
 import { Path, Control, Controller, FieldValues } from 'react-hook-form';
-import WarningIcon from '@/assets/icons/warningIcon.svg'
+import WarningIcon from '@/assets/icons/warningIcon.svg';
+import Colors from '@/styles/colors';
+
 interface inputFieldPropsBase extends TextInputProps {
   variant: "default" | "controlled"
   label: string;
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   input: {
-    borderColor: "#515151",
+    borderColor: Colors.PADPALS_GREY,
     height: 60,
     borderWidth: 1,
     borderRadius: 12,

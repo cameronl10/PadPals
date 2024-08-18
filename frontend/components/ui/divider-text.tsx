@@ -1,4 +1,5 @@
 import { Text, View, StyleSheet } from 'react-native';
+import Colors from '@/styles/colors';
 
 const DividerText = () => {
     return (
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     },
     divider: {
         flex: 0.5,
-        backgroundColor: 'gray',
+        backgroundColor: Colors.PADPALS_GREY,
         height: 1
     },
     text: {
