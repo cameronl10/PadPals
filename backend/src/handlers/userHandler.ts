@@ -101,8 +101,8 @@ async function createUser(user: User): Promise<boolean> {
     try {
         const hashedPassword = await bcrypt.hash(user.password, 10);
         await client.query(
-            `INSERT INTO account(email, name, password, houseid, profilepicture) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-            [user.email, user.name, hashedPassword, user.houseid, user.profilepicture]);
+            `INSERT INTO account(email, name, password, profilepicture) VALUES ($1, $2, $3, $4) RETURNING *`,
+            [user.email, user.name, hashedPassword, user.profilepicture]);
         return true;
     } catch (err) {
         throw new Error("Issue with creating user: " + err);
@@ -111,14 +111,16 @@ async function createUser(user: User): Promise<boolean> {
     }
 }
 
-async function userLogin(email: string, pass: string, context: Express.Request): Promise<string> {
+async function userLogin(email: string, password: string, context: Express.Request): Promise<string> {
     const client = await Pool.connect();
     const user = await client.query(`SELECT * FROM account WHERE email = $1`, [email]);
-    if (user == null) {
-        throw new Error("User not found");
+    if (user.rows[0] == null) {
+        const userError = new Error();
+        userError.message = ("User not found");
+        throw userError;
     }
     try {
-        if (await bcrypt.compare(pass, user.rows[0].password)) {
+        if (await bcrypt.compare(password, user.rows[0].password)) {
             context.session.userid = user.rows[0].userid;
             context.session.username = user.rows[0].name;
             context.session.houseid = user.rows[0].houseid;
@@ -153,4 +155,4 @@ async function assignHousehold(userid: string, houseid: string): Promise<boolean
         throw new Error("Issue with assigning household: " + err)
     }
 }
-export { createUser, userLogin, editUser, getUser,getUserByID, editUserPassword, deleteUser, userLogout, assignHousehold };  
+export { createUser, userLogin, editUser, getUser, getUserByID, editUserPassword, deleteUser, userLogout, assignHousehold };  

@@ -1,8 +1,7 @@
-import {  View } from "react-native";
+import { View } from "react-native";
 import { Button } from "../components/ui/button";
 import { Link, router } from "expo-router";
 export default function Index() {
-
   return (
     <View
       style={{

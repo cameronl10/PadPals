@@ -9,10 +9,8 @@ import redisClient from '../config/redisConnect';
 import loadResolvers from './resolvers/merger';
 import typeDefs from './schemas/merger';
 import RedisStore from 'connect-redis';
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
+import cors from 'cors';
 
-//  resolvers need to be loaded asynchronously
 const resolvers = await loadResolvers;
 const sessionTesting = false // default to false, change to true if u want to turn on session authentication
 const resolversToSkipSessionAuth = ["CreateUser", "IntrospectionQuery", "LoginUser"] //hide this in the future?
@@ -21,6 +19,12 @@ const httpServer = http.createServer(app);
 
 connectToRedis();
 const redisStore = new RedisStore({ client: redisClient })
+
+app.use(cors({
+  origin: 'http://localhost:8081', 
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use(express.json());
 app.use(session({
