@@ -9,6 +9,8 @@ import { useSignUpContext } from '@/hooks/useSignUpContext';
 import { useMutation } from '@tanstack/react-query';
 import { signup } from '@/api/auth';
 import { router } from 'expo-router';
+import styles from '@/styles/signUpStyle';
+
 interface FormData {
     username: string
     userEmail: string
@@ -86,44 +88,5 @@ const ProfileSetup = () => {
         </KeyboardAvoidingView>
     )
 }
-
-const styles = StyleSheet.create({
-    keyboardView: {
-        flex: 1,
-        backgroundColor: "#F6F6F6",
-        paddingTop: 80,
-        paddingHorizontal: 10
-    },
-    title: {
-        marginBottom: 25,
-        fontSize: 25,
-        fontWeight: "bold"
-    },
-    profileIcon: {
-        alignSelf: "center"
-    },
-    info: {
-        color: "gray"
-    },
-    container: {
-        flex: 1,
-        paddingHorizontal: 25
-    },
-    googleButton: {
-        alignSelf: "center"
-    },
-    formBox: {
-        width: "100%",
-        marginBottom: 25,
-    },
-
-    alertText: {
-        color: "red"
-    },
-    signUpSection: {
-        justifyContent: "space-evenly",
-    }
-
-})
 
 export default ProfileSetup
