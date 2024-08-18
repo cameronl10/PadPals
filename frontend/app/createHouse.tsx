@@ -2,9 +2,6 @@ import { InputField } from '@/components/ui/input-field';
 import { SafeAreaView, KeyboardAvoidingView, Text, View, Platform, StyleSheet } from 'react-native'
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
-import { ProfileIcon } from '@/components/ui/profileIcon'
-import { requestMediaLibraryPermissionsAsync, MediaTypeOptions, launchImageLibraryAsync } from 'expo-image-picker';
-import { useState } from 'react';
 import DividerText from '@/components/ui/divider-text';
 
 interface CreateGroupFormData {
