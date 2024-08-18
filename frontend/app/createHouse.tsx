@@ -1,10 +1,9 @@
 import { InputField } from '@/components/ui/input-field';
-import { SafeAreaView, KeyboardAvoidingView, Text, View, Platform } from 'react-native'
+import { SafeAreaView, KeyboardAvoidingView, Text, View, Platform, ScrollView } from 'react-native'
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
 import styles from '@/styles/signUpStyle';
-import { ScrollView } from 'react-native-gesture-handler';
 
 interface CreateGroupFormData {
   groupName: string,
