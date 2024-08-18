@@ -24,6 +24,5 @@ export const login = async (loginInput: any) => {
 
 export const signup = async (userInput: any) => {
     const client = await getGraphqlClient();
-    console.log(userInput.profilepicture)
     return client.request(SIGNUP_MUTATION, { user: {email: userInput.userEmail, password: userInput.userPassword, name: userInput.username, profilepicture: userInput.profilepicture} })
 }
