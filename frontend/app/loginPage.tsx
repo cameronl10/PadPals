@@ -3,16 +3,27 @@ import { SafeAreaView, KeyboardAvoidingView, Text, View, Platform, StyleSheet } 
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
-
+import { useMutation } from '@tanstack/react-query'
+import { login } from '@/api/auth';
 interface FormData {
     email: string,
     password: string
 }
 const LoginPage = () => {
     const form = useForm<FormData>();
-    const onSubmitForm = (data: any) => {
-        alert(data.email + " " + data.password);
 
+    const loginMutation = useMutation({
+        mutationFn: async (loginInput: FormData) => await login(loginInput),
+        onSuccess: (data) => {
+            alert(data.loginUser.userid);
+        },
+        onError: () => {
+            alert("Email or Password is not correct")
+        }
+    })
+
+    const onSubmitForm = (formInput: FormData) => {
+        loginMutation.mutate(formInput);
     }
     return (
         <KeyboardAvoidingView
@@ -41,7 +52,7 @@ const LoginPage = () => {
                             name="password"
                             label="Password"
                             variant="controlled"
-                            rules={{ required: "Password is required!"}}
+                            rules={{ required: "Password is required!" }}
                             secureTextEntry
                         />
                     </View>
