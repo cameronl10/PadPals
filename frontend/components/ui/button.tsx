@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, StyleSheet, Pressable, ButtonProps, KeyboardAvoidingView } from 'react-native';
-import GoogleIcon from '@/assets/icons/googleIcon.svg'
+import GoogleIcon from '@/assets/icons/googleIcon.svg';
+import Colors from '@/styles/colors';
+
 export interface ButtonProp extends ButtonProps {
     variant: 'default' | 'bottom' | 'google'
 };
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 60,
-        backgroundColor: '#37B3CC'
+        backgroundColor: Colors.PADPALS_PRIMARY
     },
     default: {
         borderRadius: 12,
@@ -57,6 +59,6 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         backgroundColor: "transparent",
         borderWidth: 1,
-        borderColor: "gray"
+        borderColor: Colors.PADPALS_GREY
     }
 })
