@@ -1,5 +1,5 @@
 import { InputField } from '@/components/ui/input-field';
-import { SafeAreaView, KeyboardAvoidingView, Text, View, Platform, StyleSheet } from 'react-native'
+import { ScrollView, SafeAreaView, KeyboardAvoidingView, Text, View, Platform, StyleSheet } from 'react-native'
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
@@ -32,38 +32,42 @@ const LoginPage = () => {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.keyboardView}>
             <SafeAreaView style={styles.container}>
-                <Text style={styles.title}>Log in</Text>
-                <View style={styles.signUpSection}>
-                    <View style={styles.formBox}>
-                        <InputField<FormData>
-                            control={form.control}
-                            name="email"
-                            label="Email"
-                            variant="controlled"
-                            rules={{
-                                required: "Email is required!", pattern: {
-                                    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                                    message: 'Invalid email address',
-                                },
-                            }}
-                        />
+                
+                <ScrollView style={{ flexGrow: 1 }}>
+                    <Text style={styles.title}>Log in</Text>
+                    <View style={styles.signUpSection}>
+                        <View style={styles.formBox}>
+                            <InputField<FormData>
+                                control={form.control}
+                                name="email"
+                                label="Email"
+                                variant="controlled"
+                                rules={{
+                                    required: "Email is required!", pattern: {
+                                        value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                        message: 'Invalid email address',
+                                    },
+                                }}
+                            />
+                        </View>
+                        <View style={styles.formBox}>
+                            <InputField<FormData>
+                                control={form.control}
+                                name="password"
+                                label="Password"
+                                variant="controlled"
+                                rules={{ required: "Password is required!" }}
+                                secureTextEntry
+                            />
+                        </View>
+                        <View>
+                            <Button variant="default" title="Log in" onPress={form.handleSubmit(onSubmitForm)} />
+                        </View>
                     </View>
-                    <View style={styles.formBox}>
-                        <InputField<FormData>
-                            control={form.control}
-                            name="password"
-                            label="Password"
-                            variant="controlled"
-                            rules={{ required: "Password is required!" }}
-                            secureTextEntry
-                        />
-                    </View>
-                    <View>
-                        <Button variant="default" title="Log in" onPress={form.handleSubmit(onSubmitForm)} />
-                    </View>
-                </View>
-                <DividerText />
-                <Button variant="google" title="Log in with Google" />
+                    <DividerText />
+                    <Button variant="google" title="Log in with Google" />
+                
+                </ScrollView>
             </SafeAreaView>
         </KeyboardAvoidingView>
     )
