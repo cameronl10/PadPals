@@ -1,5 +1,5 @@
 import { InputField } from '@/components/ui/input-field';
-import { SafeAreaView, KeyboardAvoidingView, Text, View, Platform } from 'react-native'
+import { ScrollView, SafeAreaView, KeyboardAvoidingView, Text, View, Platform } from 'react-native'
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
@@ -23,6 +23,7 @@ const GetStarted = () => {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.keyboardView}>
             <SafeAreaView style={styles.container}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 
                     <Text style={styles.title}>Create an Account</Text>
                     <View style={styles.signUpSection}>
@@ -57,7 +58,7 @@ const GetStarted = () => {
                     </View>
                     <DividerText />
                     <Button variant="google" title="Sign in with Google" />
-                    
+                    </ScrollView>
             </SafeAreaView>
         </KeyboardAvoidingView>
     )
