@@ -17,6 +17,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { OnboardingCarousel } from "@/components/ui/onboarding-carousel";
 import { Paginator } from "@/components/ui/paginator";
 
+import Logo from "@/assets/icons/padpals-logo.svg";
+
 import onboardingSlides from "./onboardingSlides";
 
 const LandingPage = () => {
@@ -42,11 +44,7 @@ const LandingPage = () => {
       </View>
 
       <SafeAreaView style={styles.overlay}>
-        <Image
-          source={require("@/assets/images/padpals-logo.svg")}
-          style={styles.logo}
-          contentFit="contain"
-        />
+        <Logo style={styles.logo} />
         <View style={styles.carouselImage}>
           <FlatList
             data={onboardingSlides}
