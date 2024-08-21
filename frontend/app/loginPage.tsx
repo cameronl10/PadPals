@@ -1,31 +1,40 @@
 import { InputField } from '@/components/ui/input-field';
-import { ScrollView, SafeAreaView, KeyboardAvoidingView, Text, View, Platform } from 'react-native'
+import { ScrollView, SafeAreaView, KeyboardAvoidingView, Text, View, Platform, StyleSheet } from 'react-native'
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
-import { router } from 'expo-router';
-import { useSignUpContext } from '@/hooks/useSignUpContext';
+import { useMutation } from '@tanstack/react-query'
+import { login } from '@/api/auth';
 import styles from '@/styles/signUpStyle';
 
 interface FormData {
     email: string,
     password: string
 }
-const GetStarted = () => {
+const LoginPage = () => {
     const form = useForm<FormData>();
-    const { updateForm }: any = useSignUpContext();
+
+    const loginMutation = useMutation({
+        mutationFn: async (loginInput: FormData) => await login(loginInput),
+        onSuccess: (data) => {
+            alert(data.loginUser.userid);
+        },
+        onError: () => {
+            alert("Email or Password is not correct")
+        }
+    })
+
     const onSubmitForm = (formInput: FormData) => {
-        updateForm(formInput.email, formInput.password)
-        router.push('/profileSetup')
+        loginMutation.mutate(formInput);
     }
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.keyboardView}>
             <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-
-                    <Text style={styles.title}>Create an Account</Text>
+                
+                <ScrollView style={{ flexGrow: 1 }}>
+                    <Text style={styles.title}>Log in</Text>
                     <View style={styles.signUpSection}>
                         <View style={styles.formBox}>
                             <InputField<FormData>
@@ -47,21 +56,21 @@ const GetStarted = () => {
                                 name="password"
                                 label="Password"
                                 variant="controlled"
-                                rules={{ required: "Password is required!", minLength: { value: 8, message: "Password must be at least 8 characters!" } }}
+                                rules={{ required: "Password is required!" }}
                                 secureTextEntry
                             />
-                            <Text style={styles.info}>Password must contain 8 characters.</Text>
                         </View>
                         <View>
-                            <Button variant="default" title="Sign Up" onPress={form.handleSubmit(onSubmitForm)} />
+                            <Button variant="default" title="Log in" onPress={form.handleSubmit(onSubmitForm)} />
                         </View>
                     </View>
                     <DividerText />
-                    <Button variant="google" title="Sign in with Google" />
-                    </ScrollView>
+                    <Button variant="google" title="Log in with Google" />
+                
+                </ScrollView>
             </SafeAreaView>
         </KeyboardAvoidingView>
     )
 }
 
-export default GetStarted
+export default LoginPage

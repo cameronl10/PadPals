@@ -6,9 +6,11 @@ import {
   ButtonProps,
   KeyboardAvoidingView,
 } from "react-native";
+import GoogleIcon from "@/assets/icons/googleIcon.svg";
+import Colors from "@/styles/colors";
 
 export interface ButtonProp extends ButtonProps {
-  variant: "default" | "bottom";
+  variant: "default" | "bottom" | "google";
 }
 
 export function Button(props: ButtonProp) {
@@ -23,11 +25,17 @@ export function Button(props: ButtonProp) {
     case "bottom":
       buttonStyle = styles.bottom;
       break;
+    case "google":
+      buttonStyle = styles.google;
+      break;
   }
   const style = StyleSheet.compose(styles.common, buttonStyle);
 
   return (
     <Pressable style={style} onPress={onPress}>
+      {variant === "google" && (
+        <GoogleIcon width={15} height={15} style={styles.googleButton} />
+      )}
       <Text>{title}</Text>
     </Pressable>
   );
@@ -37,16 +45,15 @@ const styles = StyleSheet.create({
   common: {
     alignItems: "center",
     justifyContent: "center",
-    height: "auto",
-    borderColor: "black",
-    borderWidth: 1,
-    backgroundColor: "white",
+    height: 60,
+    backgroundColor: Colors.PADPALS_PRIMARY,
   },
   default: {
     borderRadius: 12,
-    width: "80%",
-    padding: 20,
-    backgroundColor: "#37B3CC",
+    padding: 10,
+  },
+  googleButton: {
+    paddingRight: 30,
   },
   bottom: {
     width: "100%",
@@ -54,5 +61,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderWidth: 0,
     borderTopWidth: 2,
+  },
+  google: {
+    flexDirection: "row",
+    borderRadius: 12,
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: Colors.PADPALS_GREY,
   },
 });
