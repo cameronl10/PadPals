@@ -6,6 +6,9 @@ import {
   ImageBackground,
   FlatList,
   Animated,
+  StatusBar,
+  Platform,
+  Dimensions,
 } from "react-native";
 import { Button } from "@/components/ui/button";
 import { Stack, Link, router } from "expo-router";
@@ -18,12 +21,12 @@ import onboardingSlides from "./onboardingSlides";
 
 const LandingPage = () => {
   const scrollX = useRef(new Animated.Value(0)).current;
-  const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+  const { width } = Dimensions.get("window");
 
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ header: () => null }} />
-      <View style={styles.backgroundContainer}>
+      <View style={[styles.backgroundContainer, { flex: 1 }]}>
         <ImageBackground
           source={require("@/assets/images/padpals-image.png")}
           style={styles.imageBackground}
@@ -48,17 +51,19 @@ const LandingPage = () => {
           <FlatList
             data={onboardingSlides}
             renderItem={({ item }) => <OnboardingCarousel item={item} />}
-            horizontal={true}
+            horizontal
             showsHorizontalScrollIndicator={false}
-            pagingEnabled={true}
-            bounces={true}
             keyExtractor={(item) => item.id}
             onScroll={Animated.event(
               [{ nativeEvent: { contentOffset: { x: scrollX } } }],
               { useNativeDriver: false }
             )}
-            scrollEventThrottle={32}
-            viewabilityConfig={viewConfig}
+            scrollEventThrottle={16}
+            pagingEnabled={true}
+            snapToInterval={width}
+            decelerationRate={0.8}
+            overScrollMode="never"
+            disableIntervalMomentum
           />
         </View>
         <Paginator data={onboardingSlides} scrollX={scrollX} />
@@ -96,10 +101,9 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: "flex-start",
     alignItems: "center",
-    padding: 10,
     backgroundColor: "rgba(0, 0, 0, 0)",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   logo: {
     width: "35%",
@@ -109,10 +113,12 @@ const styles = StyleSheet.create({
     flex: 0.1,
   },
   carouselImage: {
-    flex: 0.75,
-    height: "100%",
+    flex: 1,
+    height: "auto",
     width: "auto",
     paddingBottom: 5,
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   loginText: {
     paddingTop: 20,

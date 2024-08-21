@@ -34,7 +34,6 @@ export function OnboardingCarousel({ item }: OnboardingCarouselProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -50,6 +49,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    width: "100%",
     alignItems: "stretch",
     justifyContent: "center",
   },
