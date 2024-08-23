@@ -1,6 +1,9 @@
 import Pool from '../../config/dbConnect';
 import * as bcrypt from 'bcrypt';
-
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { fromEnv } from "@aws-sdk/credential-providers";
+import 'dotenv/config';
 
 async function deleteUser(userid: string): Promise<boolean> {
     const client = await Pool.connect();
@@ -155,4 +158,24 @@ async function assignHousehold(userid: string, houseid: string): Promise<boolean
         throw new Error("Issue with assigning household: " + err)
     }
 }
-export { createUser, userLogin, editUser, getUser, getUserByID, editUserPassword, deleteUser, userLogout, assignHousehold };  
+
+async function uploadProfilePhoto(userid: string): Promise<string> {
+    const s3Client = new S3Client({
+        region: process.env.AWS_REGION || 'us-east-1',
+    });
+    const bucketName = "padpals";
+    const params = {
+        Bucket: bucketName,
+        Key: `${userid}/profile-photo`
+    };
+
+    try {
+        const command = new PutObjectCommand(params);
+        const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+        return url;
+    } catch (err) {
+        throw new Error(`Issue with uploading profile photo for user ${userid}: ${err instanceof Error ? err.message : 'Unknown error'}`);
+    }
+}
+
+export { createUser, userLogin, editUser, getUser, getUserByID, editUserPassword, deleteUser, userLogout, assignHousehold, uploadProfilePhoto };
