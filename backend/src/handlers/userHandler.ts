@@ -2,7 +2,6 @@ import Pool from '../../config/dbConnect';
 import * as bcrypt from 'bcrypt';
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { fromEnv } from "@aws-sdk/credential-providers";
 import 'dotenv/config';
 
 async function deleteUser(userid: string): Promise<boolean> {
