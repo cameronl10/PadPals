@@ -1,5 +1,5 @@
 import { InputField } from '@/components/ui/input-field';
-import { ScrollView, SafeAreaView, KeyboardAvoidingView, Text, View, Platform, StyleSheet } from 'react-native'
+import { ScrollView, SafeAreaView, KeyboardAvoidingView, Text, View, Platform } from 'react-native'
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
