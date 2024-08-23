@@ -5,7 +5,7 @@ export default StyleSheet.create({
     keyboardView: {
         flex: 1,
         backgroundColor: Colors.PADPALS_WHITE,
-        paddingTop: 80,
+        paddingTop: '25%',
         paddingHorizontal: 10
     },
     title: {

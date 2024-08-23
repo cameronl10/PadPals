@@ -9,6 +9,7 @@ export default function RootLayout() {
     headerTransparent: true,
     headerTitleStyle: {
       fontSize: 0,
+      color: Colors.PADPALS_WHITE // scuffed
     },
     headerBackTitleVisible: false,
     headerStyle: {
