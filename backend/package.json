@@ -14,7 +14,6 @@
   "dependencies": {
     "@apollo/server": "^4.10.4",
     "@aws-sdk/client-s3": "^3.633.0",
-    "@aws-sdk/credential-providers": "^3.632.0",
     "@graphql-tools/load-files": "^7.0.0",
     "apollo-server-express": "^3.13.0",
     "aws-sdk": "^2.1677.0",
