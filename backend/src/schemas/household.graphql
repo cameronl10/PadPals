@@ -6,6 +6,7 @@ type Household {
   users: [User]
   wishgroups: [WishGroup]
   bills: [Bill]
+  houseCode: String
 }
 input HouseholdInput {
   name: String!
@@ -20,8 +21,10 @@ type Mutation {
   createHousehold(household: HouseholdInput!): Boolean
   editHousehold(household: EditHouseholdInput): Boolean
   deleteHousehold(houseid: String!): Boolean
+  createHouseCode(code: String!): Boolean
 }
 
 type Query {
   household(houseid: String!): Household
+  getHouseCode(code: String): String
 }
