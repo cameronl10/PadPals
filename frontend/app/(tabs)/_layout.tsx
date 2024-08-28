@@ -1,5 +1,6 @@
 
 import { Tabs } from 'expo-router'
+import { View } from 'react-native'
 import BillIcon from '@/assets/icons/billIcon.svg'
 import HomeIcon from '@/assets/icons/houseIcon.svg'
 import WishIcon from '@/assets/icons/wishIcon.svg'
