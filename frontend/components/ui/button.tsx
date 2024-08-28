@@ -5,12 +5,16 @@ import {
   Pressable,
   ButtonProps,
   KeyboardAvoidingView,
+  Platform
 } from "react-native";
+import { Squircle } from "@squircle-js/react"
+
 import GoogleIcon from "@/assets/icons/googleIcon.svg";
+import AppleIcon from "@/assets/icons/appleLogo.svg";
 import Colors from "@/styles/colors";
 
 export interface ButtonProp extends ButtonProps {
-  variant: "default" | "bottom" | "google";
+  variant: "default" | "bottom" | "google" | "apple";
 }
 
 export function Button(props: ButtonProp) {
@@ -26,17 +30,23 @@ export function Button(props: ButtonProp) {
       buttonStyle = styles.bottom;
       break;
     case "google":
-      buttonStyle = styles.google;
+      buttonStyle = styles.external;
+      break;
+    case "apple":
+      buttonStyle = styles.external;
       break;
   }
   const style = StyleSheet.compose(styles.common, buttonStyle);
 
   return (
-    <Pressable style={style} onPress={onPress}>
+    <Pressable style = { style } onPress={onPress}>
       {variant === "google" && (
-        <GoogleIcon width={15} height={15} style={styles.googleButton} />
+        <GoogleIcon width={19} height={19} style = {styles.googleIcon}/>
       )}
-      <Text>{title}</Text>
+      {variant === "apple" && (
+        <AppleIcon height={44}/>
+      )}
+      <Text style={styles.text}>{title}</Text>
     </Pressable>
   );
 }
@@ -44,16 +54,14 @@ export function Button(props: ButtonProp) {
 const styles = StyleSheet.create({
   common: {
     alignItems: "center",
+    textAlign: "center",
     justifyContent: "center",
-    height: 60,
+    height: 44,
     backgroundColor: Colors.PADPALS_PRIMARY,
   },
   default: {
-    borderRadius: 12,
+    borderRadius: 6,
     padding: 10,
-  },
-  googleButton: {
-    paddingRight: 30,
   },
   bottom: {
     width: "100%",
@@ -62,11 +70,26 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderTopWidth: 2,
   },
-  google: {
-    flexDirection: "row",
-    borderRadius: 12,
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: Colors.PADPALS_GREY,
+  googleIcon: {
+    marginHorizontal: 7
   },
+  external: {
+    gap : 0,
+    flexDirection: "row",
+    borderRadius: 6,
+    borderWidth: 1,
+    marginBottom: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.PADPALS_BLACK
+  
+  },
+  text: {
+    marginHorizontal: 6,
+    textAlignVertical: "center",
+    fontSize: 17,
+    fontWeight: '600',
+    color: "white",
+  },
+
 });

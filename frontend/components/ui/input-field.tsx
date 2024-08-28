@@ -59,9 +59,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderColor: Colors.PADPALS_GREY,
-    height: 60,
+    height: 44,
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: 6,
     paddingLeft: 10,
     paddingRight: 10,
     marginTop: 10
