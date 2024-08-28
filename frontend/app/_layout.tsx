@@ -7,6 +7,7 @@ export default function RootLayout() {
   const queryClient = new QueryClient();
   const headerStyle = {
     headerTransparent: true,
+    headerShown: false ,
     headerTitleStyle: {
       fontSize: 0,
       color: Colors.PADPALS_WHITE // scuffed
@@ -16,8 +17,9 @@ export default function RootLayout() {
       backgroundColor: Colors.PADPALS_WHITE,
     },
     headerShadowVisible: false,
-    headerTintColor: Colors.PADPALS_BLACK
+    headerTintColor: Colors.PADPALS_BLACK,
   }
+  
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -28,7 +30,7 @@ export default function RootLayout() {
           <Stack.Screen name="profileSetup" options={headerStyle} />
           <Stack.Screen name="loginPage" options={headerStyle} />
           <Stack.Screen name="createHouse" options={headerStyle} />
-          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="(tabs)" options={headerStyle} />
         </Stack>
       </SignUpContextProvider>
     </QueryClientProvider>
