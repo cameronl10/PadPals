@@ -14,7 +14,6 @@ export default function Index() {
       }
       if(error){
         console.log(error);
-        console.log("test")
       }
     }, [data,error])
 
