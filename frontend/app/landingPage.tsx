@@ -74,7 +74,7 @@ const LandingPage = () => {
           }}
         />
         </View>
-        <Link style={styles.loginText} href={{ pathname: "logIn" }}>
+        <Link style={styles.loginText} href={{ pathname: "loginPage" }}>
           Log In
         </Link>
       </SafeAreaView>
