@@ -36,7 +36,7 @@ export function Button(props: ButtonProp) {
       buttonStyle = styles.external;
       break;
   }
-  const style = StyleSheet.compose(styles.common, buttonStyle);
+  const style = [styles.common, buttonStyle];
 
   return (
     <Pressable style = { style } onPress={onPress}>

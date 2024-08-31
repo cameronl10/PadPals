@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query';
 import { signup } from '@/api/auth';
 import { router } from 'expo-router';
 import styles from '@/styles/signUpStyle';
-
+import defaultProfile from '@/assets/images/pfp.jpg'
 interface FormData {
     username: string
     userEmail: string
@@ -60,7 +60,7 @@ const ProfileSetup = () => {
         }
     }
 
-    const imageSource = profilePicture ? { uri: profilePicture } : require('@/assets/images/pfp.jpg');
+    const imageSource = profilePicture ? { uri: profilePicture } : defaultProfile;
 
     return (
         <KeyboardAvoidingView

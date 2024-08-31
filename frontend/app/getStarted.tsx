@@ -6,7 +6,6 @@ import DividerText from '@/components/ui/divider-text';
 import { router } from 'expo-router';
 import { useSignUpContext } from '@/hooks/useSignUpContext';
 import styles from '@/styles/signUpStyle';
-
 interface FormData {
     email: string,
     password: string
@@ -24,7 +23,6 @@ const GetStarted = () => {
             style={styles.keyboardView}>
             <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-
                     <Text style={styles.title}>Create an Account</Text>
                     <View style={styles.signUpSection}>
                         <View style={styles.formBox}>

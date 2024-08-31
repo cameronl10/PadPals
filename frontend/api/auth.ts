@@ -5,6 +5,7 @@ const LOGIN_MUTATION = gql`
     mutation LoginUser($loginInput: LoginInput!) {
         loginUser(loginInput: $loginInput) {
             userid
+            sessionid
         }
     }
 `;
