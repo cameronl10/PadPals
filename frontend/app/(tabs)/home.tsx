@@ -1,10 +1,12 @@
 import TopBar from "@/components/ui/topBar"
 import { View, Text, SafeAreaView, StyleSheet, Platform, StatusBar} from "react-native"
 import Colors from "@/styles/colors";
+import { Stack } from "expo-router";
 
 export default function Home(){
     return(
         <View style = {styles.container}>
+            <Stack.Screen options={{ header: () => null }} />
             <SafeAreaView style = {styles.header}>
                 <TopBar Header="Home"/>
             </SafeAreaView>
