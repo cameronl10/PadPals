@@ -1,0 +1,11 @@
+type Session {
+    sessionid: String
+    houseid: String
+    name: String
+    email: String
+    userid: String
+}
+
+type Query {
+    session: Session
+}

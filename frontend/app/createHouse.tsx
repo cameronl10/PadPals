@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
 import styles from '@/styles/signUpStyle';
+import { createGroup } from '@/api/householdAPI';
+import { useMutation } from '@tanstack/react-query'
 import OtpInput from '@/components/ui/otpInput'; 
 import React, { useState } from 'react';
 import WarningIcon from '@/assets/icons/warningIcon.svg';
@@ -18,8 +20,19 @@ const CreateHouse = () => {
   const createGroupForm = useForm<CreateGroupFormData>();
   const [otpValue, setOtpValue] = useState(['', '', '', '', '', '']);
   const [otpFilled, setOtpFilled] = useState(true);
-  const onCreateSubmit = (data: any) => {
-    alert(data.groupName + " " + data.houseAddress);
+
+
+  const createGroupMutation = useMutation({
+    mutationFn: async (createForm: CreateGroupFormData) => createGroup(createForm.groupName),
+    onSuccess: () => {
+      alert("done")
+    },
+    onError: (err) => {
+      alert(err)
+    }
+  })
+  const onCreateSubmit = async (data: CreateGroupFormData) => {
+    await createGroupMutation.mutate(data);
   }
 
   const onJoinSubmit = (data: any) => {
