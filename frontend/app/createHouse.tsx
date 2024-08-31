@@ -12,7 +12,6 @@ import WarningIcon from '@/assets/icons/warningIcon.svg';
 
 interface CreateGroupFormData {
   groupName: string,
-  houseAddress: string
 }
 
 const CreateHouse = () => {
@@ -35,7 +34,7 @@ const CreateHouse = () => {
     await createGroupMutation.mutate(data);
   }
 
-  const onJoinSubmit = (data: any) => {
+  const onJoinSubmit = () => {
     if (otpValue.every((value) => value !== '')) { 
       setOtpFilled(true);
       const otpString = otpValue.join('');
