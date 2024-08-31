@@ -4,11 +4,12 @@ import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
 import styles from '@/styles/signUpStyle';
-import { createGroup } from '@/api/householdAPI';
+import { createGroup } from '@/api/household';
 import { useMutation } from '@tanstack/react-query'
 import { useQuery } from '@tanstack/react-query'
 import { addUser } from '@/api/household';
 import { checkHouseCode } from '@/api/household';
+import { useSessionInfo } from '@/api/session';
 
 interface CreateGroupFormData {
   groupName: string,
@@ -22,6 +23,7 @@ const CreateHouse = () => {
 
   const createGroupForm = useForm<CreateGroupFormData>();
   const joinGroupForm = useForm<JoinGroupFormData>();
+
   const createGroupMutation = useMutation({
     mutationFn: async (createForm: CreateGroupFormData) => createGroup(createForm.groupName),
     onSuccess: () => {
@@ -32,25 +34,23 @@ const CreateHouse = () => {
     }
   })
 
-  const onCreateSubmit = async (data: CreateGroupFormData) => {
-    await createGroupMutation.mutate(data);
+  const onCreateSubmit = async (createData: CreateGroupFormData) => {
+    await createGroupMutation.mutate(createData);
   }
   
-  async function onJoinSubmit(formInput: FormData): Promise<boolean> {
-    const cleanFormInput = formInput.toString();
+  const onJoinSubmit = async (joinData: JoinGroupFormData) => {
+    const cleanFormInput = joinData.toString();
     const checkHouseCodeQuery = useQuery({
       queryKey: [cleanFormInput],
       queryFn: async ({queryKey}) => {
-        console.log(queryKey);
         await checkHouseCode(queryKey);
       }
     });
-    console.log(checkHouseCodeQuery);
-    if (checkHouseCodeQuery) {
-      return await addUser(, checkHouseCodeQuery);
+    const {data} = useSessionInfo();
+    if (checkHouseCodeQuery.isSuccess) {
+      await addUser(data.userid, checkHouseCodeQuery.data);
     } else {
       alert("Invalid invite code");
-      return false;
     }
   }
 
