@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import { Button } from "../components/ui/button";
-import { Link } from "expo-router";
+import { Stack, Link, router } from "expo-router";
+
 import styles from "@/styles/globalStyle";
 import { useEffect } from "react";
 import { deleteKey } from "@/managers/sessionManager";
@@ -28,6 +29,7 @@ export default function Index() {
           });
         }}
       />
+       <Stack.Screen options={{ header: () => null }} />
       <Button variant="default" title="default" />
       <Link href={{ pathname: "getStarted" }}>Get Started!</Link>
       <Link href={{ pathname: "profileSetup" }}>Profile Setup</Link>

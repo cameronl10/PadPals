@@ -69,7 +69,8 @@ const ProfileSetup = () => {
             <SafeAreaView style={styles.container}>
                 <Text style={styles.title}>Set Up Your Profile</Text>
                 <View style={styles.profileIcon}>
-                    <ProfileIcon variant='plus' profilePicture={imageSource} onPress={handleImagePress} />
+                    <ProfileIcon variant='plus' profilePicture={imageSource} onPress={handleImagePress} width={150} height={150}/>
+                    
                 </View>
                 <View style={styles.signUpSection}>
                     <View style={styles.formBox}>

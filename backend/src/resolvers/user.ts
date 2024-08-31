@@ -1,6 +1,8 @@
 import * as userHandler from '../handlers/userHandler';
 import { getHouseholdByUser } from '../handlers/householdHandler';
 
+
+
 export const resolvers = {
     Query: {
         user: async (_: any, { email }: { email: string }): Promise<User> => {
@@ -28,6 +30,9 @@ export const resolvers = {
         },
         assignHousehold: async (_: any, { userid, houseid }: { userid: string, houseid: string }): Promise<boolean> => {
             return userHandler.assignHousehold(userid, houseid);
+        },
+        uploadProfilePhoto: async (_: any, { userid }: { userid: string }): Promise<string> => {
+            return userHandler.uploadProfilePhoto(userid);
         }
     },
     User: {
