@@ -3,10 +3,9 @@ import { ScrollView, SafeAreaView, KeyboardAvoidingView, Text, View, Platform } 
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
-import { useMutation } from '@tanstack/react-query'
-import { login } from '@/api/auth';
 import styles from '@/styles/signUpStyle';
-import { setSessionKey} from '@/managers/sessionManager';
+import { loginMutation } from '@/api/auth';
+
 interface FormData {
     email: string,
     password: string
@@ -14,20 +13,10 @@ interface FormData {
 const LoginPage = () => {
     const form = useForm<FormData>();
 
-    const loginMutation = useMutation({
-        mutationFn: async (loginInput: FormData) => await login(loginInput),
-        onSuccess: async (data) => {
-            await setSessionKey(data.loginUser.sessionid)
-        },
-        onError: (err) => {
-            alert("Email or Password is not correct" + err)
-        }
-    })
-
-    const onSubmitForm = async (formInput: FormData) => {
-        await loginMutation.mutateAsync(formInput);
-        alert("done");
+    const onSubmitForm = (formInput: FormData) => {
+        loginMutation().mutate(formInput);
     }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

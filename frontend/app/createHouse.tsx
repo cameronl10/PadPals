@@ -49,6 +49,7 @@ const CreateHouse = () => {
     const {data} = useSessionInfo();
     if (checkHouseCodeQuery.isSuccess) {
       await addUser(data.userid, checkHouseCodeQuery.data);
+      alert("Success!! :3");
     } else {
       alert("Invalid invite code");
     }
