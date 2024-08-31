@@ -21,10 +21,10 @@ type Mutation {
   createHousehold(household: HouseholdInput!): Boolean
   editHousehold(household: EditHouseholdInput): Boolean
   deleteHousehold(houseid: String!): Boolean
-  createHouseCode(code: String!): Boolean
+  createHouseCode(houseid: String!): Boolean
 }
-
 type Query {
   household(houseid: String!): Household
-  getHouseCode(code: String): String
+  redisQueryKey(key: String!): String
+  checkHouseCode(joinCode: String!): String
 }

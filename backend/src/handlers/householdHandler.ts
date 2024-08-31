@@ -1,3 +1,4 @@
+import { stringify } from "querystring";
 import Pool from "../../config/dbConnect";
 import redisClient from '../../config/redisConnect';
 
@@ -140,28 +141,30 @@ async function getBills(houseid: string): Promise<Bill[]> {
 
 // create an 8-digit alphanumerical random join code as key,
 // with houseid as value, expires in 30 mins
-async function createHouseCode(houseID: string): Promise<boolean> {
-    connectToRedis();
+async function createHouseCode(houseid: string): Promise<boolean> {
     try {
-        const joinCode = Math.random().toString(36).substring(2,10);
-        console.log(joinCode); // remove before push
-        const result = await redisClient.set(joinCode, houseID, {
-            EX: 1800
-        });
+        const existingCode = await redisClient.get(houseid);
+        if (existingCode) { // if there is already a house id join code, replace
+            await redisClient.del(houseid);
+            await redisClient.del(existingCode);
+        }
+        const newCode = Math.random().toString(36).substring(2, 8);
+        await redisClient.set(newCode, houseid, {EX: 1800});
+        await redisClient.set(houseid, newCode, {EX: 1800});
         return true;
     } catch (err) {
         throw new Error("Error creating join code: " + err);
     }
 }
 
-async function checkHouseCode(code: string): Promise<string> {
-    connectToRedis();
+// checks given joinCode. if exists, returns relevant houseid. if nonexistent, returns null.
+async function checkHouseCode(joinCode: string): Promise<string> {
     try {
-        const resultHouseID = await redisClient.get(code);
-        if (resultHouseID) {
-            return;
+        const houseid = await redisClient.get(joinCode);
+        if (houseid) {
+            return houseid;
         }
-        throw new Error("Invalid join code!");
+        return null;
     } catch (err) {
         throw new Error("Error checking join code: " + err);
     }

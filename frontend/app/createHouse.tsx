@@ -4,21 +4,9 @@ import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
 import styles from '@/styles/signUpStyle';
-import { useMutation } from '@tanstack/react-query'
-import { addUser } from '@/api/auth';
-const loginMutation = useMutation({
-    mutationFn: async (loginInput: gagaga) => await addUser(loginInput),
-    onSuccess: (data) => {
-        alert(data);
-    },
-    onError: () => {
-        alert("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    }
-})
-
-const mrKrabs = (formInput: gagaga) => {
-    loginMutation.mutate(formInput);
-}
+import { useQuery } from '@tanstack/react-query'
+import { addUser } from '@/api/household';
+import { checkHouseCode } from '@/api/household';
 
 interface CreateGroupFormData {
   groupName: string,
@@ -35,14 +23,26 @@ const CreateHouse = () => {
   const joinGroupForm = useForm<JoinGroupFormData>();
 
   const onCreateSubmit = (data: any) => {
-    alert(data.groupName + " " + data.houseAddress);
+    const groupName = data.groupName;
+    const houseAddress = data.houseAddress;
   }
-  const onJoinSubmit = (data: any) => {
-    alert(data.inviteCode);
-  }
-  const testFn = () => {
-    const house = "b35dad0a-371e-4170-b131-736e94c831b4";
-    createJoinCode(house);
+  
+  async function onJoinSubmit(formInput: FormData): Promise<boolean> {
+    const cleanFormInput = formInput.toString();
+    const checkHouseCodeQuery = useQuery({
+      queryKey: [cleanFormInput],
+      queryFn: async ({queryKey}) => {
+        console.log(queryKey);
+        await checkHouseCode(queryKey);
+      }
+    });
+    console.log(checkHouseCodeQuery);
+    if (checkHouseCodeQuery) {
+      return await addUser(, checkHouseCodeQuery);
+    } else {
+      alert("Invalid invite code");
+      return false;
+    }
   }
 
   return (
@@ -51,7 +51,6 @@ const CreateHouse = () => {
       style={styles.keyboardView}>
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <Button variant="default" title="TEST" onPress={testFn} />
           <View style={styles.section}>
             <Text style={styles.title}>Create a Group</Text>
             <View style={styles.formBox}>
