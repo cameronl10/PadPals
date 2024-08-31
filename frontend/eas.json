@@ -3,7 +3,7 @@
     "version": ">= 10.1.1"
   },
   "build": {
-    " ": {
+    "development": {
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
@@ -15,7 +15,8 @@
     },
     "production": {
       "android": {
-        "image": "latest"
+        "image": "latest",
+        "buildtype": "apk"
       },
       "ios": {
         "image": "latest"
@@ -23,6 +24,8 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "track": "internal"
+    }
   }
 }
