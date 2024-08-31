@@ -58,9 +58,12 @@ const GetStarted = () => {
                     </View>
                     <DividerText />
                     <Button variant="google" title="Sign in with Google"/>
-                    {
+
+                    {/* SHOES Sign Up with Apple only for ios device */}
+                    {/* {
                         Platform.OS === 'ios' && <Button variant="apple" title="Sign in with Apple"/>
-                    }
+                    } */}
+
                     </ScrollView>
             </SafeAreaView>
         </KeyboardAvoidingView>
