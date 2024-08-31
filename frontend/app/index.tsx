@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import { Button } from "../components/ui/button";
-import { Link, router } from "expo-router";
+import { Stack, Link, router } from "expo-router";
+
 import styles from "@/styles/globalStyle";
 
 export default function Index() {
@@ -14,6 +15,7 @@ export default function Index() {
           router.push("/joinCreate");
         }}
       />
+       <Stack.Screen options={{ header: () => null }} />
       <Button variant="default" title="default" />
       <Link href={{ pathname: "getStarted" }}>Get Started!</Link>
       <Link href={{ pathname: "profileSetup" }}>Profile Setup</Link>

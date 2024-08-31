@@ -28,6 +28,11 @@ input LoginInput {
   email: String!
   password: String!
 }
+input ProfilePhotoInput {
+  userid: String!
+  profilepicture: String!
+}
+
 type Mutation {
   editUserFields(user: EditUserFieldInput!): Boolean
   createUser(user: UserInput!): Boolean
@@ -36,6 +41,7 @@ type Mutation {
   logoutUser: Boolean
   assignHousehold(userid: String!, houseid: String!): Boolean
   loginUser(loginInput: LoginInput!): User
+  uploadProfilePhoto(userid: String!): String
 }
 type Query {
   user(email: String!): User
