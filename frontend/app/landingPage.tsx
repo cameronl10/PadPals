@@ -12,10 +12,10 @@ import {
 } from "react-native";
 import { Button } from "@/components/ui/button";
 import { Stack, Link, router } from "expo-router";
-import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { OnboardingCarousel } from "@/components/ui/onboarding-carousel";
 import { Paginator } from "@/components/ui/paginator";
+
 
 import Logo from "@/assets/icons/padpals-logo.svg";
 
@@ -65,6 +65,7 @@ const LandingPage = () => {
           />
         </View>
         <Paginator data={onboardingSlides} scrollX={scrollX} />
+        <View style={{ width: "90%" }}>
         <Button
           variant="default"
           title="Get Started"
@@ -72,6 +73,7 @@ const LandingPage = () => {
             router.push("/getStarted");
           }}
         />
+        </View>
         <Link style={styles.loginText} href={{ pathname: "logIn" }}>
           Log In
         </Link>

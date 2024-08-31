@@ -1,15 +1,17 @@
 import {Image, ImageSourcePropType, Pressable, StyleSheet } from "react-native"
 
-interface ProfileIconProps{
+export interface ProfileIconProps{
     onPress: () => void;
     profilePicture: ImageSourcePropType;
     variant: 'default' | 'plus'
+    width?: number;
+    height?: number;
 }
 
 const ProfileIcon = (props : ProfileIconProps) =>{
 
     return(
-        <Pressable style={styles.profileIcon} onPress={props.onPress}>
+        <Pressable style={[styles.profileIcon, { width: props.width, height: props.height }]} onPress={props.onPress}>
             <Image style={styles.image} source={props.profilePicture}/>
             {props.variant === 'plus' && <Image style={styles.imagePlus} source={require('@/assets/images/plusButton.png')}/>}
         </Pressable>

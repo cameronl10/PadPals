@@ -6,7 +6,7 @@ import DividerText from '@/components/ui/divider-text';
 import { useMutation } from '@tanstack/react-query'
 import { login } from '@/api/auth';
 import styles from '@/styles/signUpStyle';
-
+import { setSessionKey} from '@/managers/sessionManager';
 interface FormData {
     email: string,
     password: string
@@ -16,16 +16,17 @@ const LoginPage = () => {
 
     const loginMutation = useMutation({
         mutationFn: async (loginInput: FormData) => await login(loginInput),
-        onSuccess: (data) => {
-            alert(data.loginUser.userid);
+        onSuccess: async (data) => {
+            await setSessionKey(data.loginUser.sessionid)
         },
-        onError: () => {
-            alert("Email or Password is not correct")
+        onError: (err) => {
+            alert("Email or Password is not correct" + err)
         }
     })
 
-    const onSubmitForm = (formInput: FormData) => {
-        loginMutation.mutate(formInput);
+    const onSubmitForm = async (formInput: FormData) => {
+        await loginMutation.mutateAsync(formInput);
+        alert("done");
     }
     return (
         <KeyboardAvoidingView

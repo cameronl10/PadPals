@@ -4,13 +4,14 @@ import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
 import styles from '@/styles/signUpStyle';
+import { createGroup } from '@/api/householdAPI';
+import { useMutation } from '@tanstack/react-query'
 import { useQuery } from '@tanstack/react-query'
 import { addUser } from '@/api/household';
 import { checkHouseCode } from '@/api/household';
 
 interface CreateGroupFormData {
   groupName: string,
-  houseAddress: string
 }
 
 interface JoinGroupFormData {
@@ -21,10 +22,18 @@ const CreateHouse = () => {
 
   const createGroupForm = useForm<CreateGroupFormData>();
   const joinGroupForm = useForm<JoinGroupFormData>();
+  const createGroupMutation = useMutation({
+    mutationFn: async (createForm: CreateGroupFormData) => createGroup(createForm.groupName),
+    onSuccess: () => {
+      alert("done")
+    },
+    onError: (err) => {
+      alert(err)
+    }
+  })
 
-  const onCreateSubmit = (data: any) => {
-    const groupName = data.groupName;
-    const houseAddress = data.houseAddress;
+  const onCreateSubmit = async (data: CreateGroupFormData) => {
+    await createGroupMutation.mutate(data);
   }
   
   async function onJoinSubmit(formInput: FormData): Promise<boolean> {
@@ -61,17 +70,6 @@ const CreateHouse = () => {
                 variant="controlled"
                 rules={{
                   required: "Group name is required!"
-                }}
-              />
-            </View>
-            <View style={styles.formBox}>
-              <InputField<CreateGroupFormData>
-                control={createGroupForm.control}
-                name="houseAddress"
-                label="House Address"
-                variant="controlled"
-                rules={{
-                  required: "House address is required!"
                 }}
               />
             </View>
