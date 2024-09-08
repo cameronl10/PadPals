@@ -17,7 +17,6 @@ const TopBar = (props: TopBarProps) => {
                     <Text style = {styles.text}>{props.Header}</Text>
                 </View>
                 <View style={styles.rightContainer}></View>
-
             </View>
         );
 };
@@ -32,20 +31,20 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
     },
     midContainer: {
-        flex: 0.333,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
     leftContainer: {
         width: 1,
         height: 1,
-        flex: 0.333,
-        alignItems: 'flex-start',
+        flex: 1,
+        resizeMode: 'contain',
         left: 10,
         justifyContent: 'center',
     },
     rightContainer: {
-        flex: 0.333,
+        flex: 1,
     },
     text: {
         color: Colors.PADPALS_BLACK,
