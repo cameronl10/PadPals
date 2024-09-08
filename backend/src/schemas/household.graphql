@@ -1,7 +1,6 @@
 type Household {
   houseid: String
   name: String
-  address: String
   admin: User
   users: [User]
   wishgroups: [WishGroup]
@@ -10,12 +9,10 @@ type Household {
 }
 input HouseholdInput {
   name: String!
-  address: String!
 }
 input EditHouseholdInput {
   houseid: String!
   name: String
-  address: String
 }
 type Mutation {
   createHousehold(household: HouseholdInput!): Boolean

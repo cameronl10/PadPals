@@ -40,8 +40,8 @@ async function createHousehold(household: Household, context: Express.Request): 
     const client = await Pool.connect();
     try {
         await client.query('BEGIN');
-        await client.query('INSERT INTO household(name, address, adminid) VALUES($1, $2, $3) RETURNING *',
-            [household.name, household.address, context.session.userid]);
+        await client.query('INSERT INTO household(name, adminid) VALUES($1, $2, $3) RETURNING *',
+            [household.name, context.session.userid]);
         await client.query('UPDATE account SET houseid = $1 WHERE userid = $2',
             [household.houseid, context.session.userid]);
         await client.query('COMMIT');

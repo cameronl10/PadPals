@@ -23,7 +23,6 @@ declare global {
     interface Household {
         houseid: string,
         name: string,
-        address: string,
         adminid: string
     }
 
@@ -80,7 +79,6 @@ declare global {
     interface EditHousehold {
         houseid: string
         name: string
-        address: string
     }
     interface EditBill {
         billid: string

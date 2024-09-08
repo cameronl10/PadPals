@@ -2,8 +2,8 @@ import { gql } from 'graphql-request'
 import { getGraphqlClient } from './client';
 
 const CREATE_HOUSE_MUTATION = gql`
-    mutation CreateHousehold($householdName: String) {
-        createHousehold(householdName: $householdName)
+    mutation CreateHousehold($household: HouseholdInput!) {
+        createHousehold(household: $household)
     }
 `
 
@@ -19,9 +19,9 @@ const CHECKHOUSECODE_QUERY = gql`
     }
 `;
 
-export const createGroup = async (name: any) =>{
+export const createGroup = async (input: any) =>{
     const client = await getGraphqlClient();
-    return client.request(CREATE_HOUSE_MUTATION, {name})
+    return client.request(CREATE_HOUSE_MUTATION, {household: { name: input }})
 }
 
 export const addUser = async (userID: any, houseID: any) => {
