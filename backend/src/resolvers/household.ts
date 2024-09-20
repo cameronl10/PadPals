@@ -2,8 +2,11 @@ import * as householdHandler from '../handlers/householdHandler';
 import { getUserByID } from '../handlers/userHandler';
 export const resolvers = {
     Query: {
-        household: async (_: any, { houseid }: { houseid: string }) => {
+        household: async (_: any, { houseid }: { houseid: string }): Promise<Household> => {
             return householdHandler.getHousehold(houseid);
+        },
+        checkHouseCode: async(_: any, { joinCode }: { joinCode: string }): Promise<string> => {
+            return householdHandler.checkHouseCode(joinCode);
         }
     },
     Mutation: {
@@ -15,7 +18,10 @@ export const resolvers = {
         },
         deleteHousehold: async (_: any, { houseid }: { houseid: string }, context: Express.Request): Promise<boolean> => {
             return householdHandler.deleteHousehold(houseid, context);
-        }
+        },
+        createHouseCode: async (_: any, { houseid }: { houseid: string }): Promise<boolean> => {
+            return householdHandler.createHouseCode(houseid);
+        },
     },
     Household: {
         users: async (parent: Household): Promise<User[]> => {

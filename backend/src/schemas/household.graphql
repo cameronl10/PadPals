@@ -1,27 +1,27 @@
 type Household {
   houseid: String
   name: String
-  address: String
   admin: User
   users: [User]
   wishgroups: [WishGroup]
   bills: [Bill]
+  houseCode: String
 }
 input HouseholdInput {
   name: String!
-  address: String!
 }
 input EditHouseholdInput {
   houseid: String!
   name: String
-  address: String
 }
 type Mutation {
   createHousehold(household: HouseholdInput!): Boolean
   editHousehold(household: EditHouseholdInput): Boolean
   deleteHousehold(houseid: String!): Boolean
+  createHouseCode(houseid: String!): Boolean
 }
-
 type Query {
   household(houseid: String!): Household
+  redisQueryKey(key: String!): String
+  checkHouseCode(joinCode: String!): String
 }

@@ -6,17 +6,21 @@ import DividerText from '@/components/ui/divider-text';
 import { router } from 'expo-router';
 import { useSignUpContext } from '@/hooks/useSignUpContext';
 import styles from '@/styles/signUpStyle';
+
 interface FormData {
     email: string,
     password: string
 }
+
 const GetStarted = () => {
     const form = useForm<FormData>();
     const { updateForm }: any = useSignUpContext();
+
     const onSubmitForm = (formInput: FormData) => {
         updateForm(formInput.email, formInput.password)
         router.push('/profileSetup')
     }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
