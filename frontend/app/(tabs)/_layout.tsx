@@ -1,8 +1,8 @@
-
 import { Tabs } from 'expo-router'
 import BillIcon from '@/assets/icons/billIcon.svg'
 import HomeIcon from '@/assets/icons/houseIcon.svg'
 import WishIcon from '@/assets/icons/wishIcon.svg'
+import {StyleSheet, Text, View} from 'react-native';
 
 export default function Layout() {
     return (
@@ -13,13 +13,17 @@ export default function Layout() {
                 tabBarStyle: {
                     backgroundColor: '#515151'
                 },
+                tabBarLabelStyle: {
+                    fontSize: 14,
+                    fontWeight: 'bold'
+                }
             }}>
             <Tabs.Screen
                 name="bills"
                 options={{
                     title: "Bills",
                     tabBarIcon: ({ color, size }) => (
-                        <BillIcon name="bill" size={size} color={color} />
+                        <BillIcon name="bill" Size={size} color={color} />
                     )
                 }}
             />
