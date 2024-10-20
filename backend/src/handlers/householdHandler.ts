@@ -1,4 +1,15 @@
 import Pool from "../../config/dbConnect";
+import redisClient from '../../config/redisConnect';
+
+async function connectToRedis() {
+    await redisClient.connect();
+    try {
+      console.log("Connected to redis");
+    } catch (err) {
+      redisClient.on('error', (err) => console.log('Redis Client Error', err));
+    }
+  }
+
 // Get a household by houseid
 async function getHousehold(houseid: string): Promise<Household> {
     const client = await Pool.connect();
@@ -28,8 +39,8 @@ async function createHousehold(household: Household, context: Express.Request): 
     const client = await Pool.connect();
     try {
         await client.query('BEGIN');
-        await client.query('INSERT INTO household(name, address, adminid) VALUES($1, $2, $3) RETURNING *',
-            [household.name, household.address, context.session.userid]);
+        await client.query('INSERT INTO household(name, adminid) VALUES($1, $2, $3) RETURNING *',
+            [household.name, context.session.userid]);
         await client.query('UPDATE account SET houseid = $1 WHERE userid = $2',
             [household.houseid, context.session.userid]);
         await client.query('COMMIT');
@@ -127,4 +138,35 @@ async function getBills(houseid: string): Promise<Bill[]> {
     }
 };
 
-export { getHousehold, getHouseholdByUser, createHousehold, editHousehold, deleteHousehold, getWishGroups, getUsers, getBills };
+// create an 8-digit alphanumerical random join code as key,
+// with houseid as value, expires in 30 mins
+async function createHouseCode(houseid: string): Promise<boolean> {
+    try {
+        const existingCode = await redisClient.get(houseid);
+        if (existingCode) { // if there is already a house id join code, replace
+            await redisClient.del(houseid);
+            await redisClient.del(existingCode);
+        }
+        const newCode = Math.random().toString(36).substring(2, 8);
+        await redisClient.set(newCode, houseid, {EX: 1800});
+        await redisClient.set(houseid, newCode, {EX: 1800});
+        return true;
+    } catch (err) {
+        throw new Error("Error creating join code: " + err);
+    }
+}
+
+// checks given joinCode. if exists, returns relevant houseid. if nonexistent, returns null.
+async function checkHouseCode(joinCode: string): Promise<string> {
+    try {
+        const houseid = await redisClient.get(joinCode);
+        if (houseid) {
+            return houseid;
+        }
+        return null;
+    } catch (err) {
+        throw new Error("Error checking join code: " + err);
+    }
+}
+
+export { getHousehold, getHouseholdByUser, createHousehold, editHousehold, deleteHousehold, getWishGroups, getUsers, getBills, createHouseCode, checkHouseCode };

@@ -1,11 +1,10 @@
 import { InputField } from '@/components/ui/input-field';
-import { ScrollView, SafeAreaView, KeyboardAvoidingView, Text, View, Platform, StyleSheet } from 'react-native'
+import { ScrollView, SafeAreaView, KeyboardAvoidingView, Text, View, Platform } from 'react-native'
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import DividerText from '@/components/ui/divider-text';
-import { useMutation } from '@tanstack/react-query'
-import { login } from '@/api/auth';
 import styles from '@/styles/signUpStyle';
+import { loginMutation } from '@/api/auth';
 
 interface FormData {
     email: string,
@@ -14,19 +13,10 @@ interface FormData {
 const LoginPage = () => {
     const form = useForm<FormData>();
 
-    const loginMutation = useMutation({
-        mutationFn: async (loginInput: FormData) => await login(loginInput),
-        onSuccess: (data) => {
-            alert(data.loginUser.userid);
-        },
-        onError: () => {
-            alert("Email or Password is not correct")
-        }
-    })
-
     const onSubmitForm = (formInput: FormData) => {
-        loginMutation.mutate(formInput);
+        loginMutation().mutate(formInput);
     }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

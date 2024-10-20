@@ -6,10 +6,10 @@ import { ProfileIcon } from '@/components/ui/profileIcon'
 import { requestMediaLibraryPermissionsAsync, MediaTypeOptions, launchImageLibraryAsync } from 'expo-image-picker';
 import { useState } from 'react';
 import { useSignUpContext } from '@/hooks/useSignUpContext';
-import { useMutation } from '@tanstack/react-query';
-import { signup } from '@/api/auth';
 import { router } from 'expo-router';
 import styles from '@/styles/signUpStyle';
+import defaultProfile from '@/assets/images/pfp.jpg'
+import { loginMutation, createUserMutation } from '@/api/auth';
 
 interface FormData {
     username: string
@@ -23,23 +23,13 @@ const ProfileSetup = () => {
     const [profilePicture, setPicture] = useState("")
     const {email,password} = useSignUpContext();
 
-    const createUserMutation = useMutation({
-        mutationFn: async (userInput: FormData) => await signup(userInput),
-        onSuccess: (data) =>{
-            alert(data);
-        },
-        onError:(err) =>{
-            alert(err);
-        }
-    })
-
     const onSubmitForm = async (formInput: FormData) => {
         formInput.userEmail = email
         formInput.userPassword = password
         formInput.profilepicture = profilePicture
-        await createUserMutation.mutate(formInput)
+        await createUserMutation().mutate(formInput)
+        loginMutation().mutate({email: formInput.userEmail, password: formInput.userPassword});
         router.push('/createHouse')
-
     }
     const handleImagePress = async () => {
         const permissionResult = await requestMediaLibraryPermissionsAsync();
@@ -60,7 +50,7 @@ const ProfileSetup = () => {
         }
     }
 
-    const imageSource = profilePicture ? { uri: profilePicture } : require('@/assets/images/pfp.jpg');
+    const imageSource = profilePicture ? { uri: profilePicture } : defaultProfile;
 
     return (
         <KeyboardAvoidingView

@@ -11,20 +11,22 @@ interface FormData {
     email: string,
     password: string
 }
+
 const GetStarted = () => {
     const form = useForm<FormData>();
     const { updateForm }: any = useSignUpContext();
+
     const onSubmitForm = (formInput: FormData) => {
         updateForm(formInput.email, formInput.password)
         router.push('/profileSetup')
     }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.keyboardView}>
             <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-
                     <Text style={styles.title}>Create an Account</Text>
                     <View style={styles.signUpSection}>
                         <View style={styles.formBox}>
@@ -58,9 +60,12 @@ const GetStarted = () => {
                     </View>
                     <DividerText />
                     <Button variant="google" title="Sign in with Google"/>
-                    {
+
+                    {/* SHOES Sign Up with Apple only for ios device */}
+                    {/* {
                         Platform.OS === 'ios' && <Button variant="apple" title="Sign in with Apple"/>
-                    }
+                    } */}
+
                     </ScrollView>
             </SafeAreaView>
         </KeyboardAvoidingView>
