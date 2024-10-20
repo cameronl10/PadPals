@@ -1,53 +1,59 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native'; // Import StyleSheet from 'react-native'
+import { View, StyleSheet, Text, Image } from 'react-native'; // Import StyleSheet from 'react-native'
 import ClickableProfileIcon from './clickable-profileIcon';
 import Colors from "@/styles/colors";
+import TestIcon from "@/assets/icons/testIcon"
+
 interface TopBarProps {
-    // prob pass the image url?
-    Header : string;
+    header : string;
 }
 
 const TopBar = (props: TopBarProps) => {
         return (
-            <View style={styles.container}>
-                    <View style={styles.leftContainer}> 
-                        <ClickableProfileIcon onPress={() => { alert('pfp pressed'); }} variant="default" profilePicture={require('@/assets/images/pfp.jpg')}/>
+            <View style={styles.containerColor}>
+                <View style={styles.container}>
+                    <View style={styles.leftContainer}>
+                        <TestIcon height={20} fill={"white"} stroke={"white"}/>
                     </View>
-                <View style={styles.midContainer}>
-                    <Text style = {styles.text}>{props.Header}</Text>
+                    <View style={styles.midContainer}>
+                        <Text style = {styles.text}>{props.header}</Text>
+                    </View>
+                    <View style={styles.rightContainer}>
+                        <TestIcon height={20} fill={"white"}/>
+                    </View>
                 </View>
-                <View style={styles.rightContainer}></View>
             </View>
         );
 };
 
 const styles = StyleSheet.create({
+    containerColor: {
+        backgroundColor: Colors.PADPALS_PRIMARY,
+        marginTop: 20,
+    },
     container: {
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 55,
-        backgroundColor: Colors.PADPALS_PRIMARY,
-        paddingBottom: 5,
     },
     midContainer: {
         flex: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+    },
+    leftContainer: {
+        paddingLeft: 5,
+        flex: 0.2,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    leftContainer: {
-        width: 1,
-        height: 1,
-        flex: 1,
-        resizeMode: 'contain',
-        left: 10,
+    rightContainer: {
+        paddingRight: 5,
+        flex: 0.2,
+        alignItems: 'center',
         justifyContent: 'center',
     },
-    rightContainer: {
-        flex: 1,
-    },
     text: {
-        color: Colors.PADPALS_BLACK,
+        color: Colors.PADPALS_WHITE,
+        fontWeight: 'bold',
         fontSize: 25,
     }
 });

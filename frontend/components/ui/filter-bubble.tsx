@@ -26,6 +26,7 @@ const FilterBubble = (props: filterBubbleProps) => {
 const styles = StyleSheet.create({
     scrollViewContent: {
         alignItems: 'flex-start',
+        left: 10,
     },
     bubble: {
         backgroundColor: Colors.PADPALS_GREY,
