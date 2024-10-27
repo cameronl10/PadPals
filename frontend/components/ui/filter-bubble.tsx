@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
     },
     bubbleText: {
         fontSize: 12,
-        color: Colors.PADPALS_WHITE
+        color: Colors.PADPALS_WHITE,
+        fontFamily: 'Poppins Regular',
     },
 });
 

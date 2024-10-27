@@ -4,6 +4,7 @@ import Colors from "@/styles/colors";
 export default StyleSheet.create({
     header: {
         paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight || 0) + 5 : 0,
+        fontFamily: 'Poppins Medium',
     },
     body: {
         position: 'relative',
