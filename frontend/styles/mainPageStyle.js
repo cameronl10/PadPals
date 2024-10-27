@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 import Colors from "@/styles/colors";
 
 export default StyleSheet.create({
@@ -6,8 +6,8 @@ export default StyleSheet.create({
         paddingTop: Platform.OS === "android" ? (StatusBar.currentHeight || 0) + 5 : 0,
     },
     body: {
-        position: 'absolute',
-        top: 100,
+        position: 'relative',
+        top: 10,
         zIndex: 10,
         flex: 1,
     },

@@ -11,7 +11,7 @@ export default function Wishes() {
             </SafeAreaView>
             <View style={styles.body}>
                 <FilterBubble
-                    wishGroups={["Groceries", "Chores", "Actions", "Apple", "Carrot", "Potato", "Pie"]}
+                    wishGroups={["Groceries", "Chores", "Actions", "Apple", "Carrot", "Potato", "Pie", "dsjnk", "nxjlksa"]}
                     style={localStyles.filter}>
                 </FilterBubble>
             </View>
