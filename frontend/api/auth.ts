@@ -43,7 +43,7 @@ export function loginMutation() {
 
 export function createUserMutation() {
     return useMutation({
-        mutationFn: async (userInput: {username: string, userEmail: string, userPassword: string, profilepicture: string}) => 
+        mutationFn: async (userInput: {username: string, userEmail: string, userPassword: string, profilepicture: string}) =>
             await signup(userInput),
         onSuccess: (data) => {
             alert(data);
